@@ -26,7 +26,7 @@
               <div class="block-header panel min-h-40px px-2 py-1">
                 <h2 class="m-0 text-inherit dark:text-white  gap-1 pt-1 text-start">
                   <!-- <span class="panel d-inline-block bg-primary w-8px h-8px translate-y-px"></span> -->
-                <img src="{% static 'assets/img/circle.gif' %}" alt="Quick Cut" class="h-40px">
+                <img src="{% static 'assets/img/circle.gif' %}" alt="Quick Cut" title="Quick Cut" class="h-40px">
                 </h2>
               </div>
 
@@ -36,14 +36,14 @@
                     {% for brandpartner in bplogo|slice:":9" %}
                     <div class="brand-logos">
                       <a href="{{ brandpartner.url }}" target="_blank">
-                        <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}">
+                        <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}" title="{{ brandpartner.name }}">
                       </a>
                     </div>
                     {% endfor %}
                     {% for brandpartner in bplogo|slice:":9" %}
                     <div class="brand-logos">
                       <a href="{{ brandpartner.url }}" target="_blank">
-                        <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}">
+                        <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}" title="{{ brandpartner.name }}">
                       </a>
                     </div>
                     {% endfor %}

@@ -9,7 +9,7 @@
           <div class="trending-wrapper mb-4">
             <div class="text-start">
               <h5 class="mb-0"><a class="dark:text-white text-start" href="/all-video-news/all">
-                <img src="{% static 'assets/img/quick-cut.gif' %}" alt="Quick Cut" class="h-40px">
+                <img src="{% static 'assets/img/quick-cut.gif' %}" alt="Quick Cut" title="Quick Cut" class="h-40px">
                  
               </a></h5>
               <!-- <a href="/all-video-news/all" class="small dark:text-white">View All</a> -->
@@ -25,6 +25,7 @@
                   <a href="/video/{{ reels.slug }}">
                     <img src="https://img.youtube.com/vi/{{ reels.video_url }}/hqdefault.jpg"
                          alt="{{ reels.video_title }}"
+                         title ="{{ reels.video_title }}"
                          class="img-fluid rounded w-100" />
                   </a>
                   <div class="items_background p-2">

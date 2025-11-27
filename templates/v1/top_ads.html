@@ -28,7 +28,7 @@
           <a href="{{ads.ad_url}}" target="_blank">
             <div class="carousel-item active">
               {% if ads.ad_type == 'stil' %}
-              <img class="w-100" src="../upload/{{ads.ad_image}}" alt="{{ads.ad_url}}" />
+              <img class="w-100" src="../upload/{{ads.ad_image}}" alt="{{ads.ad_url}}"  title="{{ads.ad_url}}">
               {% else %}
               <video class="w-100" autoplay loop muted>
                 <source src="../upload/{{ads.ad_image}}" />
@@ -54,7 +54,7 @@
           <a href="{{trad.ad_url}}" target="_blank">
             <div class="carousel-item active">
               {% if trad.ad_type == 'stil' %}
-              <img class="w-100" src="../upload/{{trad.ad_image}}" alt="{{trad.ad_url}}" />
+              <img class="w-100" src="../upload/{{trad.ad_image}}" alt="{{trad.ad_url}}" title="{{trad.ad_url}}" />
               {% else %}
               <video class="w-100" autoplay loop muted>
                 <source src="../upload/{{trad.ad_image}}" />

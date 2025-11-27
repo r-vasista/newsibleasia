@@ -22,7 +22,7 @@
                       <!-- <h5 class=" post-title text-none hover:text-primary duration-150 dark:text-white mt-1">{{ category.cat_name }}</h5> -->
                           <a href="/all-news/articles" class="dark:text-white">
                             {% if category.image %}
-                            <img src="{{ category.image.url }}" alt="{{ category.cat_name }}" class="w-100 h-auto">
+                            <img src="{{ category.image.url }}" alt="{{ category.cat_name }}" title="{{ category.cat_name }}" class="w-100 h-auto">
                             {% else %}
                               <h4>{{ category.cat_name }}</h4>
                             {% endif %}
@@ -43,6 +43,7 @@
                         <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
                              src="{{ post.post_image.url }}"
                              alt="{{ post.post_title }}"
+                             title="{{ post.post_title }}"
                              loading="lazy">
                       </div>
                       <a href="/{{ post.slug }}" class="position-cover"></a>
@@ -105,6 +106,7 @@
                             <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
                                  src="{{ post.post_image.url }}"
                                  alt="{{ post.post_title }}"
+                                 title="{{ post.post_title }}"
                                  loading="lazy">
                           </div>
                           <a href="/{{ post.slug }}" class="position-cover"></a>
