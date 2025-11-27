@@ -1,0 +1,31 @@
+{% load static %}
+{% comment %} --------left-600--ad start--------------- {% endcomment %}
+<div class="container d-none d-lg-block" >
+<div class="col-lg-12 pt-1 pb-1">
+    <div class="row">
+        <div class="col-lg-6 pl-0">
+            {% for tlad in adtl %}
+            <a href="{{tlad.ad_url}}"  target="_blank">
+            {% if tlad.ad_type == 'stil' %}
+            <img class="img-fluid w-100" src="../upload/{{tlad.ad_image}}" alt="{{tlad.ad_url}}">
+            {% else %}
+            <video autoplay loop muted>  <source src="../upload/{{tlad.ad_image}}"></video>
+            {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+        <div class="col-lg-6 pr-0">
+            {% for trad in adtr %}
+            <a href="{{trad.ad_url}}"  target="_blank">
+                {% if trad.ad_type == 'stil' %}
+                <img class="img-fluid w-100" src="../upload/{{trad.ad_image}}" alt="{{trad.ad_url}}">
+                {% else %}
+                <video  autoplay loop muted>  <source src="../upload/{{trad.ad_image}}"></video>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+</div>
+   {% comment %} ---------ad-end------------  {% endcomment %}

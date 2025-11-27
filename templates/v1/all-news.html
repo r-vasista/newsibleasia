@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{% comment %} --------articale-start------ {% endcomment %}
+
+{% comment %} --------articale--end----- {% endcomment %}
+
+<div class="container ">
+    {% include "articale.html" %}
+    <h2 class="border-b mb-3 text-uppercase font-weight-bold text-center">{{ sslug }}</h2>
+    <div class="row">
+
+        <div class="col-lg-9 col-md-8 col-sm-12  mt-1">
+            <!-- collam-middle !-->
+
+            {% comment %} ------video-podcast-news-start------- {% endcomment %}
+            {% if vidnews != null %}
+            
+                <h4 class="m-0 text-uppercase font-weight-bold">News &amp; Podcasts</h4>
+           
+            {% endif %}
+            {% comment %} ------video-podcast-news-end------- {% endcomment %}
+            <div class="">
+                <div class="">
+                    <div class="row">
+                        {% for vidpost in vidnews %}
+                        <div class="col-lg-4 colo-md-6 colo-sm-12">
+                            <div class="position-relative mb-3 mt-3">
+                                <img class="img-fluid w-100 sliderimg mb-2" style="border-radius: 4px;"
+                                    src="https://img.youtube.com/vi/{{vidpost.video_url}}/mqdefault.jpg"></a>
+                                <div class="py-2 mb-3 border-bottom">
+                                    <a class="dark:text-white" href="">
+                                        <small><i class="fas fa-calendar-alt dark:text-white"></i>
+                                            {{vidpost.schedule_date|date}}</small>
+                                        <small class="ml-3"> <i class="fas fa-clock"></i> {{ vidpost.schedule_date|time }}</small>
+                                    </a>
+                                </div>
+                                <a class="dark:text-white" href="/video/{{vidpost.slug}}">
+                                    <p class="dark:text-white" style="height: 82px; overflow: hidden;">{{vidpost.video_title}}</p>
+                                    <p class="playbut"><i class="fa fa-play-circle" aria-hidden="true"></i></p>
+
+                                    <div class="dark:text-white">
+                                        <p class="dark:text-white" style="height:82px; overflow: hidden; ">
+                                            {{vidpost.video_short_des|slice:":270"|safe}}
+                                        </p>
+                                        <div class="mb-2">
+                                            <a class="readmore" href="/video/{{vidpost.slug}}">Read More</a>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% for Blog in BlogData %}
+                        <div class="col-lg-4 colo-md-6 colo-sm-12">
+                            <div class="position-relative mb-3 mt-3">
+                                <img class="img-fluid w-100 sliderimg" style="border-radius: 4px;"
+                                    src="../upload/{{Blog.post_image}}">
+                                <div class="py-2 mb-3 border-bottom">
+                                    <a class="dark:text-white" href="">
+                                        <small><i class="fas fa-calendar-alt"></i> {{Blog.schedule_date|date}}</small>
+                                        <small class="ml-3"> <i class="fas fa-clock"></i> {{ Blog.schedule_date|time }}</small>
+                                    </a>
+                                </div>
+                                <div class="p-0">
+                                    <!-- {{ article.post_title|truncatechars:80 } -->
+                                    <a class="h-6 fw-bold dark:text-white" href="/{{Blog.slug}}">{{Blog.post_title|truncatechars:60}}</a>
+                                </div>
+                                <div class="">
+                                    <p style="height: 70px;overflow: hidden;">
+                                        {{Blog.post_short_des|truncatechars:100|slice:":270"|safe}}
+                                    </p>
+                                    <!-- <div class="mb-2">
+                                        <a class="readmore" href="/{{Blog.slug}}">Read More</a>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!-- Featured News Slider End -->
+            <!-- Pagination Start -->
+            <div class="col-lg-12 text-center">
+                <div class="pagination mt-3 ">
+                    {% if BlogData.has_previous %}
+                    <a href="?page=1" class="pnum mr-2">&laquo; First</a>
+                    <a href="?page={{ BlogData.previous_page_number }}" class="pnum mr-2">Previous</a>
+                    {% endif %}
+
+                    <span class="current mr-2">
+                        Page {{ BlogData.number }} of {{ BlogData.paginator.num_pages }}.
+                    </span>
+
+                    {% if BlogData.has_next %}
+                    <a href="?page={{ BlogData.next_page_number }}" class="pnum mr-2">Next</a>
+                    <a href="?page={{ BlogData.paginator.num_pages }}" class="pnum mr-2">Last &raquo;</a>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Pagination End -->
+            <!-- <div class="col-lg-12 mb-3 ">
+                {% for adledb in adtop %}
+                <a href=""><img class="img-fluid w-100" src="../upload/{{adledb.ad_image}}" alt=""></a>
+                {% endfor %}
+            </div>
+            <h1 style="font-size: 17px;" class="text-center">newsibleasia : Dubai National and Global News Channel | UAE.</h1> -->
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <!-- collam-right !-->
+            {% include "rightcollam.html" %}
+            <!-- collam-rightend !-->
+        </div>
+
+    </div>
+</div>
+<!-- Featured News Slider Start -->
+{% include "bottom.html" %}
+{% comment %} {% include "news-slider-bottam.html" %} {% endcomment %}
+<!-- Featured News Slider End -->
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content ">
+            <div class="container" style=padding:0px;>
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img src="{% static 'assets/img/newsletter.png' %}" alt="" style="width:200px;">
+                    </div>
+                    <div class="col-lg-8">
+                        <p class="pt-3 pr-3">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </p>
+                        <div class="modal-body">
+                            {% if form.non_field_errors %}
+                            <small class="text-danger">{{ form.non_field_errors.as_ul}}</small>
+                            {% endif %}
+                            <h2 class="text-center">Subscribe</h2>
+                            <form action="{% url 'UserSubscriber' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group pl-4">
+                                    <input type="text" name="fname" class="form-control p-4" placeholder="Your Name"
+                                        required="required">
+                                </div>
+                                <div class="form-group  pl-4">
+                                    <input type="email" name="email" class="form-control p-4" placeholder="Your Email"
+                                        required="required">
+                                </div>
+
+                                <div class="text-center">
+                                    <input type="submit" value="Submit" class="btn btn-secondary">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

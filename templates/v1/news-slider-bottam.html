@@ -1,0 +1,21 @@
+{% load static %}  
+<div class="container">
+    <div class="section-title">
+        <h4 class="m-0 text-uppercase font-weight-bold">Latest News</h4>
+    </div>
+    <div class="owl-carousel news-carousel carousel-item-4 position-relative bg-white">
+        {% for Blog in BlogData %}
+        
+        <div class="position-relative overflow-hidden mb-3">
+            {% comment %} <img class="img-fluid h-100" src="img/news-700x435-5.jpg" style="object-fit: cover;"> {% endcomment %}
+            <img class="img-fluid w-100 sliderimg" src="../upload/{{Blog.post_image}}" alt="{{Blog.post_cat|lower}}">
+
+            <div class="overlay">
+                <a class="h6 m-0 text-uppercase font-weight-semi-bold" href="/{{Blog.slug}}" style="color:#fff;">{{Blog.post_title}}</a>
+                <small class="badge badge-primary"> <i class="fas fa-clock"></i> {{ Blog.post_date|time }}</small>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+

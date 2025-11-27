@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<div class="container mt-3">
+    <h1 class="text-center">Sitemap</h1> 
+    <div class="row">
+{% for link in sitemapcat %}
+<div class="col-md-3 mt-3 mb-3">
+<h5>{{link.cat_name}}</h5>
+{% for sublink in link.sub_category_set.all %}
+<p>
+<a href="/{{link.cat_slug}}/{{sublink.subcat_slug}}">{{sublink.subcat_name}}</a>
+</p>
+{% endfor %}
+</div>
+{% endfor %}
+<div class="col-md-3 mt-3 mb-3">
+    <h5>Quick Link</h5>
+    
+    <p><a href="/">Home</a></p>
+    <p><a href="/about-us">About Us</a></p>
+    <p><a href="/contact-us" >Contact Us</a></p>
+    <p><a href="/privacy-policy" >Privacy Policy</a></p>
+    <p><a href="/terms-and-conditions" >Terms & Conditions</a></p>
+    <p><a href="/disclaimer" >Disclaimer</a></p>
+    <p><a href="/sitemap" >Sitemap</a></p>
+    </div>
+</div>
+</div>
+{% endblock %}  

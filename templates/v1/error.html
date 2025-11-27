@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-12"><!-- collam-left !-->
+            <div class="row news-lg mx-0 mb-3">
+                <div class="col-md-12 d-flex flex-column bg-white px-0">
+                    <h1>Error: Sorry for the inconvenience</h1>
+                    {% if messages %}
+                    <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{ messages }}</strong>
+                    </div>
+                  
+                    {% endif %}
+                </div>
+           
+            </div>
+         
+        </div>
+        
+     
+
+    </div>
+    
+</div>
+
+
+    {% endblock %}  

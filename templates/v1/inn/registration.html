@@ -1,0 +1,132 @@
+{% extends 'inn/base.html' %}
+{% block body %}
+{% load static %}
+
+<!-- Contact Start -->
+<div class="container-fluid bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-1">
+                <!-- Social Follow Start -->
+                <!-- Social Follow End -->
+            </div>
+            <div class="col-lg-10">
+                <div class=" p-4 my-5">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>{{ message }}</strong>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    <div class="row login-bg">
+                        <div class="col-lg-6 p-4">
+                            <h4 class="m-0 text-uppercase font-weight-bold">User Registration</h4>
+                            <h4 class="mt-2 redtext">Fill Your Basic Information</h4>
+                            <form action="{% url 'registeration' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <input type="text" name="username" class="form-control p-4"
+                                                placeholder="User Name" required="required" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="fname" class="form-control p-4"
+                                                placeholder="Your first Name" required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="lname" class="form-control p-4"
+                                                placeholder="Your Last Name" required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="text" name="contact" class="form-control p-4"
+                                                placeholder="Your Contact (+91 987654321)" required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="email" name="email" class="form-control p-4"
+                                                placeholder="Your Email" required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="password" name="password1" class="form-control p-4"
+                                                placeholder="Enter Password" required="required" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="password" name="password2" class="form-control p-4"
+                                                placeholder="Re Enter Password" required="required" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <button class="login-btn px-4" style="height: 50px;" type="submit">Submit</button>
+                                </div>
+                                <div class="">
+                                    <div class="form-group mt-4">
+                                        Already Account : <span class="ml-5"></span><a class="text-white"
+                                            href="/login">Login</a></span>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="{% static 'assets/img/hero_1.jpg' %}" alt=""
+                                style="width:100%;margin-left: 14px;height: 100%;object-fit: cover;border-radius: 0px 20px 20px 0px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <!-- Social Follow Start -->
+
+                <!-- Social Follow End -->
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
+<style>
+    .login-bg {
+        background: #4893cd;
+        border-radius: 20px;
+        padding: 0px;
+        color: #fff;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px);
+    }
+
+    .login-btn {
+        height: 50px;
+        width: 100%;
+        background: red;
+        text-align: center;
+        border: none;
+        color: #fff;
+    }
+
+    .login-btn:hover {
+        background: rgb(222, 3, 3);
+        color: #fff;
+
+    }
+</style>
+{% endblock %}

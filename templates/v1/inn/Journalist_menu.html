@@ -1,0 +1,157 @@
+{% load static %}
+<div class="sidebar-container">
+    <div class="profile-box">
+        <div class="profile-info text-center">
+            <img class="mx-2 rounded-circle profile-img"
+                style="object-fit: cover; border: 2px solid #FFCC00 !important;"
+                src="{% if journalist.profile_picture %}{{ journalist.profile_picture.url }}{% else %}{% static 'assets/dnn/img/user_random.jpg' %}{% endif %}"
+                alt="Journalist Profile">
+            <div class="profile-text text-capitalize">
+                <h5 class="name">{{ journalist.first_name }} {{ journalist.last_name }}</h5>
+                <h5 class="username"></h5>
+                <p><i class="fa fa-circle status"></i> {{ journalist.username }}</p>
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+        <button class="btn btn-success successMessage" style="display: flex; align-items: center; justify-content: space-between;">
+            <p class="p-0 m-0" style="font-size: 10px;" >{{ message }}</p>
+            <span onclick="this.parentElement.style.display='none'" style=" margin-left:10px; cursor:pointer;">x</span>
+        </button>
+        {% endfor %}
+    {% endif %}
+    <script>
+        setTimeout(function () {
+            let successButtons = document.querySelectorAll(".successMessage");
+            successButtons.forEach(function (btn) {
+                btn.style.display = "none";
+            });
+        }, 5000);
+    </script>
+    
+    <nav class="sidebar-menu">
+        <a class="sidebar-link active" href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a class="sidebar-link" href="{% url 'profile' %}"><i class="fas fa-user-circle"></i> My Profile</a>
+        <a class="sidebar-link" href="{% url 'manage-post' %}"><i class="fas fa-tasks"></i> News Submission</a>
+        <a class="sidebar-link" href="{% url 'news-post' %}"><i class="fas fa-plus-circle"></i> News Post</a>
+        <a class="sidebar-link" href="{% url 'manage-video-post' %}"><i class="fas fa-video"></i> Video Submission</a>
+        <a class="sidebar-link" href="{% url 'video-post' %}"><i class="fas fa-plus-square"></i> Video Post</a>
+        {% if journalist.registration_type != "journalist" %}
+        <a class="sidebar-link" href="{% url 'gallery_post' %}"><i class="fas fa-images"></i>My Gallery</a>
+        {% endif %}
+        {% if journalist.registration_type == "organisation" %}
+        <a class="sidebar-link" href="{% url 'add_artist' %}"><i class="fas fa-user-plus"></i>Enrollment Request</a>
+        {% endif %}
+        <a class="sidebar-link logout" href="{% url 'logout-user' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </nav>
+</div>
+
+<style>
+    .sidebar-container {
+        background: rgb(241 241 241);
+        color:#000;
+        width: 250px; /* Adjust width as needed */
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        z-index: 1000; /* Keeps it above other elements */
+        padding: 15px;
+    }
+
+
+    .sidebar-title {
+        font-size: 18px;
+        font-weight: 500;
+        text-align: center;
+
+    }
+
+    .profile-box {
+        border-bottom: 1px solid #302b2b;
+        padding: 15px 0;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+   
+    .profile-img {
+        background: #eaeaea;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 100%;
+        width: 100px;
+        height: 100px;
+        margin-top: 10px;
+    }
+
+    .profile-text {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .username {
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .status {
+        color: #36b436 !important;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .sidebar-link {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        font-size: 14px;
+        text-decoration: none;
+        color: #000 !important;
+        border-radius: 6px;
+        transition: all 0.3s ease-in-out;
+        transition: background 0.3s;
+    }
+
+    .sidebar-link i {
+        margin-right: 10px;
+        font-size: 14px;
+    }
+
+    .sidebar-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        text-decoration: none;
+    }
+
+    .sidebar-link:active {
+        background-color: rgba(255, 255, 255, 0.1);
+        text-decoration: none;
+    }
+
+    .logout {
+        color: #d61e25 !important;
+
+    }
+
+    .logout:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+
+    }
+
+    @media (max-width: 768px) {
+        .sidebar-container {
+            max-width: 100%;
+            border-radius: 10px;
+            text-align: left;
+        }
+    }
+</style>

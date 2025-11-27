@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% comment %} --------articale-start------ {% endcomment %}
+    {% include "articale.html" %} 
+{% comment %} --------articale--end----- {% endcomment %}
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-9"><!-- collam-left !-->
+
+        <div class="position-relative mb-3">
+        <h1 class="text-center" style="height:400px; margin-top:100px">Coming Soon</h1>
+        </div>
+        </div>
+        <div class="col-lg-3"><!-- collam-right !-->
+            {% include "rightcollam.html" %} 
+        </div>
+    </div>
+</div>
+{% endblock %}  

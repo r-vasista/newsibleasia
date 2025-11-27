@@ -1,0 +1,1003 @@
+{% include "head.html" %}
+{% block body %}
+{% load static %}
+<div class="video-background">
+    <video autoplay muted loop playsinline>
+        <source src="{% static 'assets/dnn2/artdomain_sing-up.mp4' %}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+</div>
+
+<div class="singup-content container-fluid dxb-bg py-4">
+    <div class="row">
+        <div class=" col-md-12 col-sm-12">
+            <!-- form start -->
+            <div class="form-wrapper">
+                <div class="row form-container">
+                    <div class="col-md-12 sighnup-logo">
+                        <a href="/">
+                            <img src="{% static 'assets/dnn/img/logo_sighnup.png' %}" alt="DXB NEWS">
+                        </a>
+                        <h2 class="text-center sgignup-head">Create Account</h2>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                        <div class="px-3">
+                            <form id="signupForm" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <!-- Progress Bar -->
+                                <div class="progress-line"></div>
+                                <div class="progress-container  mb-3">
+                                    <div class="progress-step active" id="step-1-indicator">1</div>
+                                    <div class="progress-step" id="step-2-indicator">2</div>
+                                    <div class="progress-step" id="step-3-indicator">3</div>
+                                    <div class="progress-step" id="step-4-indicator">4</div>
+                                    <div class="progress-step" id="step-5-indicator">5</div>
+                                </div>
+
+                                <!-- Step 1: Personal Info -->
+                                <div class="step active">
+                                    <h5 class="text-uppercase f-bold">Personal Information</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <input type="text" name="first_name" placeholder="First Name"
+                                                class="form-control" required>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <input type="text" name="last_name" placeholder="Last Name"
+                                                class="form-control" required>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <div class="input-group">
+                                                <select id="registration_type" class="form-select"
+                                                    name="registration_type" onchange="toggleRegistrationFields()"
+                                                    required>
+                                                    <option value="artist">Artist</option>
+                                                    <option value="journalist">Journalist</option>
+                                                    <option value="organisation">Organisation</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3" id="organisation_input" style="display: none;">
+                                            <input id="organisation_name" name="organisation_name" class="form-control"
+                                                placeholder="Organisation">
+                                        </div>
+
+                                        <div class="col-md-12 mb-3" id="parent_organisations_group"
+                                            style="display: none;">
+                                            <div class="input-group">
+                                                <label class="form-label">choose your organization/institute</label>
+                                                <select id="parent_organisations" class="form-select select2"
+                                                    name="parent_organisations">
+                                                    {% for org in registered_organizations %}
+                                                    <option value="{{ org.username }}" {% if
+                                                        request.POST.parent_organisations==org.username %}selected{%
+                                                        endif %}>
+                                                        {{ org.organisation_name|default:''|upper|truncatechars:23 }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <div class="flex-grow-0" style="width: 100%;">
+                                                    <select id="country_code" name="country_code"
+                                                        class="form-select select2" required>
+                                                        {% for country in country_codes %}
+                                                        <option value="{{ country.id }}"
+                                                            data-dial="{{ country.dial_code }}"
+                                                            data-name="{{ country.name }}">
+                                                            {{ country.name }} ({{ country.dial_code }})
+                                                        </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <div class="flex-grow-1">
+                                                        <input type="tel" id="phone_number" name="phone_number"
+                                                            class="form-control" placeholder="Enter phone number"
+                                                            required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <small id="phone_error" class="text-danger mt-1 d-block"></small>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <div class="input-group">
+                                                <input type="email" id="signup_email" name="email" class="form-control"
+                                                    placeholder="Enter your email" required autocomplete="off"
+                                                    style="border-radius: 8px;">
+                                                <span id="otpLoaderSignup" class="loader hidden"></span>
+                                            </div>
+                                            <small id="otpStatusSignup" class="text-primary"></small>
+                                            <small class="text-danger error-message" id="error_signup_email"></small>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <input type="text" id="signup_otp" name="otp" class="form-control"
+                                                placeholder="Enter OTP" disabled autocomplete="off">
+                                            <small id="otpVerifyStatusSignup" class="text-danger"></small>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button type="button" id="nextBtnSignup"
+                                                class="btn btn-primary-next next-step" disabled>Next</button>
+                                        </div>
+
+                                        <div class="col-md-12 text-center mt-3">
+                                            Already have an account
+                                            <a style="color: #4891cd !important; font-weight: bold;"
+                                                href="{% url 'sign-in' %}" class="forgot-password">Sign-In</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2: Contact Details -->
+                                <div class="step">
+                                    <h5> Contact Details</h5>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <input type="text" name="address_line1" placeholder="Address Line 1"
+                                                class="form-control" required>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <input type="text" name="address_line2" placeholder="Address Line 2"
+                                                class="form-control">
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label for="languages">Select Country *</label>
+                                            <select id="nationality" name="nationality" class="form-control select2"
+                                                required>
+                                                <option value="">-- Select Nationality --</option>
+                                                {% for country in nationalities %}
+                                                <option value="{{ country.id }}">{{ country.name|truncatechars:23 }}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <label for="languages">Select State *</label>
+                                            <select id="state" name="selected_state" class="form-control select2">
+                                                <option value="">-- Select State --</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="col-md-12 mb-3">
+                                            <label for="languages">Select City *</label>
+                                            <select id="city" name="selected_city" class="form-control select2">
+                                                <option value="">-- Select City --</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <input type="text" id="zipcode" name="selected_zipcode"
+                                                placeholder="Zip Code" class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary-next next-step mb-3">Next</button>
+                                    <button type="button" class="btn btn-primary-prev prev-step">Previous</button>
+                                </div>
+
+                                <div class="step">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="languages">Select Languages *</label>
+                                            <select id="languages" name="selected_language[]" class="form-control select2"
+                                                multiple required>
+                                                {% for language in languages %}
+                                                <option value="{{ language.id }}">{{ language.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        
+                                    <div class="col-md-12 mb-3">
+                                    <label for="social_media" class="form-label">Select Social Media</label>
+                                    <select id="social_media" class="form-select select2" onchange="addSocialMedia()" required>
+                                        <option disabled selected hidden>Select platform</option>
+                                        <option value="facebook">Facebook</option>
+                                        <option value="linkedin">LinkedIn</option>
+                                        <option value="instagram">Instagram</option>
+                                        <option value="youtube">YouTube</option>
+                                        <option value="twitter">Twitter</option>
+                                    </select>
+                                    </div>
+                                    
+                                    <div class="col-md-12 mb-3" id="social_links"></div>
+                                        
+                                        
+                                    </div>
+                                    <button type="button" class="btn btn-primary-next next-step mb-3">Next</button>
+                                    <button type="button" class="btn btn-primary-prev prev-step">Previous</button>
+                                </div>
+
+                                <div class="step">
+                                    <h5>Upload Documents</h5>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="equipments">Select Equipment *</label>
+                                            <select id="equipments" name="selected_equipment[]"
+                                                class="form-control select2" multiple required>
+                                                {% for item in equipments %}
+                                                <option value="{{ item.id }}">{{ item.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Licence / Registration</label>
+                                            <input type="file" name="passport_document" class="form-control"
+                                                accept="image/*,application/pdf" style="padding: 13px; height: 51px;"
+                                                required>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">ID Proof </label>
+                                            <input type="file" name="government_document" class="form-control"
+                                                accept="image/*,application/pdf" style="padding: 13px; height: 51px;"
+                                                required>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Profile Picture *</label>
+                                            <input type="file" name="profile_picture" class="form-control"
+                                                accept="image/*,application/pdf" style="padding: 13px; height: 51px;"
+                                                required>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <textarea class="form-control"
+                                                placeholder="Write about yourself in 100 words" name="message_type"
+                                                rows="3" oninput="limitWords(this, 100)"></textarea>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <input type="checkbox" id="agree" name="agree" required>
+                                            <label for="agree"> I agree to the
+                                                <a href="#" style="color:#007bff !important;" data-bs-toggle="modal"
+                                                    data-bs-target="#termsModal">Terms &
+                                                    Conditions <span class="danger">*</span></a>
+                                            </label>
+                                            <small class="text-danger error-message" id="error_agree"></small>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary-next next-step mb-3">Next</button>
+                                    <button type="button" class="btn btn-primary-prev prev-step">Previous</button>
+                                </div>
+
+                                <!-- Step 5: Upload Documents -->
+                                <div class="step" style="margin-bottom: 50px;">
+                                    <h5>Create Your Password</h5>
+                                    <div class="row">
+                                        <!-- Password Field -->
+                                        <div class="col-md-12 mb-3">
+                                            <!-- <label class="form-label">Password *</label> -->
+                                            <input type="password" name="password" placeholder="Password" id="password"
+                                                class="form-control" required>
+                                            <small class="text-danger error-message" id="error_password"></small>
+                                            <!-- ✅ Display error here -->
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <!-- <label class="form-label">Confirm Password *</label> -->
+                                            <input type="password" name="confirm_password"
+                                                placeholder="Confirm Password" id="confirm_password"
+                                                class="form-control" required>
+                                            <small class="text-danger error-message"
+                                                id="error_confirm_password"></small>
+                                            <!-- ✅ Display error here -->
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary-send my-3">Submit</button>
+                                    <button type="button" class="btn btn-primary-prev prev-step">Previous</button>
+                                </div>
+                            </form>
+                            <div id="response-message" class="alert mt-3" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- form End -->
+        </div>
+    </div>
+</div>
+
+
+
+{% include 'signup_model.html' %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+
+<script>
+    function addSocialMedia() {
+        let platform = document.getElementById("social_media").value;
+        if (!platform) return;
+
+        let container = document.getElementById("social_links");
+
+        // Prevent duplicate fields
+        if (document.getElementById(platform)) {
+            alert("Already added!");
+            return;
+        }
+
+        // Create wrapper div
+        let div = document.createElement("div");
+        div.id = platform;
+        div.className = "row mb-3";
+
+        // Create label div
+        let labelDiv = document.createElement("div");
+        labelDiv.className = "col-md-12";
+        let label = document.createElement("label");
+        label.innerText = `${platform} URL:`;
+        label.className = "form-label fw-bold";
+        labelDiv.appendChild(label);
+
+        // Create input div
+        let inputDiv = document.createElement("div");
+        inputDiv.className = "col-md-12 input-group";
+        let input = document.createElement("input");
+        input.type = "url";
+        input.name = `social_media_links[${platform}]`;
+        input.className = "form-control";
+        input.required = true;
+
+        // Create remove button
+        let removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.innerText = "✖";
+        removeBtn.className = "btn btn-danger";
+        removeBtn.style.width = "13%";
+        removeBtn.onclick = function () {
+            div.remove();
+        };
+
+        // Append elements
+        inputDiv.appendChild(input);
+        inputDiv.appendChild(removeBtn);
+        div.appendChild(labelDiv);
+        div.appendChild(inputDiv);
+
+        // Append to container
+        container.appendChild(div);
+    }
+
+
+
+
+    $(document).ready(function () {
+        $("#signupForm").submit(function (event) {
+            event.preventDefault();  // Prevent default form submission
+
+            var formData = new FormData(this);
+
+            // ✅ Clear previous entries
+            formData.delete("selected_language");
+            formData.delete("selected_equipment");
+
+            // ✅ Add selected languages
+            $("#languages").val()?.forEach(function (langId) {
+                formData.append("selected_language", langId);
+            });
+
+            // ✅ Add selected equipment
+            $("#equipments").val()?.forEach(function (equipId) {
+                formData.append("selected_equipment", equipId);
+            });
+
+            $.ajax({
+                url: "{% url 'sign-up' %}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                success: function (response) {
+                    $(".error-message").text("");
+                    $("#response-message")
+                        .removeClass("alert-danger")
+                        .addClass("alert-success")
+                        .text(response.message)
+                        .show();
+
+                    setTimeout(function () {
+                        window.location.href = response.redirect_url;
+                    }, 2000);
+                },
+                error: function (xhr) {
+                    $(".error-message").text("");
+                    $("#response-message").hide();
+
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        var errors = xhr.responseJSON.errors;
+                        for (var key in errors) {
+                            var errorElement = $("#error_" + key);
+                            if (errorElement.length) {
+                                errorElement.text(errors[key]).show();
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    });
+
+
+
+    //<!-- JavaScript for Multi-Step Form -->
+
+    const steps = document.querySelectorAll('.step');
+    const progressSteps = document.querySelectorAll('.progress-step');
+    const nextBtns = document.querySelectorAll('.next-step');
+    const prevBtns = document.querySelectorAll('.prev-step');
+    let currentStep = 0;
+
+    // Function to update steps and progress bar
+    function updateStep() {
+        steps.forEach((step, index) => {
+            step.classList.toggle('active', index === currentStep);
+        });
+
+        progressSteps.forEach((step, index) => {
+            if (index <= currentStep) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        });
+    }
+
+    // Handle Next Step
+    nextBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const inputs = steps[currentStep].querySelectorAll('input, select');
+            let valid = true;
+
+            inputs.forEach(input => {
+                if (!input.checkValidity()) {
+                    valid = false;
+                    input.reportValidity();
+                }
+            });
+
+            if (valid && currentStep < steps.length - 1) {
+                currentStep++;
+                updateStep();
+            }
+        });
+    });
+
+    // Handle Previous Step
+    prevBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStep();
+            }
+        });
+    });
+
+    // Initialize first step
+    updateStep();
+
+
+    //email otp verifications
+    function getCSRFToken() {
+        return $("input[name='csrfmiddlewaretoken']").val();
+    }
+    $(document).ready(function () {
+        let otpVerified = false;
+
+        // 🔹 Disable "Next" button on page refresh
+        $("#nextBtnSignup").prop("disabled", true);
+
+        // 🔹 Check email when user leaves the input field
+        $("#signup_email").on("blur", function () {
+            var signupEmail = $(this).val().trim();
+            if (signupEmail.length > 5) {
+                checkEmailExists(signupEmail);
+            }
+        });
+
+        function checkEmailExists(email) {
+            $.ajax({
+                url: "{% url 'check-email-exists' %}",
+                type: "POST",
+                data: {
+                    email: email,
+                    csrfmiddlewaretoken: getCSRFToken()
+                },
+                cache: false,
+                success: function (response) {
+                    $("#error_signup_email").text("").hide();
+                    sendOtpSignup(email); // Send OTP if email is available
+                },
+                error: function (xhr) {
+                    var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : "Error checking email.";
+                    $("#error_signup_email").text(errorMessage).show();
+                    $("#signup_otp").prop("disabled", true);
+                    $("#nextBtnSignup").prop("disabled", true);
+                }
+            });
+        }
+
+
+
+        function sendOtpSignup(email) {
+            $("#otpLoaderSignup").removeClass("hidden");
+            $("#otpStatusSignup").text("Sending OTP...");
+
+            $.ajax({
+                url: "{% url 'send-otp-signup' %}",
+                type: "POST",
+                data: {
+                    email: email,
+                    csrfmiddlewaretoken: getCSRFToken()
+                },
+                success: function (response) {
+                    $("#otpStatusSignup").text("✅ OTP sent! Check your email.").css("color", "green");
+                    $("#signup_otp").prop("disabled", false);
+                },
+                error: function (xhr) {
+                    $("#otpStatusSignup").text("❌ Error sending OTP. Try again.").css("color", "red");
+                },
+                complete: function () {
+                    $("#otpLoaderSignup").addClass("hidden");
+                }
+            });
+        }
+
+        $("#signup_otp").on("input", function () {
+            var signupEmail = $("#signup_email").val().trim();
+            var signupOtp = $(this).val().trim();
+
+            if (signupOtp.length === 6) {
+                verifyOtpSignup(signupEmail, signupOtp);
+            }
+        });
+
+        function verifyOtpSignup(email, otp) {
+            $.ajax({
+                url: "{% url 'verify-otp-signup' %}",
+                type: "POST",
+                data: {
+                    email: email,
+                    otp: otp,
+                    csrfmiddlewaretoken: getCSRFToken()
+                },
+                success: function (response) {
+                    $("#otpVerifyStatusSignup").text("✅ OTP Verified!").css("color", "green");
+                    otpVerified = true;
+                    $("#nextBtnSignup").prop("disabled", false); // Enable "Next" after verification
+                },
+                error: function (xhr) {
+                    $("#otpVerifyStatusSignup").text("❌ Invalid OTP. Try again.").css("color", "red");
+                    otpVerified = false;
+                    $("#nextBtnSignup").prop("disabled", true);
+                }
+            });
+        }
+    });
+
+
+    $(document).ready(function () {
+        // For nationality change
+        $("#nationality").change(function () {
+            let countryId = $(this).val();
+
+            $.ajax({
+                url: "{% url 'get_states' %}",
+                data: { country_id: countryId },
+                success: function (data) {
+                    let stateOptions = '<option value="">-- Select State --</option>';
+                    data.states.forEach(state => {
+                        stateOptions += `<option value="${state.id}">${state.name}</option>`;
+                    });
+                    $("#state").html(stateOptions);
+                    $("#city").html('<option value="">-- Select City --</option>'); // Reset city
+                }
+            });
+        });
+
+        // For state change
+        $("#state").change(function () {
+            let stateId = $(this).val();
+
+            $.ajax({
+                url: "{% url 'get_cities' %}",
+                data: { state_id: stateId },
+                success: function (data) {
+                    let cityOptions = '<option value="">-- Select City --</option>';
+                    data.cities.forEach(city => {
+                        cityOptions += `<option value="${city.id}">${city.name}</option>`;
+                    });
+                    $("#city").html(cityOptions);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('.select2').select2({
+                placeholder: "Select an option",
+                width: '100%',
+                dropdownAutoWidth: true
+            });
+        });
+    });
+
+
+    function toggleRegistrationFields() {
+        var registrationType = document.getElementById('registration_type').value;
+
+        // Organisation fields
+        var organisationInputDiv = document.getElementById('organisation_input');
+        var organisationNameInput = document.getElementById('organisation_name');
+
+        // Artist fields
+        var parentOrganisationGroup = document.getElementById('parent_organisations_group');
+
+        // Journalist fields
+        var equipmentSection = document.getElementById('equipment_section');
+
+        // Handle Organisation
+        if (registrationType === 'organisation') {
+            organisationInputDiv.style.display = 'block';
+            organisationNameInput.required = true;
+        } else {
+            organisationInputDiv.style.display = 'none';
+            organisationNameInput.required = false;
+        }
+
+        // Handle Artist
+        if (registrationType === 'artist') {
+            parentOrganisationGroup.style.display = 'block';
+        } else {
+            parentOrganisationGroup.style.display = 'none';
+        }
+
+        // Handle Journalist
+        if (registrationType === 'journalist') {
+            equipmentSection.style.display = 'block';
+        } else {
+            equipmentSection.style.display = 'none';
+        }
+    }
+
+    // Run once on page load
+    document.addEventListener('DOMContentLoaded', toggleRegistrationFields);
+
+    function renderSocialField() {
+        const select = document.getElementById("social_media");
+        const selected = select.value;
+        const label = select.options[select.selectedIndex].text;
+        const container = document.getElementById("social_links");
+
+        // Prevent duplicate entries
+        if (document.getElementById(`input_${selected}`)) return;
+
+        const inputGroup = document.createElement("div");
+        inputGroup.className = "input-group mb-2";
+        inputGroup.id = `input_${selected}`;
+
+        inputGroup.innerHTML = `
+            <span class="input-group-text">${label}</span>
+            <input type="url" name="social_links[${selected}]" class="form-control" placeholder="Enter ${label} URL">
+            <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">×</button>
+        `;
+
+        container.appendChild(inputGroup);
+
+        // Optional: Reset dropdown to placeholder
+        select.selectedIndex = 0;
+    }
+</script>
+
+<style>
+    .select2-container .select2-selection--single {
+        height: 38px !important;
+        display: flex;
+        align-items: center;
+        width: 100% !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 36px !important;
+        padding-left: 8px;
+    }
+
+    .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-width: 100%;
+        min-height: 100%;
+        z-index: -1;
+        overflow: hidden;
+    }
+
+    .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* ensures the video covers the whole background */
+    }
+
+    .singup-content {
+        position: relative;
+        z-index: 1;
+        /* Content appears above the video */
+        display: flex;
+    }
+
+    .dxb-bg {
+        background-size: cover;
+        background-attachment: fixed;
+        align-items: center;
+        min-height: 100vh;
+        justify-content: end;
+    }
+
+
+    .sighnup-logo {
+        text-align: center;
+
+    }
+
+    .form-control::placeholder {
+        color: #6c757d;
+        opacity: 1
+    }
+
+    .form-container {
+        background: linear-gradient(to bottom right, #FEFBF4, #C2C2C0) !important;
+        border-radius: 30px !important;
+        padding: 20px;
+    }
+
+    .step {
+        display: none;
+    }
+
+    .step.active {
+        display: block;
+    }
+
+    .progress-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        margin-bottom: 40px;
+    }
+
+    .progress-line {
+        position: relative;
+        top: 24px;
+        width: 100%;
+        height: 2px;
+        background: #ccc;
+        transform: translateY(-50%);
+        z-index: 0;
+    }
+
+    .progress-step {
+        width: 40px;
+        height: 40px;
+        background: #eae8e3;
+        text-align: center;
+        line-height: 40px;
+        border-radius: 50%;
+        font-weight: 500;
+        border: 1px solid #b6b1b1;
+    }
+
+    .progress-step.active {
+        background: #d61e25;
+        color: white;
+    }
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-success {
+        border-radius: 4px;
+        width: 100%;
+        margin: 20px 0px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        color: #666;
+        height: 44px;
+        font-size: 14px;
+    }
+
+    .otp-message {
+        display: none;
+        color: green;
+        font-size: 14px;
+    }
+
+    .btn-primary-send {
+        background: #d61e25;
+        color: #fff;
+        float: left;
+        width: 100%;
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .btn-primary-send:hover {
+        background: #d61e25;
+        color: #fff;
+    }
+
+
+    .btn-primary-prev {
+        width: 100%;
+        background: #8b8484;
+        color: #fff;
+        opacity: 1 !important;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .btn-primary-prev:hover {
+        background: #5f5a5a;
+        color: #fff;
+    }
+
+    .btn-primary-next {
+        width: 100%;
+        background: #d61e25;
+        color: #fff;
+        opacity: 1 !important;
+        padding: 16px;
+        border-radius: 8px;
+    }
+
+    .btn-primary-next:hover {
+        background: #b7161b;
+        color: #fff;
+    }
+
+    .sgignup-head {
+        color: #000;
+        margin: 10px;
+        font-weight: 600;
+        font-size: 36px;
+    }
+
+    .signup-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #d61e25, #4288c6);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+
+    .form-wrapper {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 500px;
+        padding: 0px 20px;
+        margin: auto;
+    }
+
+    select {
+        padding: 0px 8px;
+        border: 2px solid #e0e0e0;
+        outline: none;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        color: #666 !important;
+        width: 130px;
+        border-radius: 8px 0px 0px 8px;
+        background: white;
+    }
+
+    label {
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+
+    .error-message {
+        color: #d32f2f;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
+    }
+
+    .form-group.invalid .error-message {
+        display: block;
+    }
+
+
+
+    .step h5 {
+        color: #333;
+        padding: 10px 0px;
+    }
+
+
+    .hidden {
+        display: none;
+    }
+
+    .loader {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #007bff;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        animation: spin 1s linear infinite;
+        margin-left: 8px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .option-style {
+        padding: 10px;
+        font-size: 14px;
+        background-color: #f4f4f4;
+        color: #333;
+        margin-bottom: 4px;
+        cursor: pointer;
+    }
+
+    .option-style:hover {
+        background-color: #4187c5;
+        color: #fff;
+    }
+
+    .modal {
+        background: #07070796;
+        z-index: 10000;
+    }
+
+    .modal-body {
+        max-height: 400px;
+        list-style: none;
+        overflow-y: auto;
+        font-size: 13px;
+    }
+
+    .modal-body ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    @media only screen and (max-width: 576px) {
+        .dxb-bg {
+            background: linear-gradient(to bottom right, #1e3c72, #ff512f) !important;
+        }
+    }
+
+    @media only screen and (min-width: 577px) and (max-width: 991px) {
+        .dxb-bg {
+            background: linear-gradient(to bottom right, #1e3c72, #ff512f) !important;
+        }
+    }
+</style>
+{% endblock %}

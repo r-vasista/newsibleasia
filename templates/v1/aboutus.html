@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-12"><!-- collam-left !-->
+            <div class="row news-lg mx-0 mb-3">
+                <div class="col-lg-4 col-md-12 h-100 px-0">
+                    <img 
+                        src="../upload/blog/DR_AMRINDER_PAL_SINGH_CEO_DNN_DXB_NEWS_NETWORK_BY_MARKAZIA_SOLUTIONS_LLC_DUBAI_UAE_dSQlJAq.jpg"
+                        style="object-fit: cover; height:350px;">
+                </div>
+                <div class="col-lg-8 col-md-12 h-100 px-0">
+                    <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen="" width="100%" height="350" frameborder="0" class="lazy entered loaded"
+                        data-src="https://www.youtube.com/embed/ANd5zEOqwTg?si=3jLpz6TwVJM8053h" data-ll-status="loaded"
+                        src="https://www.youtube.com/embed/ANd5zEOqwTg?si=3jLpz6TwVJM8053h"></iframe>
+                </div>
+                <div class="col-md-12 d-flex flex-column bg-white px-0">
+                    <h1 class="text-uppercase font-weight-bold">About DXB News Network (DNN)</h1>
+                    <div class="mt-auto pt-4 text-justify">
+                        <p class="m-0">Embarking on a new journey in the realm of digital journalism, DXB News Network
+                            (DNN) has emerged as a fresh and dynamic voice in the United Arab Emirates' media landscape.
+                            As a leading online news platform, DNN offers a unique blend of news that informs, inspires,
+                            and positively impacts our readers.
+                        </p>
+                        <h4 class="mt-3 font-weight-bold">Our Vision</h4>
+                        <p> At DNN, we envision a platform where news serves as a bridge to knowledge and empowerment.
+                            Our goal is to establish ourselves as a trusted source of news in the UAE, committed to
+                            providing comprehensive and uplifting coverage. We strive to create a space where news
+                            encourages positive dialogue and community engagement.
+                        </p>
+                        <h4 class="mt-3 font-weight-bold">Our Mission</h4>
+                        <p></p>
+                        At DNN, we envision a platform where news serves as a bridge to knowledge and empowerment. Our
+                        goal is to establish ourselves as a trusted source of news in the UAE, committed to providing
+                        comprehensive and uplifting coverage. We strive to create a space where news encourages positive
+                        dialogue and community engagement.
+                        </p>
+                        <h4 class="mt-3 font-weight-bold">Our Mission</h4>
+                        <p>
+                            As a fast-growing news channel, our mission is to deliver news that matters with a focus on
+                            integrity, innovation, and positivity. We bring a variety of stories to our audience,
+                            covering the latest in business, technology, culture, and community achievements, all
+                            presented through an engaging and thoughtful lens.
+                        </p>
+                        <h4 class="mt-3 font-weight-bold">Our Commitment to Integrity</h4>
+                        <p>
+                            In a world filled with information, credibility is key. DNN is dedicated to upholding the
+                            highest journalistic standards, ensuring that every story we share is accurate, fair, and
+                            unbiased. We are committed to being a reliable voice that our audience can trust.
+                        </p>
+                        <h4 class="mt-3 font-weight-bold">Building a Community of Informed Readers</h4>
+                        <p>
+                            We believe in the power of news to connect and empower people. DNN aspires to be more than
+                            just a news outlet; we aim to be a community hub where diverse perspectives are welcomed,
+                            and constructive conversations are fostered. Our platform is a place for engaging
+                            discussions and shared learning.
+                        </p>
+                        <h4 class="mt-3 font-weight-bold">Our Growth and Presence</h4>
+                        <p>
+                            Since its launch, DXB News Network has made a significant impact in the Gulf market and has
+                            become the fastest-growing news channel in the UAE. DNN is the initiative of Markazia
+                            Solutions LLC FZ under the license of Meydan FreeZone, Government of Dubai. The channel has
+                            participated as an exclusive media partner in world-renowned exhibitions and shows,
+                            including the International Property Show, Global Wood Show, Gulf Food, Arab Health, and
+                            more. With a daily reach of 500,000 readers, DNN is one of the most sought-after news media
+                            partners in the UAE. Its versatility has made it a preferred news media outlet globally.
+                        </p>
+                        <h4 class="mt-3 font-weight-bold">Join Our Network</h4>
+                        <p>
+                            DNN is inviting journalists from around the globe to be a part of this revolutionary
+                            platform. With a network of 93 journalists worldwide, DNN is growing every day, striving to
+                            bring diverse and impactful news to its audience.
+
+                            At DXB News Network, we are committed to delivering news that matters, and we look forward
+                            to continuing our journey of informing, inspiring, and empowering our readers.</p>
+                    </div>
+
+                </div>
+                <div class="col-lg-12 mb-3 ">
+                    {% for adledb in adtop %}
+                    <a href=""><img class="img-fluid w-100" src="../upload/{{adledb.ad_image}}" alt=""></a>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+        <!-- collam-right !-->
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            {% include "rightcollam.html" %}
+        </div>
+
+    </div>
+    {% include "articale.html" %}
+</div>
+{% endblock %}

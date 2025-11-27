@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-12 scrollrs"><!-- collam-left !-->
+            <div class="position-relative">
+                <h3 class="title">{{Vnews.video_title}}</h3>
+                <img class="img-fluid w-100" src="../upload/{{Vnews.post_image}}" style="object-fit: cover;"
+                    alt="{{Blog.post_cat|lower}}">
+                <iframe class="video-frame lazy entered loaded ifremvid"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    frameborder="0"
+                    data-src="https://www.youtube.com/embed/{{ Vnews.video_url }}?autoplay=1&mute=1"
+                    data-ll-status="loaded"
+                    src="https://www.youtube.com/embed/{{ Vnews.video_url }}?autoplay=1&mute=1">
+                </iframe>
+                
+                <div class="border-top-0 py-4">
+                    <p>
+                        {% if Vnews.author %}
+                        Post by : {{ Vnews.author.first_name|default:""|capfirst }} 
+                        {{ Vnews.author.last_name|default:""|capfirst }}
+                        {% elif Vnews.journalist %}
+                        Post by :
+                        <a href="{% url 'journalist_profile' Vnews.journalist.username %}" style="color: #cf1e25 !important;">
+                            {{ Vnews.journalist.first_name|default:""|capfirst }} {{ Vnews.journalist.last_name|default:""|capfirst }}
+                        </a>
+                        {% else %}
+                        Post by : Admin
+                        {% endif %}
+                    </p>
+                    <p class="m-0">{{Vnews.video_des|safe}}</p>
+                    <div class="d-flex align-items-center">
+                        <small><i class="fas fa-calendar-alt"></i> {{Vnews.video_date|date}}</small>
+                        <small class="ml-3"> <i class="fas fa-clock"></i> {{ Vnews.video_date|time }}</small>
+                        <small class="ml-3"><i
+                                class="far fa-eye mr-2"></i>{{Vnews.counter|add:Vnews.viewcounter}}</small>
+                    </div>
+                    <p class="m-0">{{Vnews.video_tag|safe}}</p>
+                </div>
+            </div>
+
+            <div class="container-fluid ">
+                <div class="row align-items-center mb-3">
+                    <div class="col-lg-6">
+                        <div class="heading-text">Must Watch Videos</div>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <a href="/all-video-news/all" class="btn btn-sm view-all ">VIEW ALL &gt;</a>
+                    </div>
+                </div>
+                <div class="row border-b">
+                    {% for vidpost in vidart %}
+                    <div class="col-lg-4 colo-md-4 colo-sm-12 mt-3">
+                        <a class="d-block mb-1 text-secondary font-weight-bold" href="/video/{{vidpost.slug}}">
+                            <div class="thumimg">
+                                <p class="playbut"><i class="fa fa-play-circle" aria-hidden="true"></i></p>
+                                <img src="https://img.youtube.com/vi/{{vidpost.video_url}}/mqdefault.jpg"
+                                    alt="Video Thumbnail" width="100%">
+                            </div>
+                            <h6 class="video-text-heading pt-3">{{vidpost.video_title}}
+                            </h6>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-4 col-sm-12 scrollrs"><!-- collam-right !-->
+            {% include "rightcollam.html" %}
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .video-frame {
+        width: 100%;
+        height: 430px;
+    }
+
+    @media (min-width:768px) and (max-width:1024px) {
+        .video-frame {
+            width: 100%;
+            height: 350px;
+        }
+    }
+
+    @media (min-width:280px) and (max-width:667px) {
+        .video-frame {
+            width: 100%;
+            height: 250px;
+        }
+    }
+</style>
+
+{% endblock %}

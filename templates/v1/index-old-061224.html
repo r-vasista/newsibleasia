@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+{% comment %} --------articale-start------ {% endcomment %}
+{% include "top-full-ad.html" %}
+{% comment %} {% include "articale.html" %}  {% endcomment %}
+{% include "left-right-top-ad.html" %} 
+{% comment %} --------articale--end----- {% endcomment %}
+
+{% comment %} --------category-page----- {% endcomment %}
+{% include "cat.html" %} 
+{% comment %} --------category--end----- {% endcomment %}
+
+{% comment %} --------Spotlight-start-------- {% endcomment %}
+
+<div class="container bgshadow">
+
+</div>
+{% comment %} --------Spotlight-end-------- {% endcomment %}
+
+<div class="container bgshadow">
+    <div class="col-lg-12">
+        <div class="head-title text-center border-b mb-1 mt-5">VIDEOS & PODCASTS</div>
+    </div>
+<div class="row">
+<!-- Featured News Slider Start -->
+{% include "video-news-slider.html" %} 
+{% include "reels-news-slider.html" %} 
+<!-- Featured News Slider End --> 
+</div>
+</div>
+
+<!-- Featured News Slider Start -->
+{% include "bp-logo.html" %} 
+{% comment %} {% include "news-slider-bottam.html" %}  {% endcomment %}
+<div class="col-lg-12">
+    <h1 class="head-title text-center border-b mb-1">DXB News Network: Dubai National and Global News Channel | UAE.</h1>
+    </div>
+<!-- Featured News Slider End -->
+<!-- Button trigger modal -->
+  
+  {% if indseo == 'index' %}
+  {% for popimg in popup %}
+  {% if popimg.is_active == 1 %}
+  <div id="ac-wrapper">
+    <div id="popup">
+        <center>
+        <p><a href="{{popimg.ad_url}}" target="_blank">
+            <img src="../upload/{{popimg.ad_image}}" alt="DXB" class="img-responsive" width="100%"></a>
+            
+        </p>
+
+        <p>
+{% comment %} <a href="#" target="_blank" class="btn btn-warning">Apply Now</a>     {% endcomment %}
+
+        <input type="submit" name="submit" value="Close" class="btn btn-danger" onClick="PopUp()" /></p>
+        </center>
+       
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}  

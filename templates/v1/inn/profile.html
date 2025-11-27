@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+<div class="container my-2">
+
+    <div class="art-banner"
+        style="background-image: url('{% if journalist.banner %}{{ journalist.banner.url }}{% else %}/static/assets/dnn/img/defoult_banner.jpg{% endif %}');">
+    </div>
+    <div class="container d-flex">
+        <div class="art-profile-container">
+            <div class="art-logo">
+                <a href="#">
+                    <img src="{{ journalist.profile_picture.url }}" alt="Art Logo">
+                </a>
+            </div>
+            <div class="art-info">
+                <h2 class="text-white">{{ journalist.first_name }} {{ journalist.last_name }}</h2>
+                <h6 class="text-white">The Art Guild/{{ journalist.registration_type|capfirst }}-ArtDomain</h6>
+                <p class="text-white">{{ journalist.biography|truncatechars:120 }}</p>
+                <!-- Social Media Icons -->
+                <div class="social-links mt-3">
+                    {% if journalist.social_media_links %}
+                    <div class="social-links">
+                        {% for platform, link in journalist.social_media_links.items %}
+                        <a href="{{ link }}" target="_blank" class="me-2 text-white">
+                            <i class="{% if platform == 'globe' %}fas fa-globe{% else %}fab fa-{{ platform }}{% endif %}"></i>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>No social media links available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        {% if journalist.registration_type != 'journalist' %}
+        <div class="col-lg-9 col-md-8 col-sm-12">
+            <h4 class="fw-bold mb-3">Gallery</h4>
+            <div class="row g-3">
+                {% for img in galleries %}
+                {% if img.image %}
+                <div class="col-md-3 col-6">
+                    <a href="#">
+                        <img src="{{ img.image.url }}" class="img-fluid rounded-3 shadow-sm hover-zoom"
+                            alt="Gallery Image">
+                    </a>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="col-lg-9 col-md-8 col-sm-12">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5922835412614482"
+               crossorigin="anonymous"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-format="autorelaxed"
+                 data-ad-client="ca-pub-5922835412614482"
+                 data-ad-slot="5436461790"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        {% endif %}
+
+        <div class="col-lg-3 col-md-4 col-sm-12 mt-4 mt-md-0">
+            <h5 class="fw-bold mb-3">
+                {% if child_profiles %}
+                Our Artists
+                {% else %}
+                Recommended Profiles
+                {% endif %}
+            </h5>
+
+            <div style="max-height: 365px; overflow-y: auto;">
+                {% for profile in child_profiles|default:recommended_profiles %}
+                <div class="d-flex align-items-center mb-3">
+                    <a href="{% url 'journalist_profile' profile.username %}">
+                        <img src="{{ profile.profile_picture.url }}" class="artist-img me-2 shadow-sm"
+                            style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                    </a>
+                    <div>
+                        <a href="{% url 'journalist_profile' profile.username %}" class="text-decoration-none fw-semibold">
+                            {{ profile.first_name }} {{ profile.last_name }}
+                        </a>
+                        <small class="text-muted d-block">{{ profile.registration_type }}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-lg-4 col-md-8 col-sm-12">
+            <h4 class="fw-bold my-3">News</h4>
+            <div class="scroll-box">
+                {% for post in journalist_blogdata %}
+                <div class="d-flex mb-4 border-bottom pb-3">
+                    <div style="align-items: center; display: flex;" class="col-3 p-0">
+                        <a href="/{{ post.slug }}"  target="_blank">
+                            <img src="{{ post.post_image.url }}" class="news-img rounded shadow-sm" alt="{{ post.post_title }}" loading="lazy">
+                        </a>
+                    </div>
+                    <div class="col-9">
+                        <h6 class="mb-1"><a href="/{{ post.slug }}" class="fw-semibold text-decoration-none"  target="_blank">{{ post.post_title|truncatechars:90 }}</a></h6>
+                        <small class="text-secondary mr-4">{{ post.schedule_date|date }} | {{ post.schedule_date|time}}</small>
+                        <small class="text-secondary"><i class="far fa-eye mr-2"></i>{{post.post_status|add:post.viewcounter}}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-8 col-sm-12">
+            <h4 class="fw-bold my-3">Video News</h4>
+            <div class="scroll-box">
+                {% for post in journalist_podcast %}
+                <div class="d-flex mb-4 border-bottom pb-3 gap-3">
+                    <div style="align-items: center; display: flex;" class="col-3 p-0">
+                        <a href="/video/{{ post.slug }}" target="_blank">
+                            <img src="https://img.youtube.com/vi/{{post.video_url}}/hqdefault.jpg"
+                            class="news-img rounded shadow-sm" alt="{{post.video_title}}" title="{{post.video_title}}" loading="lazy" />
+                        </a>
+                    </div>
+                    <div class="col-9">
+                        <h6 class="mb-1">
+                            <a href="/video/{{ post.slug }}" class="fw-semibold text-decoration-none" target="_blank">{{ post.video_title|truncatechars:90 }}</a>
+                        </h6>
+                        <p class="text-muted mb-1 small">{{ post.post_short_des|truncatechars:120 }}</p>
+                        <small class="text-secondary mr-4">{{ post.schedule_date|date }} | {{ post.schedule_date|time }}</small>
+                        <small class="text-secondary"><i class="far fa-eye mr-2"></i>{{post.counter|add:post.viewcounter}}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <h5 class="fw-bold my-3">Articles</h5>
+            <div class="scroll-box">
+                {% for post in journalist_articales %}
+                <div class="d-flex mb-3">
+                    <div style="align-items: center; display: flex;" class="col-3 p-0">
+                        <a href="/{{ post.slug }}">
+                            <img src="{{ post.post_image.url }}" class="news-img rounded shadow-sm" alt="{{ post.post_title }}" loading="lazy">
+                        </a>
+                    </div>
+                    <div class="col-9">
+                        <a href="/{{ post.slug }}" class="text-decoration-none fw-semibold">
+                            {{ post.post_title|truncatechars:90 }}
+                        </a>
+                        <div><small class="text-muted">{{ post.schedule_date|date }} | {{ post.schedule_date|time }}</small></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .scroll-box {
+    max-height: 400px; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+    }
+
+    .scroll-box::-webkit-scrollbar {
+        width: 6px;
+    }
+    .scroll-box::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+    }
+
+    .art-banner {
+        width: 100%;
+        height: 250px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+
+    .art-profile-container {
+        width: 100%;
+        max-width: 450px;
+        border-radius: 12px;
+        display: flex;
+        background: #003d74;
+        position: relative;
+        bottom: 50px;
+    }
+
+    .art-logo {
+        width: 100px;
+    }
+
+    .art-logo img {
+        width: 100px;
+        height: auto;
+        padding: 2px;
+        background-color: #fff;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        position: relative;
+        object-fit: cover;
+        bottom: -7px;
+        z-index: 99;
+        left: 7px;
+    }
+
+    .art-info {
+        align-items: center;
+        position: relative;
+        width: 350px;
+        padding: 15px;
+        bottom: 0px;
+    }
+
+    .art-info h2 {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .art-info p {
+        margin: 5px 0 0;
+        font-size: 0.95rem;
+        color: #999;
+        max-width: 600px;
+        line-height: 1.4;
+    }
+
+    .artist-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .news-img {
+        width: 100px;
+        height: 70px;
+        object-fit: cover;
+    }
+
+    .news-thumb {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+    }
+
+    .hover-zoom {
+        transition: transform 0.3s ease;
+    }
+
+    .hover-zoom:hover {
+        transform: scale(1.05);
+    }
+
+    .news-title {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .news-date {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .right-side-news-title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    @media (min-width: 280px) and (max-width: 667px) {
+        .art-banner{
+            width: 100%;
+            height: 150px;
+            background-size: contain;
+            background-position: top;
+            position: relative;
+            background-repeat: no-repeat;
+        }
+        .art-logo img{
+            height: 70px;
+        }
+    }
+</style>
+{% endblock %}

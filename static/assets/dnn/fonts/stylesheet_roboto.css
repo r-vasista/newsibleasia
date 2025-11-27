@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'Roboto Lt';
+    src: url('./Roboto-Light.woff2') format('woff2'),
+         url('./Roboto-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('./Roboto-Bold.woff2') format('woff2'),
+         url('./Roboto-Bold.woff') format('woff');
+    font-weight: 700; /* Corrected */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('./Roboto-Regular.woff2') format('woff2'),
+         url('./Roboto-Regular.woff') format('woff');
+    font-weight: 400; /* Explicitly defined */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto Th';
+    src: url('./Roboto-Thin.woff2') format('woff2'),
+         url('./Roboto-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto Lt';
+    src: url('./Roboto-Medium.woff2') format('woff2'),
+         url('./Roboto-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Novaria';
+    src: url('./NOVARIA.woff2') format('woff2'), /* Preferred for web */
+         url('./NOVARIA.woff') format('woff'),
+         url('./NOVARIA.ttf') format('truetype'),
+         url('./NOVARIA.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Swantay';
+    src: url('./Swantay.woff2') format('woff2'),
+         url('./Swantay.woff') format('woff'),
+         url('./Swantay.ttf') format('truetype'),
+         url('./Swantay.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

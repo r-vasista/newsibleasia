@@ -1,0 +1,137 @@
+{% load static %}
+
+<!-- Section start -->
+<div id="category-posts" class="category-posts section panel overflow-hidden bg-gray-25 dark:bg-gray-800 container-fluid ">
+  <div class="section-outer panel pb-4 sm:pb-5  ">
+    <div class="container"> <!-- full width -->
+      <div class="section-inner mt-5">
+        <div class="row gx-3 xl:gx-4 gy-6" data-uc-grid>
+
+          {% for category, subcategories_data in grouped_postsdata2.items %}
+          <div class="col-12 col-md-4 col-lg-4"> <!-- 3 per row on large screens -->
+            <div class="block-layout grid-layout vstack gap-2 xl:gap-3 panel overflow-hidden ">
+
+              <!-- Category Title -->
+              <div class="block-header panel border-bottom pb-1 min-h-40px">
+                <!-- <h2 class="h6 lg:h5 m-0 hstack gap-1 dark:text-white">
+                 
+                  <a class="post-title text-none hover:text-primary duration-150 dark:text-white"
+                     href="/{{ category.cat_slug }}">{{ category.cat_name }}</a>
+                </h2> -->
+                    <div class="d-flex">
+                      <!-- <h5 class=" post-title text-none hover:text-primary duration-150 dark:text-white mt-1">{{ category.cat_name }}</h5> -->
+                          <a href="/all-news/articles" class="dark:text-white">
+                            {% if category.image %}
+                            <img src="{{ category.image.url }}" alt="{{ category.cat_name }}" class="w-100 h-auto">
+                            {% else %}
+                              <h4>{{ category.cat_name }}</h4>
+                            {% endif %}
+                          <h4>{{Category.image.url}}</h4>
+                          </a>
+                      </div>
+              </div>
+                     
+              <div class="block-content panel vstack gap-3">
+
+                <!-- Featured Post -->
+                {% with subcategories_data.posts|first as post %}
+                {% if post %}
+                <div>
+                  <article class="post type-post panel vstack gap-1 lg:gap-2">
+                    <div class="post-media panel uc-transition-toggle overflow-hidden">
+                      <div class="featured-image bg-gray-25 dark:bg-gray-800 ratio ratio-16x9">
+                        <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
+                             src="{{ post.post_image.url }}"
+                             alt="{{ post.post_title }}"
+                             loading="lazy">
+                      </div>
+                      <a href="/{{ post.slug }}" class="position-cover"></a>
+                    </div>
+                    <div class="post-header panel vstack gap-1 border-bottom pb-2">
+                      <div class="post-meta panel hstack justify-start gap-1 fs-7 fw-medium dark:text-white text-opacity-60  md:d-flex z-1">
+                        <div>
+                          <div class="post-category d-none hstack gap-narrow fw-semibold">
+                            <a class="text-none hover:text-primary duration-150 dark:text-white"
+                               href="/{{ category.cat_slug }}">{{ category.cat_name }}</a>
+                          </div>
+                        </div>
+                        
+                        <div class="md:d-block d-flex justify-content-center align-item-center">
+                          <div class=" hstack gap-narrow mt-1">
+                            <span>{{ post.schedule_date|date:"M j, Y" }}</span>
+                          </div>
+                           <div class="share-icons-container mx-2 mt-2" style="--custom-bottom: 0px; --custom-right: 0px;">
+                            {% include 'share.html' %}
+                          </div>
+                        </div>
+                        
+                       
+                      </div>
+                      <h3 class="post-title h6 xl:h6 m-0 text-truncate-2 my-1 dark:text-white">
+                        <a class="text-none hover:text-primary duration-150 dark:text-white"
+                           href="/{{ post.slug }}">{{ post.post_title|truncatechars:80 }}</a>
+                      </h3>
+                    </div>
+                  </article>
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <!-- Remaining Posts -->
+                {% for post in subcategories_data.posts|slice:"1:4" %}
+                <div>
+                  <article class="post type-post panel">
+                    <div class="row child-cols g-2 border-bottom pb-2" data-uc-grid>
+                      <div>
+                        <div class="post-header panel vstack justify-between gap-1">
+                          <h3 class="post-title h6 m-0 text-truncate-2 dark:text-white">
+                            <a class="text-none hover:text-primary duration-150 dark:text-white"
+                               href="/{{ post.slug }}">{{ post.post_title|truncatechars:60 }}</a>
+                          </h3>
+                          <div class="post-meta fs-7 fw-medium dark:text-white text-opacity-60">
+                            <div class="post-date hstack gap-narrow mt-2">
+                              <span>{{ post.schedule_date|date:"M j, Y" }}</span>
+                              <div class="share-icons-container" style="--custom-bottom: 0px; --custom-right: 0px;">
+                              {% include 'share.html' %}
+                            </div>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <div class="post-media panel uc-transition-toggle overflow-hidden max-w-72px min-w-64px lg:min-w-72px">
+                          <div class="featured-image bg-gray-25 dark:bg-gray-800 ratio ratio-1x1">
+                            <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
+                                 src="{{ post.post_image.url }}"
+                                 alt="{{ post.post_title }}"
+                                 loading="lazy">
+                          </div>
+                          <a href="/{{ post.slug }}" class="position-cover"></a>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+                
+                {% endfor %}
+                {% with subcategories_data.posts|first as featured_post %}
+                  {% if featured_post %}
+                    <!-- <div class="text-end mt-3">
+                      <a href="/{{ featured_post.slug }}" class="btn btn-sm btn-primary">
+                        Show More →
+                      </a>
+                    </div> -->
+                  {% endif %}
+                {% endwith %}
+
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

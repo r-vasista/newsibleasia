@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<body class="uni-body panel bg-white ">
+    <!-- top ads (3 ads) start -->
+    {% include 'top_ads.html' %}
+    <!-- top ads end -->
+<div class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
+    {% include 'topnews.html' %}
+</div>
+
+{% include 'news.html' %}
+<div class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
+{% include 'category-inn.html' %}
+</div>
+
+<div class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
+    {% include 'reels.html' %}
+</div>
+<div class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
+    {% include 'bottom.html' %}
+</div>
+<!-- Bootstrap JS (Required for dropdowns) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+{% endblock %}

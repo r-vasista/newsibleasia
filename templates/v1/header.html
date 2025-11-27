@@ -1,0 +1,666 @@
+{% load static %}
+
+<div id="uc-search-modal" class="uc-modal-full uc-modal bg-gray-25 dark:bg-gray-800 dark:text-white"
+    data-uc-modal="overlay: true">
+    <div class="uc-modal-dialog d-flex justify-center bg-white text-dark dark:bg-gray-900 dark:text-white"
+        data-uc-height-viewport="">
+        <button
+            class="uc-modal-close-default p-0 icon-3 btn border-0 dark:text-white dark:text-opacity-50 hover:text-primary hover:rotate-90 duration-150 transition-all"
+            type="button">
+            <i class="unicon-close text-dark"></i>
+        </button>
+        <div class="panel lg:w-800px sm:w-500px px-2 py-10">
+            <h3 class="h1 text-center">Search</h3>
+            <form class="hstack gap-1 mt-4 border-bottom p-narrow dark:border-gray-700" action="?">
+                <span class="d-inline-flex justify-center items-center w-24px sm:w-40 h-24px sm:h-40px opacity-50"><i
+                        class="unicon-search icon-3"></i></span>
+                <input type="search" name="q" class="form-control-plaintext ms-1 fs-6 sm:fs-5 w-full dark:text-white"
+                    placeholder="Type your keyword.." aria-label="Search" autofocus>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--  Menu panel -->
+<div id="uc-menu-panel" data-uc-offcanvas="overlay: true;">
+    <div class="uc-offcanvas-bar bg-white text-dark dark:bg-gray-900 dark:text-white">
+        <header class="uc-offcanvas-header hstack justify-between items-center pb-4 bg-white dark:bg-gray-900">
+            <div class="uc-logo">
+                <a href="/" class="h5 text-none text-gray-900 dark:text-white">
+                    <img class=" uc-transition-scale-up uc-transition-opaque h-38px"
+                        src="{{ profile_setting.logo_dark.url }}" alt="" data-uc-svg>
+                </a>
+            </div>
+            <button
+                class="uc-offcanvas-close p-0 icon-3 btn border-0 dark:text-white dark:text-opacity-50 hover:text-primary hover:rotate-90 duration-150 transition-all"
+                type="button">
+                <i class="unicon-close text-dark"></i>
+            </button>
+        </header>
+
+        <div class="panel">
+            <!-- <form id="search-panel" class="form-icon-group vstack gap-1 mb-3" data-uc-sticky="">
+                <input type="email" class="form-control form-control-md fs-6" placeholder="Search..">
+                <span class="form-icon text-gray">
+                    <i class="unicon-search icon-1"></i>
+                </span>
+            </form> -->
+            <ul class="nav-y gap-narrow fw-bold fs-6" data-uc-nav>
+                <li class="uc-parent">
+                    <a href="#">All Categories</a>
+                    <ul class="uc-nav-sub" data-uc-nav>
+                        {% for link in Blogcat %}
+                        <li class="uc-parent">
+                            <a href="#">{{ link.cat_name }}</a>
+                            <ul class="uc-nav-sub">
+                        {% for sublink in link.sub_category_set.all %}
+                        <li>
+                            <a href="/{{ link.cat_slug }}/{{ sublink.subcat_slug }}">{{ sublink.subcat_name }}</a>
+                        </li>
+                        {% endfor %}
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- Divider -->
+                <li class="hr opacity-10 my-1"></li>
+
+                <!-- Auth Links -->
+                <!-- <li><a href="#" data-bs-toggle="modal" data-bs-target="#uc-account-modal">Sign in</a></li>
+
+                <li><a href="#">Create an account</a></li> -->
+            </ul>
+            <ul class="social-icons nav-x mt-3">
+                <li class="">
+
+
+
+                    {% if profile_setting.facbook %}
+                <li class="me-1">
+                    <a href="{{ profile_setting.facbook }}" target="_blank" class="text-black">
+                        <i class="unicon-logo-facebook icon-2"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if profile_setting.twitter %}
+                <li class="me-1">
+                    <a href="{{ profile_setting.twitter }}" target="_blank" class="text-black">
+                        <i class="unicon-logo-x-filled icon-2"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if profile_setting.instagram %}
+                <li class="me-1">
+                    <a href="{{ profile_setting.instagram }}" target="_blank" class="text-black">
+                        <i class="unicon-logo-instagram icon-2"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if profile_setting.pinterest %}
+                <li class="me-1">
+                    <a href="{{ profile_setting.pinterest }}" target="_blank" class="text-black">
+                        <i class="unicon-logo-pinterest icon-2"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if profile_setting.linkedin %}
+                <li class="me-1">
+                    <a href="{{ profile_setting.linkedin }}" target="_blank" class="text-black">
+                        <i class="unicon-logo-linkedin icon-2"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                {% if profile_setting.youtube %}
+                <li class="me-1">
+                    <a href="{{ profile_setting.youtube }}" target="_blank" class="text-black">
+                        <i class="unicon-logo-youtube icon-2"></i>
+                    </a>
+                </li>
+                {% endif %}
+
+                </li>
+            </ul>
+
+
+
+            <div class="py-2 hstack gap-2 mt-4 bg-white dark:bg-gray-900" data-uc-sticky="position: bottom">
+                <div class="vstack gap-1">
+                    <span class="fs-7  dark:text-white ">Select theme:</span>
+                    <div class="darkmode-trigger" data-darkmode-switch="">
+                        <label class="switch">
+                            <input type="checkbox">
+                            <span class="slider fs-5"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Cart panel -->
+
+<!--  Favorites modal -->
+<div id="uc-favorites-modal" data-uc-modal="overlay: true">
+    <div class="uc-modal-dialog lg:max-w-500px bg-white text-dark dark:bg-gray-800 dark:text-white rounded">
+        <button
+            class="uc-modal-close-default p-0 icon-3 btn border-0 dark:text-white dark:text-opacity-50 hover:text-primary hover:rotate-90 duration-150 transition-all"
+            type="button">
+            <i class="unicon-close text-dark bg-gray-25 dark:bg-gray-800"></i>
+        </button>
+        <div class="panel vstack justify-center items-center gap-2 text-center px-3 py-8">
+            <i class="icon icon-4 unicon-bookmark mb-2 text-primary dark:text-white"></i>
+            <h2 class="h4 md:h3 m-0">Saved articles</h2>
+            <p class="fs-5 opacity-60">You have not yet added any article to your bookmarks!</p>
+            <a href="index.html" class="btn btn-sm btn-primary mt-2 uc-modal-close">Browse articles</a>
+        </div>
+    </div>
+</div>
+
+<!--  Newsletter modal -->
+<div id="uc-newsletter-modal" data-uc-modal="overlay: true">
+    <div class="uc-modal-dialog w-600px bg-white text-dark dark:bg-gray-900 dark:text-white rounded overflow-hidden">
+        <button
+            class="uc-modal-close-default p-0 icon-3 btn border-0 dark:text-white dark:text-opacity-50 hover:text-primary hover:rotate-90 duration-150 transition-all"
+            type="button">
+            <i class="unicon-close text-dark"></i>
+        </button>
+        <div class="row md:child-cols-6 col-match g-0">
+            <div class="d-none md:d-flex">
+                <div class="position-relative w- ratio-1x1">
+                    <img class=" uc-transition-scale-up uc-transition-opaque media-cover"
+                        src="{{ profile_setting.logo_dark.url }}" alt="Newsletter image">
+                </div>
+            </div>
+            <div>
+                <div class="panel vstack self-center p-4 md:py-8 text-center">
+                    <h4 class="h4 md:h4">Subscribe to the Newsletter</h4>
+                    <p class="ft-tertiary">Join 10k+ people to get notified about new posts, news and tips.</p>
+                    <div class="panel mt-2 lg:mt-4">
+                        <form class="vstack gap-1">
+                            <input type="email"
+                                class="form-control form-control-sm w-full fs-6 bg-white dark:border-white dark:border-gray-700 dark:text-dark"
+                                placeholder="Your email address..">
+                            <button type="submit" class="btn btn-sm btn-primary">Sign up</button>
+                        </form>
+                        <p class="fs-7 mt-2">Do not worry we don't spam!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Account modal -->
+<!-- <div id="uc-account-modal" data-uc-modal="overlay: true">
+    <div class="uc-modal-dialog lg:max-w-500px bg-white text-dark dark:bg-gray-800 dark:text-white rounded">
+        <button
+            class="uc-modal-close-default p-0 icon-3 btn border-0 dark:text-white dark:text-opacity-50 hover:text-primary hover:rotate-90 duration-150 transition-all"
+            type="button">
+            <i class="unicon-close text-dark"></i>
+        </button>
+        <div class="panel vstack gap-2 md:gap-4 text-center">
+            <ul class="account-tabs-nav nav-x justify-center h6 py-2 border-bottom d-none"
+                data-uc-switcher="animation: uc-animation-slide-bottom-small, uc-animation-slide-top-small">
+                <li><a href="#">Sign in</a></li>
+                <li><a href="#">Sign up</a></li>
+                <li><a href="#">Reset password</a></li>
+                <li><a href="#">Terms of use</a></li>
+            </ul>
+            <div
+                class="account-tabs-content uc-switcher px-3 lg:px-4 py-4 lg:py-8 m-0 lg:mx-auto vstack justify-center items-center">
+                <div class="w-100">
+                    <div class="panel vstack justify-center items-center gap-2 sm:gap-4 text-center">
+                        <h4 class="h5 lg:h4 m-0">Log in</h4>
+                        <div class="panel vstack gap-2 w-100 sm:w-350px mx-auto">
+                            <form class="vstack gap-2">
+                                <input
+                                    class="form-control form-control-sm h-40px w-full fs-6 bg-white dark:bg-gray-800 dark:bg-gray-800 dark:border-white dark:border-opacity-15 dark:border-opacity-15"
+                                    type="email" placeholder="Your email" required>
+                                <input
+                                    class="form-control form-control-sm h-40px w-full fs-6 bg-white dark:bg-gray-800 dark:bg-gray-800 dark:border-white dark:border-opacity-15 dark:border-opacity-15"
+                                    type="password" placeholder="Password" autocomplete="new-password" required>
+                                <div class="hstack justify-between items-start text-start">
+                                    <div class="form-check text-start">
+                                        <input
+                                            class="form-check-input rounded-0 dark:bg-gray-800 dark:bg-gray-800 dark:border-white dark:border-opacity-15 dark:border-opacity-15"
+                                            type="checkbox" id="inputCheckRemember">
+                                        <label class="hstack justify-between form-check-label fs-7 sm:fs-6"
+                                            for="inputCheckRemember">Remember me?</label>
+                                    </div>
+                                    <a href="#" class="uc-link fs-6" data-uc-switcher-item="2">Forgot password</a>
+                                </div>
+                                <button class="btn btn-primary btn-sm lg:mt-1" type="submit">Log in</button>
+                            </form>
+                            <div class="panel h-24px">
+                                <hr class="position-absolute top-50 start-50 translate-middle hr m-0 w-100">
+                                <span
+                                    class="position-absolute top-50 start-50 translate-middle px-1 fs-7 text-uppercase bg-white dark:bg-gray-800">Or</span>
+                            </div>
+                            <div class="hstack gap-2">
+                                <a href="#google"
+                                    class="hstack items-center justify-center flex-1 gap-1 h-40px text-none rounded border border-gray-900 dark:bg-gray-800 dark:border-white dark:border-opacity-15 border-opacity-10">
+                                    <i class="icon icon-1 unicon-logo-google"></i>
+                                </a>
+                                <a href="#facebook"
+                                    class="hstack items-center justify-center flex-1 gap-1 h-40px text-none rounded border border-gray-900 dark:bg-gray-800 dark:border-white dark:border-opacity-15 border-opacity-10">
+                                    <i class="icon icon-1 unicon-logo-facebook"></i>
+                                </a>
+                                <a href="#twitter"
+                                    class="hstack items-center justify-center flex-1 gap-1 h-40px text-none rounded border border-gray-900 dark:bg-gray-800 dark:border-white dark:border-opacity-15 border-opacity-10">
+                                    <i class="icon icon-1 unicon-logo-x-filled"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="fs-7 sm:fs-6">Have no account yet? <a class="uc-link" href="#"
+                                data-uc-switcher-item="1">Sign up</a></p>
+                    </div>
+                </div>
+                <div class="w-100">
+                    <div class="panel vstack justify-center items-center gap-2 sm:gap-4 text-center">
+                        <h4 class="h5 lg:h4 m-0">Create an account</h4>
+                        <div class="panel vstack gap-2 w-100 sm:w-350px mx-auto">
+                            <form class="vstack gap-2">
+                                <input
+                                    class="form-control form-control-sm h-40px w-full fs-6 bg-white dark:bg-gray-800 dark:border-white dark:border-opacity-15"
+                                    type="text" placeholder="Full name" required>
+                                <input
+                                    class="form-control form-control-sm h-40px w-full fs-6 bg-white dark:bg-gray-800 dark:border-white dark:border-opacity-15"
+                                    type="email" placeholder="Your email" required>
+                                <input
+                                    class="form-control form-control-sm h-40px w-full fs-6 bg-white dark:bg-gray-800 dark:border-white dark:border-opacity-15"
+                                    type="password" placeholder="Password" autocomplete="new-password" required>
+                                <input
+                                    class="form-control form-control-sm h-40px w-full fs-6 bg-white dark:bg-gray-800 dark:border-white dark:border-opacity-15"
+                                    type="password" placeholder="Re-enter Password" autocomplete="new-password"
+                                    required>
+                                <div class="hstack text-start">
+                                    <div class="form-check text-start">
+                                        <input id="input_checkbox_accept_terms"
+                                            class="form-check-input rounded-0 dark:bg-gray-800 dark:border-white dark:border-opacity-15"
+                                            type="checkbox" required>
+                                        <label for="input_checkbox_accept_terms"
+                                            class="hstack justify-between form-check-label fs-7 sm:fs-6">I read and
+                                            accept the <a href="#" class="uc-link ms-narrow"
+                                                data-uc-switcher-item="3">terms of use</a>. </label>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-sm lg:mt-1" type="submit">Sign up</button>
+                            </form>
+                            <div class="panel h-24px">
+                                <hr class="position-absolute top-50 start-50 translate-middle hr m-0 w-100">
+                                <span
+                                    class="position-absolute top-50 start-50 translate-middle px-1 fs-7 text-uppercase bg-white dark:bg-gray-800">Or</span>
+                            </div>
+                            <div class="hstack gap-2">
+                                <a href="#google"
+                                    class="hstack items-center justify-center flex-1 gap-1 h-40px text-none rounded border border-gray-900 dark:bg-gray-800 dark:border-white dark:border-opacity-15 border-opacity-10">
+                                    <i class="icon icon-1 unicon-logo-google"></i>
+                                </a>
+                                <a href="#facebook"
+                                    class="hstack items-center justify-center flex-1 gap-1 h-40px text-none rounded border border-gray-900 dark:bg-gray-800 dark:border-white dark:border-opacity-15 border-opacity-10">
+                                    <i class="icon icon-1 unicon-logo-facebook"></i>
+                                </a>
+                                <a href="#twitter"
+                                    class="hstack items-center justify-center flex-1 gap-1 h-40px text-none rounded border border-gray-900 dark:bg-gray-800 dark:border-white dark:border-opacity-15 border-opacity-10">
+                                    <i class="icon icon-1 unicon-logo-x-filled"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <p class="fs-7 sm:fs-6">Already have an account? <a class="uc-link" href="#"
+                                data-uc-switcher-item="0">Log in</a></p>
+                    </div>
+                </div>
+                <div class="w-100">
+                    <div class="panel vstack justify-center items-center gap-2 sm:gap-4 text-center">
+                        <h4 class="h5 lg:h4 m-0">Reset password</h4>
+                        <div class="panel w-100 sm:w-350px">
+                            <form class="vstack gap-2">
+                                <input
+                                    class="form-control form-control-sm h-40px w-full fs-6 bg-white dark:bg-gray-800 dark:border-white dark:border-opacity-15"
+                                    type="email" placeholder="Your email" required>
+                                <div class="form-check text-start">
+                                    <input
+                                        class="form-check-input rounded-0 dark:bg-gray-800 dark:border-white dark:border-opacity-15"
+                                        type="checkbox" id="inputCheckVerify" required>
+                                    <label class="form-check-label fs-7 sm:fs-6" for="inputCheckVerify"> <span>I'm not a
+                                            robot</span>. </label>
+                                </div>
+                                <button class="btn btn-primary btn-sm lg:mt-1" type="submit">Reset a password</button>
+                            </form>
+                        </div>
+                        <p class="fs-7 sm:fs-6 mt-2 sm:m-0">Remember your password? <a class="uc-link" href="#"
+                                data-uc-switcher-item="0">Log in</a></p>
+                    </div>
+                </div>
+                <div class="w-100">
+                    <div class="panel vstack justify-center items-center gap-2 sm:gap-4">
+                        <h4 class="h5 lg:h4 m-0">Terms of use</h4>
+                        <div class="page-content panel fs-6 text-start max-h-400px overflow-scroll">
+                            <p>Terms of use dolor sit amet consectetur, adipisicing elit. Recusandae provident ullam
+                                aperiam quo ad non corrupti sit vel quam repellat ipsa quod sed, repellendus adipisci,
+                                ducimus ea modi odio assumenda.</p>
+                            <h5 class="h6 md:h5 mt-3 mb-1">Disclaimers</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, cum esse possimus
+                                officiis amet ea voluptatibus libero! Dolorum assumenda esse, deserunt ipsum ad iusto!
+                                Praesentium error nobis tenetur at, quis nostrum facere excepturi architecto totam.</p>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, soluta alias eaque
+                                modi ipsum sint iusto fugiat vero velit rerum.</p>
+                            <h5 class="h6 md:h5 mt-3 mb-1">Limitation on Liability</h5>
+                            <p>Sequi, cum esse possimus officiis amet ea voluptatibus libero! Dolorum assumenda esse,
+                                deserunt ipsum ad iusto! Praesentium error nobis tenetur at, quis nostrum facere
+                                excepturi architecto totam.</p>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, soluta alias eaque
+                                modi ipsum sint iusto fugiat vero velit rerum.</p>
+                            <h5 class="h6 md:h5 mt-3 mb-1">Copyright Policy</h5>
+                            <p>Dolor sit amet consectetur adipisicing elit. Sequi, cum esse possimus officiis amet ea
+                                voluptatibus libero! Dolorum assumenda esse, deserunt ipsum ad iusto! Praesentium error
+                                nobis tenetur at, quis nostrum facere excepturi architecto totam.</p>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, soluta alias eaque
+                                modi ipsum sint iusto fugiat vero velit rerum.</p>
+                            <h5 class="h6 md:h5 mt-3 mb-1">General</h5>
+                            <p>Sit amet consectetur adipisicing elit. Sequi, cum esse possimus officiis amet ea
+                                voluptatibus libero! Dolorum assumenda esse, deserunt ipsum ad iusto! Praesentium error
+                                nobis tenetur at, quis nostrum facere excepturi architecto totam.</p>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, soluta alias eaque
+                                modi ipsum sint iusto fugiat vero velit rerum.</p>
+                        </div>
+                        <p class="fs-7 sm:fs-6">Do you agree to our terms? <a class="uc-link" href="#"
+                                data-uc-switcher-item="1">Sign up</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- Modal -->
+<div class="modal fade" id="uc-account-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        Your login form here
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="backtotop-wrap position-fixed bottom-0 end-0 z-99 m-2 vstack">
+    <div class="darkmode-trigger cstack w-40px h-40px rounded-circle text-none bg-gray-100 dark:bg-gray-700 dark:text-white"
+        data-darkmode-toggle="">
+        <label class="switch">
+            <span class="sr-only">Dark mode toggle</span>
+            <input type="checkbox">
+            <span class="slider fs-5"></span>
+        </label>
+    </div>
+    <a class="btn btn-sm bg-primary text-white w-40px h-40px rounded-circle text-decoration-none" href="#to_top" data-uc-backtotop>
+        <i class="icon-2 unicon-chevron-up"></i>
+    </a>
+</div>
+<div class="uc-center-navbar panel z-2">
+    <div class="">
+        <div class="uc-navbar min-h-72px bg-dark lg:min-h-72px text-gray-900 dark:text-white"
+            data-uc-navbar=" animation: uc-animation-slide-top-small; duration: 150;" style="background: linear-gradient(90deg, rgb(0, 212, 244), rgb(253, 254, 0));">
+            <div class="asia-logo">
+                <a href="/">
+                    {% if profile_setting.logo_dark %}
+                    <img src="{{ profile_setting.logo_dark.url }}" alt="Dark Logo"
+                        class="w-200px text-dark dark:text-white">
+                    {% endif %}
+
+                </a>
+
+            </div>
+            <div class="uc-navbar-left">
+                <!-- <div>
+                    <a class="uc-menu-trigger dark:text-white" href="#uc-menu-panel" data-uc-toggle></a>
+                </div> -->
+            </div>
+            <div class="container">
+                <!-- News Ticker Section -->
+            <div class="d-none d-md-block d-lg-block news-ticker-wrapper">
+                <div class="news-ticker">
+                    <div class="news-item">
+                        {% for CatVid in videos|slice:":4" %}
+                        <a style="color: #000 !important; padding-top:20px" href="/video/{{CatVid.slug}}">
+                        <!-- <span style="color: #000 !important;">{{ CatVid.video_date }}:-</span>  -->
+                        {{ CatVid.video_title }}! |
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <div class="news-item pe-5">
+                        {% for news in headline %}
+                        <a style="color: #000 !important;" href="/{{news.slug}}">
+                        <!-- <span style="color: #000 !important;">{{ news.schedule_date }}:-</span>  -->
+                        {{news.post_title }}! |
+                        </a>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+            </div>
+
+                <div class="uc-navbar-right float-end">
+                <div class="uc-navbar-item">
+                    <div class="pe-3 d-block d-lg-none float-end">
+                        <a class="uc-menu-trigger text-white" href="#uc-menu-panel" data-uc-toggle></a>
+                    </div>
+                    <!-- <a class="uc-account-trigger btn btn-sm gap-narrow border-0 p-0 duration-0 dark:text-white" href="#uc-favorites-modal" data-uc-toggle>
+                                        <i class="icon icon-1 fw-medium unicon-bookmark"></i>
+                                        <span class="cstack w-24px h-24px bg-primary text-black fs-7 rounded-circle">0</span>
+                                    </a> -->
+                    <!-- <div href="#" class="d-flex align-items-center text-decoration-none d-none d-md-block">
+                                            <i class="bi bi-calendar-date-fill me-2"></i>
+                                            <span class="calender-text" id="currentDate"></span>
+                                        </div> -->
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <header class="uc-header header-two uc-navbar-sticky-wrap z-999 "
+        data-uc-sticky="sel-target: .uc-navbar-container; cls-active: uc-navbar-sticky; cls-inactive: uc-navbar-transparent; end: !*;">
+        <nav class="uc-navbar-container shadow-xs bg-gray-25 dark:bg-gray-800 dark:text-white fs-6 z-1">
+            <div class="uc-bottom-navbar panel hstack z-1 p-0 bg-gray-800  d-none d-lg-block">
+                <div class="container max-w-xl">
+                    <div class="hstack w-100 justify-between align-items-center">
+
+                        <div class="uc-navbar-left flex-grow-1">
+                            <nav class="navbar navbar-expand-lg navbar-dark text">
+
+
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav mr-auto">
+                                        <div class="pe-3">
+                                              <a class="uc-menu-trigger text-white" href="#uc-menu-panel" data-uc-toggle></a>
+                                        </div>
+                                        <!-- <li class="nav-item active">
+                                            <a class="nav-link text-white" href="/">Home <span class="sr-only">(current)</span></a>
+                                        </li> -->
+                                        {% for link in Blogcat %}
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link text-white dropdown-toggle" href="#" id="navbarDropdown"
+                                                role="button" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                {{ link.cat_name }}
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        {% for sublink in link.sub_category_set.all %}
+                                        <a class="dropdown-item text-white"
+                                            href="/{{ link.cat_slug }}/{{ sublink.subcat_slug }}">
+                                            {{ sublink.subcat_name }}</a>
+                                        {% endfor %}
+                                                <!-- <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a> -->
+                                            </div>
+                                        </li>
+                                        {% endfor %}
+
+                                    </ul>
+
+                                </div>
+                            </nav>
+                        </div>
+
+                        <!-- Right icons -->
+                        <div class="uc-navbar-right d-none d-lg-flex align-items-center gap-3">
+                            <!-- Dark Mode Toggle -->
+                            <div class="uc-navbar-item">
+                                <div class="uc-modes-trigger icon-1 text-white" data-darkmode-toggle>
+                                    <label class="switch m-0">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Search Icon -->
+                            <div class="uc-navbar-item">
+                                <a class="text-none mt-2 uc-search-trigger mb-narrow text-white" href="#uc-search-modal"
+                                    data-uc-toggle>
+                                    <i class="unicon-search icon-2"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </nav>
+
+    </header>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            window.addEventListener("scroll", function () {
+                const stickyNav = document.getElementById("stickyNav");
+                if (stickyNav) {
+                    stickyNav.style.display = window.pageYOffset > 100 ? "block" : "none";
+                }
+            });
+
+
+
+            const getFormattedDate = () => {
+                const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
+                return new Date().toLocaleDateString('en-US', options);
+            };
+
+            const dateSpan = document.getElementById('currentDate');
+            if (dateSpan) {
+                dateSpan.innerText = getFormattedDate();
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll('[data-toggle-submenu]').forEach(trigger => {
+                trigger.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-toggle-submenu');
+                    const submenu = document.getElementById('sub-' + id);
+                    if (submenu) {
+                        // Close other open submenus
+                        document.querySelectorAll('.uc-nav-sub.show').forEach(openSubmenu => {
+                            if (openSubmenu !== submenu) {
+                                openSubmenu.classList.remove('show');
+                            }
+                        });
+                        // Toggle the clicked submenu
+                        submenu.classList.toggle('show');
+                    }
+                });
+            });
+
+            // Close submenu when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('.uc-parent')) {
+                    document.querySelectorAll('.uc-nav-sub.show').forEach(openSubmenu => {
+                        openSubmenu.classList.remove('show');
+                    });
+                }
+            });
+        });
+
+    </script>
+
+    <style>
+        .nav-x {
+            gap: 10px !important;
+        }
+
+        .dropdown-toggle::after {
+            vertical-align: .10em !important;
+        }
+
+        .asia-logo {
+            background: #fdfe00;
+            padding: 10px 30px 10px 51px;
+            border-radius: 0px 3px 0px 0px;
+            clip-path: polygon(11% 0, 100% 0, 90% 100%, 12% 100%);
+            position: absolute;
+            left: -35px;
+            margin: 0px;
+            z-index: 999;
+        }
+
+        /* Style for the ticker container */
+        .news-ticker-wrapper {
+            width: 100%;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            top: 20px;
+           
+        }
+
+        /* News ticker content */
+        .news-ticker {
+            display: flex;
+            flex-wrap: nowrap;
+            animation: ticker 80s linear infinite;
+            white-space: nowrap;
+           
+        }
+
+        /* Animation for scrolling news */
+        @keyframes ticker {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Styling for each news item */
+        .news-item {
+            font-size: 16px;
+            padding-right: 20px;
+            color: #fff;
+        }
+
+        /* Pause animation when mouse hovers over ticker */
+        .news-ticker-wrapper:hover .news-ticker {
+            animation-play-state: paused;
+        }
+        .btn-primary{
+            background: rgb(3, 65, 176) !important;
+        }
+    </style>

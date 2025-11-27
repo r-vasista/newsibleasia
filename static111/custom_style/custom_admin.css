@@ -1,0 +1,26 @@
+.change-list table {
+    display: block;
+    max-height: 420px;
+    overflow-y: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.change-list thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+#changelist-filter {
+    max-height: 550px;
+    overflow-y: auto;
+}
+
+#changelist-filter>details>ul {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}

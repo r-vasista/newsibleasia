@@ -1,0 +1,65 @@
+{% load static %}
+<div class="container d-block d-lg-none">
+<div class="row">
+    <div class="col-lg-12">
+        <!-- Mob Article Start -->
+        <h6 class="border-b mb-3 mt-1 text-center">Article</h6>
+        <div class="owl-carousel main-carousel position-relative">
+            {% for article in Articale %}
+                <a class="text-secondary font-weight-bold"
+                href="/{{article.slug}}">
+                <div class="position-relative overflow-hidden">
+                    <img class="img-fluid w-100" src="../upload/{{article.post_image}}" alt="{{article.post_cat|lower}}" width="100%">
+                    <div>{{article.post_short_des|slice:":120"|safe}} </div>
+                </div>
+            </a>
+                {% endfor %}
+            </div>
+    <!-- Mob Article  End -->
+    </div>
+</div>
+ <!-- Mob ad start -->
+<div class="row">
+    <div class="col-lg-6 mt-2">
+        {% for tlad in adtl %}
+        <a href="{{tlad.ad_url}}"  target="_blank">
+        {% if tlad.ad_type == 'stil' %}
+        <img class="img-fluid w-100" src="../upload/{{tlad.ad_image}}" alt="{{tlad.ad_url}}">
+        {% else %}
+        <video  autoplay loop muted style="width: 100%;"><source src="../upload/{{tlad.ad_image}}"></video>
+        {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+    <div class="col-lg-6 mt-2">
+        {% for trad in adtr %}
+        <a href="{{trad.ad_url}}"  target="_blank">
+            {% if trad.ad_type == 'stil' %}
+            <img class="img-fluid w-100" src="../upload/{{trad.ad_image}}" alt="{{trad.ad_url}}">
+            {% else %}
+            <video  autoplay loop muted style="width: 100%;"><source src="../upload/{{trad.ad_image}}"></video>
+            {% endif %}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+<!-- Mob ad end -->
+<!-- Special Offer -->
+<div class="row">
+    <div class="col-lg-12 px-0">
+        <h6 class="border-b mb-3 mt-1 text-center">Special Offer</h6>
+        <div class="owl-carousel main-carousel position-relative">
+            {% for lfsad in lfs %}
+            <div class="position-relative overflow-hidden">
+                <img class="img-fluid w-100" src="../upload/{{lfsad.ad_image}}" alt="{{lfsad.ad_url}}" width="100%">
+            </div>
+            
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+<!-- Special Offer end -->
+
+
+</div> <!--  container end -->

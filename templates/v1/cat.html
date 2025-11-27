@@ -1,0 +1,136 @@
+{% load static %}
+<!-- top ad Start -->
+<div class="container bgshadow">
+    <div class="row">
+    <div class="col-lg-12">    
+        <div class="alert alert-danger alert-dismissible fade show headline mt-2">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+      
+    <div class="owl-carousel main-carousel position-relative">
+        {% for brknews in bnews %}
+        <div class="position-relative overflow-hidden">
+            <h5 style="width:90%;"><a href="/{{brknews.slug}}" class="m-0 t-white font-weight-bold"><small class="t-white">{{ brknews.schedule_date}} :-</small> {{brknews.post_title}}</a></h5>
+        </div>
+        {% endfor %}
+    </div>
+    
+    </div></div>
+    <div class="col-lg-12">
+        <div class="head-title text-center border-b mb-1">Latest Update</div>
+    </div>
+    <div class="col-lg-6 scrollrs">
+        <div class="head-chield">Latest news</div>
+        <div class="col-lg-12 px-0 pt-2">
+            <div class="owl-carousel main-carousel position-relative">
+                {% for mnews in mainnews %}
+                <div class="position-relative overflow-hidden" style="height:317px;">
+                    <img class="img-fluid h-100" src="../upload/{{mnews.post_image}}" style="object-fit: cover;">
+                    <div class="overlay">
+                        <div class="mb-2">
+                            <a class="badge badge-primary font-weight-semi-bold"
+                                href="">{{mnews.post_cat|lower}}</a>
+                            <a class="t-white" href="/{{mnews.slug}}"><i class="fas fa-calendar-alt"></i> {{mnews.schedule_date|date}}</a>
+                        </div>
+                        <h3><a class="h2 m-0 t-white font-weight-bold" href="/{{mnews.slug}}">{{mnews.post_title}}</a></h3>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+            
+        </div>
+        
+    <!-- latest News -->
+    <div class="container mt-1 m-0 p-0">
+        <div class="row">
+        {% for Blog in BlogData %}
+        <div class="row col-lg-6 m-0 p-0 mb-3 mt-1">
+                <div class="col-lg-4">
+                    <img src="../upload/{{Blog.post_image}}" alt="{{Blog.post_cat|lower}}" class="ltn-img blogimg">
+                </div>
+                <div class="col-lg-8">
+                    <a class="h6 d-block mb-1 text-secondary text-left font-weight-medium" href="/{{Blog.slug}}">{{Blog.post_title}}</a>
+                    <small ><i class="fa fa-arrow-circle-right mr-1"></i> {{Blog.post_cat}}</small>
+                </div>
+        </div>
+        {% endfor %}
+        </div>
+        <h6 class="text-center"><a href="/all-news/latest" type="button" class="btn btn-danger ">View All News</a></h6>
+        </div>
+        
+    <!-- latest News end -->
+    </div>
+    
+    <div class="col-lg-3 scrollrs">
+        <div class="head-chield">Podcast</div>
+        {% include "leftcollam.html" %} 
+    </div>
+    
+    <div class="col-lg-3 scrollrs">
+        <!-- Ads Start -->
+        <div class="mb-1">
+            <div class="position-relative">
+                    <h6 class="mb-1 mt-1 text-center">Sponsored</h6>
+            </div>
+            <div class="bg-white text-center ">
+                {% for adrcol in adright %}
+                <a href="{{adrcol.ad_url}}"  target="_blank">
+                    <img class="img-fluid w-100 rad10" src="../upload/{{adrcol.ad_image}}" alt="{{adrcol.ad_url}}">
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Ads End -->
+        <!-- upcoming event Start -->
+    {% if indseo == 'index' or indseo == 'allnews' %}
+    <div class="head-chield">Upcoming Event</div>
+    <div class="owl-carousel main-carousel position-relative">
+        {% for ucevent in event %}
+        <a class="evdiv-a mx-5" href="/{{ucevent.slug}}">
+            <div class="evdiv mb-1">
+        <p class="pb-1 mb-0 text-white pl-4">{{ ucevent.Event_date|date }}</p>
+        <p class="pt-1 mb-0">
+             {{ucevent.post_title}}! 
+        </p></div>
+    </a>
+               {# Your code here #}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <!-- upcoming event End -->
+       {% comment %} --------articale-start------ {% endcomment %}
+     <div class="container d-none d-lg-block">
+        <div class="head-chield">Article</div>
+        <div class="row m-0 p-0">
+            <div class="col-lg-6">
+                   {% for article in Articale %}
+                    <div class="col-lg-12 m-0 p-0">
+                       <div class="d-flex mb-3">
+                           <div class="w-100 d-flex flex-column articalmrgn">
+                               <img class="img-fluid" src="../upload/{{article.post_image}}" alt="{{article.post_cat|lower}}" >
+                               <a class="m-0 text-secondary font-weight-light" href="/{{article.slug}}">
+                                   {{article.post_short_des|slice:":80"|safe}}</a>
+                           </div>
+                       </div>
+                      
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-6">
+                    {% for vidarticle in vidart %}
+                <div class="col-lg-12  m-0 p-0">
+                   <div class="d-flex bg-white mb-3">
+                       <div class="w-100 h-100 d-flex flex-column articalmrgn">
+                        <img class="img-fluid" src="https://img.youtube.com/vi/{{vidarticle.video_url}}/mqdefault.jpg" alt="{{vidarticle.post_cat|lower}}" >
+                            <a class="m-0 text-secondary font-weight-light" href="/video/{{vidarticle.slug}}">
+                                {{vidarticle.video_short_des|slice:":80"|safe}}</a>
+                       </div>
+                   </div>
+                   
+                </div>
+                {% endfor %}
+                </div>
+    {% comment %} --------articale-start-end----- {% endcomment %}
+    </div>
+    <h6 class="text-center"><a href="/all-news/articles" type="button" class="btn btn-danger ">View More </a></h6>
+    </div></div>

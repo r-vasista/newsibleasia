@@ -1,0 +1,312 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta name="copyright" content="Newsible Asia. All rights reserved." />
+  <meta name="distribution" content="global" />
+  <meta name="twitter:site" content="@newsibleasia" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:domain" content="https://www.newsibleasia.com/" />
+  <meta property="fb:pages" content="649043731630334" />
+  <meta property="og:site_name" content="newsible Asia" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="author" content="Newsible Asia Team" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+
+  {% if indseo == 'ndetail' %}
+   <title> 
+    {% if Blogdetails.meta_title %}
+    {{ Blogdetails.meta_title }}
+  {% else %}
+    {{ Blogdetails.post_title }}
+  {% endif %}</title>
+  <meta property="og:title" content="{{Blogdetails.post_title}}" />
+  <meta property="twitter:title" content="{{Blogdetails.post_title}}" />
+  <meta name="description" content="{{Blogdetails.post_short_des }} newsibleasia" />
+  <meta property="og:description" content="{{Blogdetails.post_short_des }} newsibleasia" />
+  <meta property="twitter:description" content="{{Blogdetails.post_short_des }} newsibleasia" />
+  <meta name="news_keywords" content="newsibleasia, breaking news, {{Blogdetails.post_title}}" />
+  <meta property="og:url" content="https://www.newsibleasia.com{{ request.path }}" />
+  <meta property="twitter:url" content="https://www.newsibleasia.com{{ request.path }}" />
+  <meta property="og:image" content="https://www.newsibleasia.com/upload/{{Blogdetails.post_image}}" />
+  <meta name="twitter:image" content="https://www.newsibleasia.com/upload/{{Blogdetails.post_image}}" />
+  <link rel="canonical" href="https://www.newsibleasia.com{{ request.path }}" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "headline": "{{ Blogdetails.post_title }}",
+      "description": "{{ Blogdetails.post_short_des }}",
+      "image": [
+        "{% if Blogdetails.post_image %}{{ request.scheme }}://{{ request.get_host }}{{ Blogdetails.post_image.url }}{% else %}https://www.newsibleasia.com/static/assets/img/default-news.jpg{% endif %}"
+      ],
+
+      "author": {
+        "@type": "Person",
+        "name": "{{ Blogdetails.author.username }}"
+      },
+
+      "publisher": {
+        "@type": "Organization",
+        "name": "newsibleasia",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://newsibleasia.com/upload/logo/newsible_logo_dark.png"
+        }
+      },
+
+      "datePublished": "{{ Blogdetails.post_date }}",
+      "dateModified": "{{ Blogdetails.updated_at }}",
+      "mainEntityOfPage": "https://www.newsibleasia.com{{ request.path }}",
+      "inLanguage": "en",
+      "articleBody": "{{ Blogdetails.post_des|striptags }}"
+    }
+    </script>
+
+  {% elif indseo == 'video' %}
+  <title>{{Vnews.video_title}}</title>
+  <meta property="og:title" content="{{Vnews.video_title}}" />
+  <meta property="twitter:title" content="{{Vnews.video_title}}" />
+  <meta name="description" content="{{Vnews.video_short_des}}" />
+  <meta property="og:description" content="{{Vnews.video_short_des}}" />
+  <meta property="twitter:description" content="{{Vnews.video_short_des}}" />
+  <meta name="news_keywords" content="newsibleasia, breaking news, {{Vnews.video_title}}" />
+  <meta property="og:url" content="https://www.newsibleasia.com{{ request.path }}" />
+  <meta name="twitter:url" content="https://www.newsibleasia.com{{ request.path }}" />
+  <meta property="og:image" content="https://img.youtube.com/vi/{{Vnews.video_url}}/mqdefault.jpg" />
+  <meta name="twitter:image" content="https://img.youtube.com/vi/{{Vnews.video_url}}/mqdefault.jpg" />
+  <link rel="canonical" href="https://www.newsibleasia.com{{ request.path }}" />
+  {% else %}
+  <title>{{indseo.metatitle}}</title>
+  <meta property="og:title" content="{{indseo.metatitle}}" />
+  <meta property="twitter:title" content="{{indseo.metatitle}}" />
+  <meta name="description" content="{{indseo.metadescription}}" />
+  <meta property="og:description" content="{{indseo.metadescription}}" />
+  <meta property="twitter:description" content="{{indseo.metadescription}}" />
+  <meta name="news_keywords" content="{{indseo.metakeyword}}" />
+  <meta property="og:url" content="https://www.newsibleasia.com{{ request.path }}" />
+  <meta name="twitter:url" content="https://www.newsibleasia.com{{ request.path }}" />
+  <meta property="og:image" content="https://www.newsibleasia.com/static/assets/img/dubai-best-news-channel-newsibleasia.jpg" />
+  <meta name="twitter:image" content="https://www.newsibleasia.com/static/assets/img/dubai-best-news-channel-newsibleasia.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://www.newsibleasia.com{{ request.path }}" />
+  {% endif %}
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'assets/dnn/css/style.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'assets/dnn/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Coda:wght@400;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'assets/dnn/fonts/stylesheet_roboto.css' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'assets/dnn/img/favicon.png' %}">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsMediaOrganization",
+    "name": "Newsible Asia",
+    "url": "https://newsibleasia.com/",
+    "logo": "https://newsibleasia.com/upload/logo/newsible_logo_dark.png",
+    "sameAs": [
+      "https://www.facebook.com/profile.php?id=61577005735530",
+      "https://x.com/newsibleasia",
+      "https://www.instagram.com/newsibleasia/",
+      "https://www.youtube.com/@newsibleasia",
+      "https://www.linkedin.com/company/newsibleasia/"
+    ]
+  }
+  </script>
+
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "name": "newsibleasia",
+    "url": "https://www.newsibleasia.com/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.newsibleasia.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+
+
+  <style>
+    :root {
+      --background-color: {{ profile_setting.background_theme_light|default:'#ffffff' }};
+      --text-color: #000000;
+      --primary-color: #007bff;
+    }
+
+    .dark-mode {
+      --background-color: {{ profile_setting.background_theme_dark|default:'#121212' }};
+      --text-color: #ffffff;
+      --primary-color: #0d6efd;
+    }
+
+    .Container_background {
+      --background-color: {{ profile_setting.container_background|default_if_none:'#fcf8e7' }};
+    }
+
+    .items_background {
+      --background-color: {{ profile_setting.items_background|default_if_none:'#ffffff' }};
+    }
+  </style> 
+
+  
+
+  <!-- Google Tag Manager -->
+
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MJ6M49VG');</script>
+  <!-- End Google Tag Manager -->
+
+
+
+    <!-- preload head styles -->
+    <link rel="preload" href="{% static 'assets2/css/unicons.min.css' %}" as="style">
+    <link rel="preload" href="{% static 'assets2/css/swiper-bundle.min.css' %}" as="style">
+
+    <!-- preload footer scripts -->
+    <link rel="preload" href="{% static 'assets2/js/libs/jquery.min.js' %}" as="script">
+    <link rel="preload" href="{% static 'assets2/js/libs/scrollmagic.min.js' %}" as="script">
+    <link rel="preload" href="{% static 'assets2/js/libs/swiper-bundle.min.js' %}" as="script">
+    <link rel="preload" href="{% static 'assets2/js/libs/anime.min.js' %}" as="script">
+    <link rel="preload" href="{% static 'assets2/js/helpers/data-attr-helper.js' %}" as="script">
+    <link rel="preload" href="{% static 'assets2/js/helpers/swiper-helper.js' %}" as="script">
+    <link rel="preload" href="{% static 'assets2/js/helpers/anime-helper.js' %}" as="script">
+    <link rel="preload" href="{% static 'assets2/js/helpers/anime-helper-defined-timelines.js' %}" as="script">
+    <link rel="preload" href="{% static 'assets2/js/uikit-components-bs.js' %}" as="script">
+    <link rel="preload" href="{% static 'assets2/js/app.js' %}" as="script">
+    
+
+    <!-- app head for bootstrap core -->
+    <script src="{% static 'assets2/js/app-head-bs.js'%}"></script>
+    
+    <!-- include uni-core components -->
+    <link rel="stylesheet" href="{% static 'assets2/js/uni-core/css/uni-core.min.css'%}">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome CSS -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  integrity="sha512-sVjx9Ihi+kZCJ8dGrq/lfwSrdZuPlVEGvbo5kVKbXTtN+XKfLh9nHFe0KzT2YuZrBycTlvUadEklSkfAGfsHvw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
+    <!-- include styles -->
+    <link rel="stylesheet" href="{% static 'assets2/css/unicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets2/css/prettify.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets2/css/swiper-bundle.min.css' %}">
+
+    <!-- include main style -->
+    <link rel="stylesheet" href="{% static 'assets2/css/theme/demo-two.min.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.0/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.17.0/dist/js/uikit-icons.min.js"></script>
+    <!-- include scripts -->
+    <script src="{% static 'assets2/js/uni-core/js/uni-core-bundle.min.js' %}"></script>
+    <link href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS (Includes Popper for Dropdowns) -->
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    
+<style>
+
+
+.uc-bottom-navbar {
+    padding: 0.5rem 0;
+    background-color: #0341b0 !important; /* Tailwind's gray-800 */
+    border-top: 1px solid #0341b0; /* darker gray border */
+}
+
+.uc-bottom-navbar .nav-link {
+    padding: 0.5rem 0.75rem;
+    color: #fff;
+}
+
+.uc-bottom-navbar .nav-link:hover,
+.uc-bottom-navbar .dropdown-item:hover {
+    color: #fdfe02 !important; /* sky-400 for hover */
+    background-color: transparent;
+    text-decoration: none;
+}
+
+.uc-bottom-navbar .dropdown-menu {
+    background-color: #0341b0; /* same as bg */
+    border: none;
+    text-decoration: none;
+}
+
+.uc-bottom-navbar .dropdown-item {
+    color: #fff;
+    text-decoration: none;
+}
+
+a {
+    color: #000612;
+    text-decoration: none;
+}
+.post a:hover {
+    color: #0341b0 !important;
+    text-decoration: none;
+}
+.post-block-content-wrap a:hover {
+    color: #0341b0 !important;
+    text-decoration: none;
+}
+.uc-navbar-left, .nav-y a{
+    
+    text-decoration: none;
+}
+.uc-navbar-left, .nav-y a:hover{
+   color: #000612;
+    text-decoration: none;
+}
+.uc-nav > li > a{
+    color: #000612;
+}
+.focus\:text-gray-700:focus, .hover\:text-gray-700:hover, .text-gray-700, .text-gray-700-focus:focus, .text-gray-700-hover:hover{
+     color: #fdfe02 !important;
+     text-decoration: none !important;
+}
+.nav-link:hover{
+    text-decoration: none;
+}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5922835412614482"
+     crossorigin="anonymous"></script>
+
+<meta name="google-site-verification" content="SIQZmgJzxy5yHxhYdKgTujni0ob6CE9qUzDrMS8r-9U" />
+
+</head>

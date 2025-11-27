@@ -1,0 +1,602 @@
+<!-- Change Banner Picture Modal -->
+<div class="modal fade" id="editBannerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="bannerForm" method="POST" action="{% url 'update_banner_pic' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">New Banner</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="cropped_image" id="croppedImageData">
+                    <input type="file" id="bannerInput" class="form-control mb-3" accept="image/*" />
+                    <div class="text-center">
+                        <img id="cropImage" class="img-fluid d-none" alt="To Crop" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="cropAndSave(event)" class="btn btn-success">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Change Profile Picture Modal -->
+<div class="modal fade" id="editProfilepicModal" tabindex="-1" aria-labelledby="editProfilepicModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="{% url 'update_profile_pic' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProfilepicModalLabel">Change Profile Picture</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Croppable Preview Image -->
+          <div class="mb-3 text-center">
+            <img id="profile-cropper-preview" src="https://via.placeholder.com/250x250?text=No+Image"
+                style="max-width: 100%; max-height: 250px;" class="rounded border">
+          </div>
+
+          <!-- File Upload Input -->
+          <div class="col-md-12 mb-3">
+            <label class="form-label">Upload New Profile Picture *</label>
+            <input type="file" id="profile-image-input" class="form-control" accept="image/*"
+                   onchange="initProfileCropper(event)" >
+          </div>
+          
+          <!-- Hidden base64 image field -->
+          <input type="hidden" name="cropped_image" id="profile-cropped-image">
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Profile Edit Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'update_profile' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Profile</h5>
+                    <button type="button" class="btn-close text-black" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-user"></i> First Name</label>
+                        <input type="text" class="form-control" name="first_name" value="{{ journalist.first_name }}"
+                            >
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-user"></i> Last Name</label>
+                        <input type="text" class="form-control" name="last_name" value="{{ journalist.last_name }}"
+                            >
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-phone"></i> Phone Number</label>
+                        <div class="input-group">
+                            <div class="col-md-12">
+                                <select name="country_code" class="form-select form-control country-select" >
+                                    {% for code in country_codes %}
+                                    <option value="{{ code.id }}" 
+                                    {% if code.dial_code in journalist.phone_number %}selected{% endif %}>
+                                    {{ code.name }} ({{ code.dial_code }})
+                                </option>
+                                {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="tel" name="phone_number" class="form-control" placeholder="Phone number"
+                                value="{{ journalist.phone_number|slice:'3:' }}" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-phone"></i> Alternative Number</label>
+                        <div class="input-group">
+                            <div class="col-md-12">
+                                <select name="alternative_country_code" class="form-select form-control country-select">
+                                    {% for code in country_codes %}
+                                    <option value="{{ code.id }}" 
+                                    {% if code.dial_code in journalist.alternative_phone_number %}selected{% endif %}>
+                                        {{ code.name }} ({{ code.dial_code }})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="tel" name="alternative_phone_number" class="form-control"
+                                    placeholder="Alternative number"
+                                    value="{{ journalist.alternative_phone_number|slice:'3:' }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Address Edit Modal -->
+<div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAddressModalLabel">Edit Address Information</h5>
+                <button type="button" class="btn-close text-black" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'update_address' %}">
+                    {% csrf_token %}
+                    <div class="row ">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label"><i class="fas fa-globe"></i> Nationality</label>
+                            <select id="nationality" name="nationality" style="width: 100% !important;" class="form-control select2" >
+                                {% for country in nationalities %}
+                                    <option value="{{ country.id }}"
+                                        {% if journalist.nationality.id == country.id %}selected{% endif %}>
+                                        {{ country.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- State -->
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label"><i class="fas fa-map"></i> State</label>
+                            <select id="state" name="selected_state" style="width: 100% !important;" class="form-control select2" >
+                                {% if journalist.state %}
+                                <option value="{{ journalist.state.id }}" selected>{{ journalist.state.name }}</option>
+                                {% else %}
+                                <option value="">-- Select State --</option>
+                                {% endif %}
+                            </select>
+                        </div>
+
+                        <!-- City -->
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label"><i class="fas fa-city"></i> City</label>
+                            <select id="city" name="selected_city" style="width: 100% !important;" class="form-control select2" >
+                                {% if journalist.city %}
+                                <option value="{{ journalist.city.id }}" selected>{{ journalist.city.name }}</option>
+                                {% else %}
+                                <option value="">-- Select City --</option>
+                                {% endif %}
+                            </select>
+                        </div>
+
+                        <!-- Address Lines -->
+                        <div class="col-md-8">
+                            <label class="form-label"><i class="fas fa-map-marker-alt"></i> Address</label>
+                            <input type="text" class="form-control" name="address_line1"
+                                value="{{ journalist.address_line1 }}">
+                            <input type="text" class="form-control mt-2" name="address_line2"
+                                value="{{ journalist.address_line2 }}">
+                        </div>
+
+                        <!-- Zipcode -->
+                        <div class="col-md-4">
+                            <label class="form-label"><i class="fas fa-map-pin"></i> Zipcode</label>
+                            <input type="text" name="zipcode" class="form-control" value="{{ journalist.zipcode }}">
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Strength Edit Modal -->
+<div class="modal fade" id="editAboutMeModal" tabindex="-1" aria-labelledby="editAboutMeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editAboutMeModalLabel">Edit Strength</h5>
+          <button type="button" class="btn-close text-black" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="strengthForm" method="POST" action="{% url 'update_strength' %}">
+            {% csrf_token %}
+            <div class="row g-3">
+                {% if journalist.registration_type != "organisation" %}
+                <div class="col-md-12 mb-3">
+                  <label class="form-label">Higher Education *</label>
+                  <select id="education" name="higher_education" class="form-control" >
+                    {% for qualifications in qualification %}
+                    <option value="{{ qualifications.name }}"
+                      {% if journalist.higher_education.name == qualifications.name %} selected {% endif %}>
+                      {{ qualifications.name }}
+                    </option>
+                    {% endfor %}
+                  </select>
+                </div>
+                {% endif %}
+  
+              <!-- Available Languages -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label" for="languages">Available Languages *</label>
+                <select id="languages" name="selected_language[]" class="form-control select2" multiple required>
+                    {% for language in languages %}
+                        <option value="{{ language.id }}"
+                            {% if language in journalist.languages.all %}selected{% endif %}>
+                            {{ language.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+              <!-- Biography -->
+              <div class="col-md-12">
+                <label class="form-label"><i class="fas fa-file-alt"></i> Biography</label>
+                <textarea class="form-control" name="biography" rows="3">{{ journalist.biography }}</textarea>
+              </div>
+            </div>
+  
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save Changes</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<!-- Equipment Edit Modal -->
+<div class="modal fade" id="editEquipmentModal" tabindex="-1" aria-labelledby="editEquipmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Equipment</h5>
+                <button type="button" class="btn-close text-black" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="equipmentForm" method="POST" action="{% url 'update_equipment' %}">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label" for="equipment">Available Equipment</label>
+                            <p class="text-muted" style="font-size: 12px;">Double click to select</p>
+                            <select id="equipment" name="equipment[]" class="form-control select2" multiple required>
+                                {% for eq in equipments %}
+                                    <option value="{{ eq.id }}"
+                                        {% if eq in journalist.selected_equipment.all %}selected{% endif %}>
+                                        {{ eq.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Social Media Edit Modal -->
+<div class="modal fade" id="editSocialMediaModal" tabindex="-1" aria-labelledby="editSocialMediaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="socialMediaForm" method="POST" action="{% url 'update_social_media' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editSocialMediaModalLabel">Edit Social Media Links</h5>
+                    <button type="button" class="btn-close text-black" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="social_media">Select Social Media</label>
+                        <div class="input-group">
+                            <select id="social_media" class="form-control" onchange="addSocialMedia()">
+                                <option value="facebook">Facebook</option>
+                                <option value="linkedin">LinkedIn</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="twitter">Twitter</option>
+                                <option value="websites">Websites</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="social_links" class="mb-3">
+                        <!-- Dynamic inputs go here -->
+                        {% for key, value in journalist.social_media_links.items %}
+                        <div class="row mb-2" id="{{ key }}">
+                            <div class="col-12">
+                                <label class="form-label">{{ key|capfirst }} URL:</label>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex">
+                                <input type="url" name="social_media_links[{{ key }}]" class="form-control" value="{{ value }}" >
+                                <span> <button type="button" class="btn btn-danger" onclick="document.getElementById('{{ key }}').remove()">✖</button></span>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+ <!-- In <head> -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    function addSocialMedia() {
+    let select = document.getElementById("social_media");
+    let platform = select.value;
+    if (!platform) return;
+
+    let container = document.getElementById("social_links");
+
+    if (document.getElementById(platform)) {
+        alert("This platform is already added!");
+        select.value = "";
+        return;
+    }
+
+    let div = document.createElement("div");
+    div.id = platform;
+    div.className = "row mb-2";
+
+    let labelCol = document.createElement("div");
+    labelCol.className = "col-12";
+    let label = document.createElement("label");
+    label.className = "form-label";
+    label.innerText = `${platform.charAt(0).toUpperCase() + platform.slice(1)} URL:`;
+    labelCol.appendChild(label);
+
+    let inputCol = document.createElement("div");
+    inputCol.className = "col-9";
+    let input = document.createElement("input");
+    input.type = "url";
+    input.name = `social_media_links[${platform}]`;
+    input.className = "form-control";
+    input.required = true;
+    inputCol.appendChild(input);
+
+    let buttonCol = document.createElement("div");
+    buttonCol.className = "col-3";
+    let removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "btn btn-danger";
+    removeBtn.innerText = "✖";
+    removeBtn.onclick = function () {
+        div.remove();
+    };
+    buttonCol.appendChild(removeBtn);
+
+    div.appendChild(labelCol);
+    div.appendChild(inputCol);
+    div.appendChild(buttonCol);
+    container.appendChild(div);
+
+    select.value = ""; // Reset dropdown
+    }
+
+
+    //for the country, state, city
+    $(document).ready(function () {
+        $("#nationality").change(function () {
+            let countryId = $(this).val();
+
+            $.ajax({
+                url: "{% url 'get_states' %}",  
+                data: { country_id: countryId },
+                success: function (data) {
+                    let stateOptions = '<option value="">-- Select State --</option>';
+                    data.states.forEach(state => {
+                        stateOptions += `<option value="${state.id}">${state.name}</option>`;
+                    });
+                    $("#state").html(stateOptions);
+                    $("#city").html('<option value="">-- Select City --</option>');  
+                }
+            });
+        });
+
+        $("#state").change(function () {
+            let stateId = $(this).val();
+
+            $.ajax({
+                url: "{% url 'get_cities' %}",
+                data: { state_id: stateId },
+                success: function (data) {
+                    let cityOptions = '<option value="">-- Select City --</option>';
+                    data.cities.forEach(city => {
+                        cityOptions += `<option value="${city.id}">${city.name}</option>`;
+                    });
+                    $("#city").html(cityOptions);
+                }
+            });
+        });
+    });
+
+
+  let profileCropper;
+  function initProfileCropper(event) {
+    const image = document.getElementById('profile-cropper-preview');
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        image.src = e.target.result;
+
+        if (profileCropper) {
+          profileCropper.destroy();
+        }
+
+        profileCropper = new Cropper(image, {
+          aspectRatio: 1,
+          viewMode: 1,
+          autoCropArea: 1,
+          crop(event) {
+            const canvas = profileCropper.getCroppedCanvas({
+              width: 300,
+              height: 300,
+            });
+            document.getElementById('profile-cropped-image').value = canvas.toDataURL('image/jpeg');
+          }
+        });
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+
+    let cropper;
+    const bannerInput = document.getElementById('bannerInput');
+    const cropImage = document.getElementById('cropImage');
+    const croppedImageData = document.getElementById('croppedImageData');
+    const form = document.getElementById('bannerForm');
+
+    bannerInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                cropImage.src = event.target.result;
+                cropImage.classList.remove('d-none');
+
+                // Destroy previous cropper if any
+                if (cropper) {
+                    cropper.destroy();
+                }
+
+                cropper = new Cropper(cropImage, {
+                    aspectRatio: 1280 / 250,  // Exact match
+                    viewMode: 1,
+                    autoCropArea: 1,
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function cropAndSave(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        if (!cropper) {
+            alert("Please select an image first.");
+            return;
+        }
+
+        const canvas = cropper.getCroppedCanvas({
+            width: 1280,
+            height: 250,
+        });
+
+        canvas.toBlob(blob => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                croppedImageData.value = reader.result; // Set base64 image
+                form.submit(); // Submit form manually
+            };
+            reader.readAsDataURL(blob);
+        });
+    }
+
+    $(document).ready(function() {
+    $('#equipment').select2({
+        placeholder: "Select one or more equipment",
+        dropdownParent: $('#editEquipmentModal'), // ✅ Correct modal ID
+        width: '100%'
+    });
+    });
+
+
+    $(document).ready(function() {
+    $('#languages').select2({
+        placeholder: "Select one or more languages",
+        dropdownParent: $('#editAboutMeModal'), // ✅ Correct modal ID
+        width: '100%'
+    });
+    });
+
+    $(document).ready(function() {
+        $('#editProfileModal').on('shown.bs.modal', function () {
+            $('.country-select').select2({
+                dropdownParent: $('#editProfileModal'),
+                placeholder: 'Select a country',
+                width: 'resolve'
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        $('#nationality').select2({
+            placeholder: "-- Select Nationality --",
+            dropdownParent: $('#editAddressModal')
+        });
+        $('#state').select2({
+            placeholder: "-- Select State --",
+            dropdownParent: $('#editAddressModal')
+        });
+        $('#city').select2({
+            placeholder: "-- Select City --",
+            dropdownParent: $('#editAddressModal')
+        });
+    });
+
+    $('#availableLanguages').select2({
+    placeholder: "Select one or more languages",
+    dropdownParent: $('#editAddressModal'),
+    width: '100%'
+    });
+</script>
+
+
+  
+<style>
+    .form-label{
+        color: #666 !important;
+    }
+</style>

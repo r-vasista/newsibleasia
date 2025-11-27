@@ -1,0 +1,123 @@
+<div class="my-3 brand-partner-slider Container_background">
+  <h2 class="text-center  pb-2">PARTNERS</h2>
+  <div class="brand-slider-wrapper">
+    <div class="brand-track brand-track-row1">
+      <!-- First row logos -->
+      {% for brandpartner in bplogo|slice:":9" %}
+      <div class="brand-logos">
+        <a href="{{ brandpartner.url }}" target="_blank">
+          <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}">
+        </a>
+      </div>
+      {% endfor %}
+      {% for brandpartner in bplogo|slice:":9" %}
+      <div class="brand-logos">
+        <a href="{{ brandpartner.url }}" target="_blank">
+          <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}">
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="brand-slider-wrapper">
+    <div class="brand-track brand-track-row2">
+      <!-- Second row logos (same as above) -->
+      {% for brandpartner in bplogo|slice:"9:18" %}
+      <div class="brand-logos">
+        <a href="{{ brandpartner.url }}" target="_blank">
+          <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}">
+        </a>
+      </div>
+      {% endfor %}
+      {% for brandpartner in bplogo|slice:"9:18" %}
+      <div class="brand-logos">
+        <a href="{{ brandpartner.url }}" target="_blank">
+          <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}">
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="brand-slider-wrapper">
+    <div class="brand-track brand-track-row3">
+      <!-- Third row logos (same as above) -->
+      {% for brandpartner in bplogo|slice:"18:27" %}
+      <div class="brand-logos">
+        <a href="{{ brandpartner.url }}" target="_blank">
+          <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}">
+        </a>
+      </div>
+      {% endfor %}
+      {% for brandpartner in bplogo|slice:"18:27" %}
+      <div class="brand-logos">
+        <a href="{{ brandpartner.url }}" target="_blank">
+          <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}">
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+<style>
+  .brand-track {
+    display: flex;
+    width: max-content;
+  }
+
+  .brand-track-row1 {
+    animation: scroll-left 50s linear infinite;
+  }
+
+  .brand-track-row2 {
+    animation: scroll-right 50s linear infinite;
+  }
+
+  .brand-track-row3 {
+    animation: scroll-left 50s linear infinite;
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes scroll-right {
+    0% {
+      transform: translateX(-50%);
+    }
+
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  .brand-logos {
+    flex-shrink: 0;
+    padding: 10px 10px;
+  }
+
+  .brand-logos img {
+    max-height: 100px;
+    width: auto;
+    transition: filter 0.3s ease, transform 0.3s ease;
+  }
+
+  .brand-logos:hover img {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+    cursor: pointer;
+  }
+
+  .brand-slider-wrapper:hover .brand-track {
+    animation-play-state: paused;
+  }
+</style>

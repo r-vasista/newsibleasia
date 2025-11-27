@@ -1,0 +1,97 @@
+
+<div class="top-news-bar">
+    <div class="top-news-title">BREAKING NEWS <i>⚡</i></div>
+    <div class="ticker-wrapper">
+      <div class="ticker">
+         <div onmouseover="pauseTicker('tickerText')" onmouseout="resumeTicker('tickerText')">
+          <div class="ticker-text" id="tickerText">
+            {% for CatVid in videos|slice:":2" %}
+            <a style="color: #d8f0ff !important;" href="/video/{{CatVid.slug}}">
+              <span style="color: #d8f0ff;">{{ CatVid.video_date }}:-</span> {{ CatVid.video_title }}!
+            </a>
+            {% endfor %}
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+
+
+<style>
+    .top-news-bar {
+      background-color: #1c1c1c;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .top-news-title {
+      font-weight: bold;
+      margin-right: 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .top-news-title i {
+      margin-left: 5px;
+      color: #ffc107;
+    }
+
+    .ticker-wrapper {
+      overflow: hidden;
+      flex: 1;
+      position: relative;
+    }
+
+    .ticker {
+      display: inline-block;
+      white-space: nowrap;
+      animation: tickerScroll 30s linear infinite;
+    }
+
+    /* Pause animation on hover */
+    .ticker-wrapper:hover .ticker {
+      animation-play-state: paused;
+    }
+
+    @keyframes tickerScroll {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .top-news-item {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 50px;
+      color: #ccc;
+      font-size: 15px;
+    }
+
+    .top-news-category {
+      background-color: #ffc107;
+      color: #000;
+      padding: 3px 8px;
+      font-size: 12px;
+      margin-right: 10px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+
+    .top-news-text {
+      color: #f1f1f1 !important;
+      text-decoration: none;
+    }
+
+    .top-news-text:hover {
+      color: #ffc107 !important;
+      text-decoration: underline;
+    }
+</style>

@@ -1,0 +1,106 @@
+{% load static %}
+<!-- <div class="mb-3 news-card">
+    <div class="position-relative">
+        <h6 class="news-header">Sponsored</h6>
+    </div>
+    <div class="mb-3">
+        {% for adrcol in adright %}
+        <a href="{{adrcol.ad_url}}" target="_blank"><img class="img-fluid w-100 news-image"
+                src="../upload/{{adrcol.ad_image}}" alt="{{adrcol.ad_url}}"></a>
+        {% endfor %}
+    </div>
+</div> -->
+
+<div class="mb-3 ">
+    <h6 class="news-header">Trending News</h6>
+    <div class=" mb-3">
+        {% for trendingpost in trendpost %}
+        <div class="news-card mb-3">
+            <img class="img-fluid tranimg news-image" src="../upload/{{trendingpost.post_image}}" alt="">
+            <a class=" dark:text-white" href="/{{trendingpost.slug}}">
+                <p>{{trendingpost.post_title}}</p>
+            </a>
+            <a href="/{{trendingpost.slug}}" class="dark:text-white">
+                <p>{{trendingpost.post_short_des|slice:":100"|safe}}</p>
+            </a>
+
+            <div class="d-flex align-items-center px-2 my-1 mb-1 dark:text-white">
+                <small><i class="fas fa-calendar-alt dark:text-white"></i> {{trendingpost.schedule_date|date}}</small>
+                <small class="ml-3"><i class="fas fa-clock dark:text-white"></i> {{ trendingpost.schedule_date|time }}</small>
+                <small class="ml-3"><i class="far fa-eye mr-2 dark:text-white"></i>{{trendingpost.post_status|add:trendingpost.viewcounter}}</small>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<style>
+    .news-card {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .news-header {
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        font-family: 'Montserrat', sans-serif;
+        text-transform: uppercase;
+    }
+
+    .news-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .news-content {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+    }
+
+    . {
+        font-size: 20px;
+        margin-bottom: 8px;
+        line-height: 1.5;
+        font-weight: 600;
+        font-family: 'EB Garamond', serif;
+
+    }
+
+    .news-description {
+        font-size: 20px;
+        color: #666 !important;
+        line-height: 1.4;
+        font-family: 'EB Garamond', serif;
+    }
+
+    .news-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1rem;
+        color: #666;
+        padding: 10px 15px;
+        border-top: 1px solid #eee;
+    }
+
+    .news-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .news-meta img {
+        width: 14px;
+        height: 14px;
+    }
+
+  a {
+    text-decoration: none !important;
+  }
+
+  li {
+    list-style: none !important;
+  }
+</style>

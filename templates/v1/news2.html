@@ -1,0 +1,144 @@
+{% load static %}
+
+<div class="m-3">
+  <div class="row my-3">
+    <div class="col-lg-4 col-md-12 col-sm-12 mb-2 row-p-0">
+      {% include 'news2_left_side.html' %}
+    </div>
+    <div class="col-lg-8 col-md-12 col-sm-12 mb-2 row-p-0">
+      <div class="scrollable-content">
+        <div class="all-news-section">
+
+          {% for category, subcategories_data in grouped_postsdata2.items %}
+          <div class="mb-3 spotlite-bg Container_background">
+            <!-- Top Menu -->
+            <div class="top-menu">
+              <div class="menu-left">
+                <i class="fas fa-newspaper icon"></i>
+                <span class="main-label">{{ category.cat_name }}</span>
+              </div>
+              <div class="menu-right">
+                {% for subcat in subcategories_data.subcategories|slice:":2" %}
+                <a href="/{{ category.cat_slug }}/{{ subcat.subcat_slug }}">{{ subcat.subcat_name }}</a>
+                {% endfor %}
+                {% if subcategories_data.subcategories|length > 2 %}
+                <div class="dropdown">
+                  <button class="dropbtn">...</button>
+                  <div class="dropdown-content">
+                    {% for subcat in subcategories_data.subcategories|slice:"2:" %}
+                    <a href="/{{ category.cat_slug }}/{{ subcat.subcat_slug }}">{{ subcat.subcat_name }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Featured News (1st Post) -->
+            {% with subcategories_data.posts|first as post %}
+            <div class="news-card items_background large mb-4">
+              <a href="/{{ post.slug }}">
+                <img src="{{ post.post_image.url }}" alt="{{ post.post_title }}" title="{{ post.post_title }}"
+                  loading="lazy">
+              </a>
+              <div class="news-content">
+                <h3>
+                  <a href="/{{ post.slug }}">
+                    {{ post.post_title|truncatechars:80 }}
+                  </a>
+                </h3>
+                <div class="meta">
+                  <span>{{ post.schedule_date|date }} | {{ post.schedule_date|time }}</span>
+                  <div style="--custom-bottom: 0px; --custom-right: 0px;">
+                    {% include 'share.html' with posts=post %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endwith %}
+
+            <!-- News List and Featured Right -->
+            <div class="uaenews-list-section">
+              <div class="container">
+                <div class="row g-4">
+                  <div class="col-lg-6 col-md-12 cust-pl-0">
+                    <div class="news-list">
+                      {% for post in subcategories_data.posts|slice:"1:5" %}
+                      <div class="items_background d-flex border-bottom my-3 p-2">
+                        <a style="display: flex;" href="/{{ post.slug }}">
+                          <img style="object-fit: contain !important;" src="../upload/{{ post.post_image }}" />
+                        </a>
+                        <div class="text-left col-9">
+                          <h6 class="mb-1">
+                            <a href="/{{ post.slug }}">
+                              {{ post.post_title|truncatechars:45 }}
+                            </a>
+                          </h6>
+                          <div class="meta">
+                            <span>{{ post.schedule_date|date }} | {{ post.schedule_date|time }}</span>
+                            <div style="--custom-bottom: 0px; --custom-right: 0px;">
+                              {% include 'share.html' with posts=post %}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+
+                  <!-- Featured Right (Post 6 + 7) -->
+                  <div class="col-lg-6 col-md-12 cust-pr-0">
+                    {% for post in subcategories_data.posts|slice:"5:6" %}
+                    <div class="featured-news items_background d-flex flex-column">
+                      <a href="/{{ post.slug }}">
+                        <img src="{{ post.post_image.url }}" alt="{{ post.post_title }}" title="{{ post.post_title }}"
+                          loading="lazy" class="img-fluid rounded mb-3" />
+                      </a>
+                      <div class="text-left">
+                        <h6 class="my-2">
+                          <a href="/{{ post.slug }}">
+                            {{ post.post_title|truncatechars:70 }}
+                          </a>
+                        </h6>
+                        <div class="meta">
+                          <span>{{ post.schedule_date|date }} | {{ post.schedule_date|time }}</span>
+                          <div style="--custom-bottom: 0px; --custom-right: 0px;">
+                            {% include 'share.html' with posts=post %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+
+                    {% for post in subcategories_data.posts|slice:"6:7" %}
+                    <div class="items_background d-flex border-bottom my-3 p-2">
+                      <a style="display: flex;" href="/{{ post.slug }}">
+                        <img style="object-fit: contain !important;" src="../upload/{{ post.post_image }}" />
+                      </a>
+                      <div class="text-left col-9">
+                        <h6 class="mb-1">
+                          <a href="/{{ post.slug }}">
+                            {{ post.post_title|truncatechars:45 }}
+                          </a>
+                        </h6>
+                        <div class="meta">
+                          <span>{{ post.schedule_date|date }} | {{ post.schedule_date|time }}</span>
+                          <div style="--custom-bottom: 0px; --custom-right: 0px;">
+                            {% include 'share.html' with posts=post %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

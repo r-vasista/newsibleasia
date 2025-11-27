@@ -1,0 +1,101 @@
+{% extends 'inn/base.html' %}
+{% block body %}
+{% load static %}
+
+<!-- Contact Start -->
+<div class="container-fluid bg-light">
+    <div class="container">
+        <div class="row pb-5">
+            <div class="col-lg-2">
+                <!-- Social Follow Start -->
+                <!-- Social Follow End -->
+            </div>
+            <div class="col-lg-8 mt-5">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{ message }}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% if form.non_field_errors %}
+                <small class="text-danger">{{ form.non_field_errors.as_ul}}</small>
+                {% endif %}
+                <div class="row login-bg">
+                    <div class="col-lg-6 p-4">
+                        <form action="{% url 'login' %}" method="post">
+                            {% csrf_token %}
+
+                            <div class="form-row">
+                                <div class="col-md-12">
+                                    <h4 class="mt-4 redtext">Welcome Back! Please Log In</h4>
+                                    <p>We believe in the power of news to connect and empower people. </p>
+                                    <div class="form-group">
+                                        <input type="text" name="username" class="form-control section-title" placeholder="username"/>
+                                        {% if form.username.errors %}
+                                        <span class="text-danger">{{form.username.errors}}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password" class="form-control section-title" placeholder="password" />
+                                        {% if form.password.errors %}
+                                        <span class="text-danger">{{form.password.errors}}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="">
+                                        <button class="btn login-btn"
+                                            type="submit">Login</button>
+                                    </div>
+                                    <div class="">
+                                        <div class="form-group d-flex mt-3">
+                                            For New User: <span class="ml-5"><a class="text-white" href="/registration">Register</a></span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="{% static 'assets/img/hero_1.jpg' %}" alt="" style="width:100%;margin-left: 14px;height: 100%;object-fit: cover;border-radius: 0px 20px 20px 0px;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <!-- Social Follow Start -->
+
+                <!-- Social Follow End -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
+<style>
+    .login-bg{
+        background: #4893cd;
+        border-radius: 20px;
+        padding: 0px;
+        color: #fff;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px);
+    }
+    .login-btn{
+        height: 50px;
+        width: 100%;
+        background: red;
+        text-align: center;
+        border: none;
+        color: #fff;
+    }
+    .login-btn:hover{
+        background: rgb(222, 3, 3);
+        color: #fff;
+        
+    }
+</style>
+{% endblock %}

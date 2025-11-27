@@ -1,0 +1,120 @@
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+  
+ 
+    .trending-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .trending-label h5 a,
+    .trending-label a {
+      text-decoration: none;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .trending-label a.small {
+      font-size: 0.9rem;
+      color: #007bff;
+    }
+
+    .reels-vertical-scroll {
+      display: flex;
+      gap: 24px;
+    }
+
+    .reel-card {
+      scroll-snap-align: start;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .reel-card:hover {
+      transform: scale(1.02);
+    }
+
+    .reel-card iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+
+    .items_background {
+      padding: 1rem;
+    }
+
+    .article-tag {
+      color: #007bff;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      text-decoration: none;
+    }
+
+    .reels-title a {
+      text-decoration: none;
+      color: #000;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .reels-meta {
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    @media (max-width: 768px) {
+      .reel-card iframe {
+        height: 240px;
+      }
+
+      .container {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+
+
+<div class="container my-3">
+  <div class="trending-label py-3">
+    <h5><a href="/all-video-news/all"><span>Must Watch Reels</span></a></h5>
+    <a href="/all-video-news/all" class="small">VIEW ALL</a>
+  </div>
+
+  {% if Reels %}
+  <div class="reels-vertical-scroll">
+    {% for reels in Reels|slice:":5" %}
+    <div class="reel-card">
+      <a href="/video/{{ reels.slug }}">
+        <iframe src="https://www.youtube.com/embed/{{ reels.video_url }}?controls=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </a>
+      <div class="items_background">
+        <a class="article-tag"
+           href="{% url 'catdetails' catlink=reels.News_Category.sub_cat.cat_slug slug=reels.News_Category.subcat_slug %}">
+          {{ reels.News_Category|truncatechars:30 }}
+        </a>
+        <h6 class="reels-title">
+          <a href="/video/{{ reels.slug }}">{{ reels.video_title|truncatechars:55 }}</a>
+        </h6>
+        <p class="reels-meta">
+          <i class="fas fa-calendar-alt"></i> {{ reels.schedule_date }}
+          <i class="fas fa-eye mx-1"></i>{{ reels.counter|add:reels.viewcounter }}
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p>No reels found.</p>
+  {% endif %}
+</div>
+

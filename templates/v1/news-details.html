@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-lg-9 col-md-7 col-sm-12">
+      <div class="position-relative my-1">
+        <h3 class="title ">{{ Blogdetails.post_title }}</h3>
+        {% if Blogdetails.post_image == '' %}
+        <img class="img-fluid w-100" src="{% static 'upload/blog/null.jpg' %}" style="object-fit: cover"
+          alt="{{ Blogdetails.post_title|default:'No Image' }}" title="{{ Blogdetails.post_title }}" loading="lazy">
+        {% else %}
+        <img class="img-fluid w-100" src="{{ Blogdetails.post_image.url }}" style="object-fit: cover"
+          alt="{{ Blogdetails.post_title }}" title="{{ Blogdetails.post_title }}" loading="lazy">
+        {% endif %}
+        <div class="border-top-0 mt-1 artical-box">
+          <p>
+            {% if Blogdetails.author %}
+            Post by : {{ Blogdetails.author.first_name|default:""|capfirst }} 
+            {{ Blogdetails.author.last_name|default:""|capfirst }}
+            {% elif Blogdetails.journalist %}
+            Post by :
+            <a href="{% url 'journalist_profile' Blogdetails.journalist.username %}" style="color: #cf1e25 !important;">
+              {{ Blogdetails.journalist.first_name|default:""|capfirst }} {{ Blogdetails.journalist.last_name|default:""|capfirst }}
+            </a>
+            {% else %}
+            Post by : Admin
+            {% endif %}
+          </p>
+          {{ Blogdetails.post_des|safe }}
+          <div class="d-flex align-items-center">
+            <small><i class="fas fa-calendar-alt"></i> {{ Blogdetails.schedule_date|date }}</small>
+            <small class="ml-3"><i class="fas fa-clock"></i> {{ Blogdetails.schedule_date|time }}</small>
+            <small class="ml-3"><i class="far fa-eye mr-2"></i>{{ Blogdetails.post_status|add:Blogdetails.viewcounter }}</small>
+          </div>
+
+          <p class="m-0">
+          {% for tag in Blogdetails.tags.all %}
+          <a href="/topic/{{ tag.slug }}" class="badge rounded-pill text-bg-primary underline">#{{ tag.name }}</a>
+        
+          {% endfor %}
+        </p>
+        </div>
+      </div>
+
+      {# -----------main-news--------- #}
+      <!-- {% for mnews in mainnews %}
+        <div class="position-relative mb-3 mt-3 artical-box">
+          <h2 class="title my-3">
+            <a href="/{{ mnews.slug }}" title="{{ mnews.post_title }}">{{ mnews.post_title }}</a>
+          </h2>
+
+          <img class="img-fluid w-100" src="{{ mnews.post_image.url }}" style="object-fit: cover" alt="{{ mnews.post_title }}" title="{{ mnews.post_title }}" loading="lazy">
+
+          <div class="border-top-0 mt-1">
+            <div class="d-flex align-items-center my-3">
+              <small><i class="fas fa-calendar-alt"></i> {{ mnews.schedule_date|date }}</small>
+              <small class="ml-3"><i class="fas fa-clock"></i> {{ mnews.schedule_date|time }}</small>
+              <small class="ml-3"><i class="far fa-eye mr-2"></i>{{ mnews.post_status|add:mnews.viewcounter }}</small>
+            </div>
+
+            <p class="m-0">
+              {{ mnews.post_short_des|slice:":270"|safe }}...
+              <a href="/{{ mnews.slug }}" title="Read more about {{ mnews.post_title }}">Read More</a>
+            </p>
+          </div>
+        </div>
+      {% endfor %} -->
+      {# -----------main-news--------- #}
+
+      <!-- Featured News Slider Start -->
+      <div class="row">
+        {% for Blog in BlogData %}
+        <div class="col-lg-4">
+          <div class="position-relative">
+            <a href="/{{ Blog.slug }}">
+              <img class="img-fluid w-100 sliderimg" src="{{ Blog.post_image.url }}" alt="{{ Blog.post_title }}"
+                title="{{ Blog.post_title }}" loading="lazy">
+            </a>
+
+            <div class="text-card-dxb mb-3">
+              <div class="my-1">
+                <small><i class="fas fa-calendar-alt"></i> {{ Blog.schedule_date|date }}</small>
+                <small class="ml-3"><i class="fas fa-clock"></i> {{ Blog.schedule_date|time }}</small>
+              </div>
+
+              <div>
+                <a class="mb-2 dark:text-white" href="/{{ Blog.slug }}" title="{{ Blog.post_title }}">
+                 <h6> {{ Blog.post_title }}</h6>
+                </a>
+              </div>
+
+              <div class="text-height">
+                {{ Blog.post_short_des|slice:":270"|safe }}
+              </div>
+              <a class="readmore dark:text-white text-primary" href="/{{ Blog.slug }}" title="Read more about {{ Blog.post_title }}">Read More</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+        
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-5 col-sm-12">
+      {# Right Column #}
+      {% include "rightcollam.html" %}
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+<style>
+  a {
+    text-decoration: none !important;
+  }
+
+  li {
+    list-style: none !important;
+  }
+</style>

@@ -1,0 +1,123 @@
+{% include "head.html" %}
+{% block body %}
+{% load static %}
+<div class="container-fluid dxb-bg-dashbord">
+  <div class="row">
+
+    <div class="col-lg-2 p-0">
+      {% include "inn/Journalist_menu.html" %}
+    </div>
+
+    <div class="col-lg-10 p-0">
+      <h3 class="dash-title"> My Submission</h3>
+      <section class="content">
+        <div class="news-post bg-light">
+          <div class="pull-right">
+            <a href="{% url 'news-post' %}" class="btn addnews-btn">Add News +</a>
+          </div>
+          <div class="box-body">
+            <table class="table table-nowrap table-hover mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Video Type</th>
+                  <th scope="col">Views</th>
+                  <th scope="col">Post Date</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for Blog in BlogData %}
+                <tr>
+                  <td scope="col">{{Blog.id}}</td>
+                  <td scope="col">
+                    {% if Blog.is_active == "active" %}
+                    <a href="/video/{{ Blog.slug }}">{{ Blog.video_title }}</a>
+                    {% else %}
+                    <p>{{ Blog.video_title }}</p>
+                    {% endif %}
+                  </td>
+                  <td scope="col">{{Blog.News_Category}}</td>
+                  <td scope="col">{{Blog.video_type}}</td>
+                  <td scope="col">{{Blog.counter|add:Blog.viewcounter}}</td>
+                  <td scope="col">{{Blog.video_date}}</td>
+                  <td scope="col">
+                    {% if Blog.is_active == "active" %}
+                    <p class="text-success">Active</p>
+                    {% else %}
+                    <a href="{% url 'edit-video-post' Blog.id %}"><i class="fas fa-edit"></i> Edit </a>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dxb-bg-dashbord {
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  .das-section {
+    margin: 30px;
+  }
+
+  .dash-title {
+    padding: 15px 30px;
+    background: #11111126;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .news-post {
+    border: 1px solid #ddd;
+    padding: 40px;
+    border-radius: 8px;
+    margin: 20px 50px 50px;
+  }
+
+  .addnews-btn {
+    background: #d61e25;
+    color: #fff !important;
+    margin: 10px 0px;
+
+  }
+
+  .addnews-btn:hover {
+    background: #d61e25;
+    color: #fff !important;
+
+  }
+
+  .table thead th {
+    background: #f3f6fd;
+  }
+
+  .table {
+    font-size: 14px;
+  }
+
+  .table a {
+    color: var(--text-color) !important;
+    text-decoration: none !important;
+  }
+
+  .table a:hover {
+    color: #2f79ba !important;
+    text-decoration: none !important;
+  }
+
+  .table>:not(caption)>*>* {
+    padding: .95rem .5rem;
+  }
+</style>
+{% endblock %}

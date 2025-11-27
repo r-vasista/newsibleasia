@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+<div class="bootstrap-new" style="padding-top:100px">
+    
+    <div class="container pt-5">
+        <h1 class="display-4 text-center mb-4">Voices of UAE</h1>
+        <h3>Celebrating Achievers Across Fields</h3>
+        <p class="lead mb-5">The campaign aims to highlight and celebrate the inspiring achievements of individuals from
+            diverse fields and backgrounds in the UAE.</p>
+    </div>
+
+    <!-- Eligibility Section -->
+    <div class="container">
+        
+ <!-- Categories Row -->
+ <div class="row">
+    <div class="col-6 col-md-6 mb-4">
+        <h2 class="h3 mb-4">Eligibility</h2>
+        <p>This campaign is open to individuals currently residing in the UAE from all fields, including but not limited
+            to:
+        </p>
+        <ul class="list-unstyled">
+            <li>Law, Arts, Culture, History, Education, Performing Arts (dance, acting, theatre)</li>
+            <li>Literature (writers, lyricists, poets)</li>
+            <li>Visual Arts (painters, sculptors, photographers)</li>
+            <li>Social Media Influencers, Entrepreneurs, Innovators, and Students</li>
+        </ul>
+        <p>No restrictions on age, gender, nationality, or socio-economic background.</p>
+
+    </div>
+    <div class="col-6 col-md-6 mb-4">
+       
+    <!-- Registration Section -->
+    <h2 class="h3 mb-4">Registration</h2>
+    <p>A non-refundable registration fee of AED 220 will be required, payable to Markazzia Solutions LLC-FZ.</p>
+    <p>Participants must provide a deposit slip as proof of payment along with their submissions.</p>
+
+    </div>
+</div>
+
+    </div>
+
+
+    
+    <!-- Verification Process -->
+    <div class="container">
+        <h2 class="h3 mb-4 text-center">Verification Process</h2>
+        <p>Submissions will undergo basic verification by DXB News Network to ensure authenticity. Participants must
+            provide
+            supporting documents or evidence (e.g., certificates, work samples, testimonials) for their claims.</p>
+    </div>
+
+
+    <!-- Campaign Categories Section -->
+    <div class="container py-4">
+        <h2 class="h3 mb-4">Campaign Categories</h2>
+        <!-- Categories Row -->
+        <div class="row">
+            <div class="col-12 col-md-6 mb-4">
+                <h4>1. Young Children (Ages 5–12)</h4>
+                <ul>
+                    <li>Creative Arts: Drawing, Painting, Craftwork</li>
+                    <li>Performing Arts: Dance, Acting/Theater</li>
+                    <li>Sports: Emerging Athletes</li>
+                    <li>Academic Achievements: Science Projects</li>
+                    <li>Social Contributions: Environmental Initiatives</li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-6 mb-4">
+                <h4>2. Teenagers (Ages 13–19)</h4>
+                <ul>
+                    <li>Academic Excellence: Innovators in STEM</li>
+                    <li>Creative Fields: Writers, Poets, Lyricists</li>
+                    <li>Performing Arts: Dance, Drama</li>
+                    <li>Sports: State/National Level Athletes</li>
+                    <li>Social Media: Teen Influencers</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 mb-4">
+                <h4>3. Young Adults (Ages 20–35)</h4>
+                <ul>
+                    <li>Career Growth: Entrepreneurs, Innovators</li>
+                    <li>Cultural Impact: Artists, Writers</li>
+                    <li>Technology and Innovation: App Developers</li>
+                    <li>Entertainment and Media: Actors, Social Media Influencers</li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-6 mb-4">
+                <h4>4. Adults (Ages 36–60)</h4>
+                <ul>
+                    <li>Professional Excellence: Doctors, Lawyers, Engineers</li>
+                    <li>Educational Impact: Teachers, Mentors</li>
+                    <li>Creative Fields: Published Authors</li>
+                    <li>Social Work and Leadership: Women’s Rights Advocates</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 mb-4">
+                <h4>5. Senior Citizens (Ages 60 and Above)</h4>
+                <ul>
+                    <li>Legacy and Contributions: Lifetime Achievements in Arts</li>
+                    <li>Creative Pursuits: Senior Writers, Poets</li>
+                    <li>Community Service: Volunteers and Leaders</li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-6 mb-4">
+                <h4>Cross-Cross_Sector Categories</h4>
+                <ul>
+                    <li>Science and Technology: Innovators in AI, Blockchain</li>
+                    <li>Entrepreneurship: Founders of Startups</li>
+                    <li>Health and Wellness: Fitness Coaches, Medical Professionals</li>
+                    <li>Civic Engagement: Local Heroes in Community Service</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mb-4 text-center">
+        <a href="https://buy.stripe.com/4gwdUbgrrcAwbXW8wx" target="_blank" class="navbar-brand" style="width:30%";>
+            <img class="img-fluid" src="{% static 'assets/img/paynow.png' %}" alt="DXB News Network breaking news UAE new lifestyle" style="width:100%";>
+        </a>
+    </div>
+    <!-- Submit Your Story Section -->
+    
+</div>
+
+<style>
+    /* Default variables for light mode */
+    :root {
+        --modal-bg: #ffffff;
+        --modal-text: #000000;
+        --modal-border: #dddddd;
+    }
+
+    /* Variables for dark mode */
+    [data-theme="dark"] {
+        --modal-bg: #2c2c2c;
+        --modal-text: #f0f0f0;
+        --modal-border: #444444;
+    }
+
+    /* Modal styling */
+    .modal-content {
+        background-color: var(--modal-bg);
+        color: var(--modal-text);
+        border: 1px solid var(--modal-border);
+    }
+
+    .modal-header,
+    .modal-footer {
+        border-color: var(--modal-border);
+    }
+</style>
+
+<script>
+    // Enable/disable the "Submit Inquiry" button based on checkbox
+    document.getElementById('agreeCheckbox').addEventListener('change', function () {
+        const agreeButton = document.getElementById('agreeButton');
+        agreeButton.disabled = !this.checked;
+    });
+
+    // Submit form when "Submit Inquiry" is clicked
+    document.getElementById('agreeButton').addEventListener('click', function () {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('agreementModal'));
+        modal.hide(); // Close the modal
+        document.querySelector('form').submit(); // Submit the form
+    });
+
+</script>
+
+{% endblock %}

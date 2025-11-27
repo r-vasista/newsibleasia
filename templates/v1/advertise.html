@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+{% comment %} --------articale-start------ {% endcomment %}
+    {% include "articale.html" %} 
+{% comment %} --------articale--end----- {% endcomment %}
+
+<div class="container">
+    <div class="row">
+<div class="col-lg-3"><!-- collam-left -->
+    {% include "leftcollam.html" %} 
+ </div>
+      <div class="col-lg-6  mt-1">
+        <h6 class="border-b">Latest News</h6>
+   
+    <!-- Main News Slider Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 px-0">
+                <div class="owl-carousel main-carousel position-relative">
+                    {% for mnews in mainnews %}
+                    
+                    <div class="position-relative overflow-hidden" style="height:317px;">
+                        <img class="img-fluid h-100" src="../upload/{{mnews.post_image}}" style="object-fit: cover;">
+                        <div class="overlay">
+                            <div class="mb-2">
+                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                    href="">{{mnews.post_cat|lower}}</a>
+                                <a class="t-white" href="/{{mnews.slug}}"><i class="fas fa-calendar-alt"></i> {{mnews.post_date|date}}</a>
+                            </div>
+                            <h3><a class="h2 m-0 t-white text-uppercase font-weight-bold" href="/{{mnews.slug}}">{{mnews.post_title}}</a></h3>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+       
+        </div>
+    </div>
+    <!-- Main News Slider End -->
+        <!-- collam-middle !-->
+<!-- latest News -->
+<div class="container mt-1">
+<div class="row">
+{% for Blog in BlogData %}
+<div class="col-lg-12 mt-2">
+<a class="h4 d-block mb-1 text-secondary text-uppercase font-weight-bold" href="/{{Blog.slug}}">{{Blog.post_title}}</a></div>
+        <div class="col-lg-3 ">
+            <img src="../upload/{{Blog.post_image}}" alt="{{Blog.post_cat|lower}}" class="ltn-img blogimg">
+        </div>
+
+    <div class="col-lg-9 ">
+        <a class="badge badge-primary text-uppercase font-weight-semi-bold" href="">{{Blog.post_cat}}</a>
+        
+        <p class="m-0">{{Blog.post_short_des|slice:":270"|safe}} 
+            <a class="font-weight-semi-bold" href="{{Blog.slug}}">Read More.</a>
+        </p>
+        <div class="d-flex align-items-center">
+        <small ><i class="fas fa-calendar-alt"></i> {{Blog.post_date|date}}</small>
+        <small class="ml-3"> <i class="fas fa-clock"></i> {{ Blog.post_date|time }}</small>
+        <small class="ml-3"><i class="far fa-eye mr-2"></i>{{Blog.post_status}}</small>
+        </div>
+   
+</div>
+
+{% endfor %}
+
+</div>
+</div>
+<div class="col-lg-12 mb-3 ">
+    {% for adledb in adtop %}
+    <a href=""><img class="img-fluid w-100" src="../upload/{{adledb.ad_image}}" alt=""></a>
+    {% endfor %}
+    </div>
+    <h1 style="font-size: 17px;" class="text-center">DNN: Breaking News|UAE News|Real Estate|Travel|Lifestyle|Fashion</h1>
+</div>
+<div class="col-lg-3">
+    <!-- collam-right !-->
+{% include "rightcollam.html" %} 
+<!-- collam-rightend !-->
+</div>
+
+</div>
+</div>
+    <!-- Featured News Slider Start -->
+    {% include "news-slider-bottam.html" %} 
+    <!-- Featured News Slider End -->
+<!-- Button trigger modal -->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content ">
+          <div class="container" style=padding:0px;>
+          
+            <div class="row">
+                <div class="col-lg-4">
+                    <img src="{% static 'assets/img/newsletter.png' %}" alt="" style="width:200px;">
+                </div>
+                <div class="col-lg-8">
+                  <p class="pt-3 pr-3">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button></p>
+                      <div class="modal-body">
+                        {% if form.non_field_errors %}
+                        <small class="text-danger">{{ form.non_field_errors.as_ul}}</small>
+                        {% endif %}
+                        <h2 class="text-center">Subscribe</h2>
+                        <form action="{% url "UserSubscriber" %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group pl-4">
+                                <input type="text" name="fname" class="form-control p-4" placeholder="Your Name" required="required">
+                            </div>
+                            <div class="form-group  pl-4">
+                                <input type="email" name="email" class="form-control p-4" placeholder="Your Email" required="required">
+                            </div>
+                       
+                        <div class="text-center">
+                            <input type="submit" value="Submit" class="btn btn-secondary">
+                            </div>
+                        </form>
+                      </div>
+                </div>
+            </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+{% endblock %}  

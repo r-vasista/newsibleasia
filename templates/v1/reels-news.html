@@ -1,0 +1,207 @@
+<section class="m-3 Container_background">
+  <div class="swiper reelsSwiper pb-5">
+    <!-- <div class="row py-3 align-items-center justify-content-between">
+      <div class="col-md-6">
+        <h2 class="reels-heading py-2">Must Watch Reels</h2>
+      </div>
+      <div class="col-md-6 text-md-end text-start">
+        <a href="/all-video-news/all" class="reels-view-all">VIEW ALL</a>
+      </div>
+    </div> -->
+    <div class="trending-wrapper mb-4">
+          <div class="trending-label">
+            <a href="/all-video-news/all">
+            <span>Must Watch Reels</span>
+            </a>
+          </div>
+      </div>
+    <div class="swiper-wrapper">
+      {% for reels in Reels %}
+      <div class="swiper-slide">
+        <div class="reels-video-wrapper">
+          <a href="javascript:void(0);" class="open-reel" data-index="{{ forloop.counter0 }}">
+            <img src="https://img.youtube.com/vi/{{reels.video_url}}/hqdefault.jpg" alt="{{reels.video_title}}"
+              title="{{reels.video_title}}" loading="lazy" class="dxb-video-thumb"/>
+          </a>
+        </div>
+        <div class="items_background p-2">
+          <a class="article-tag"
+            href="{% url 'catdetails' catlink=reels.News_Category.sub_cat.cat_slug slug=reels.News_Category.subcat_slug %}">
+            {{ reels.News_Category|truncatechars:30 }}
+          </a>
+          <h6 class="mb-3 reels-title">
+            <a href="/video/{{reels.slug}}">
+              {{ reels.video_title|truncatechars:55 }}
+            </a>
+          </h6>
+          <p class="reels-meta">
+            <i class="fas fa-calendar-alt"></i> {{ reels.schedule_date }}
+            <i class="fas fa-eye mx-1"></i>{{reels.counter|add:reels.viewcounter}}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="swiper-button-next reels-next"></div>
+    <div class="swiper-button-prev reels-prev"></div>
+  </div>
+</section>
+
+
+<!-- Fullscreen Modal -->
+<div id="reelsModal" class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 450px; margin: auto;">
+    <div class="modal-content bg-black text-white p-0">
+      <div class="modal-body position-relative p-0">
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="swiper modalReelsSwiper h-100">
+          <div class="swiper-wrapper">
+            {% for reels in Reels %}
+            <div class="swiper-slide d-flex align-items-center justify-content-center">
+              <iframe width="100%" height="100%"
+                src="https://www.youtube.com/embed/{{reels.video_url}}?autoplay=1&mute=1&rel=0" frameborder="0"
+                allowfullscreen></iframe>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="swiper-button-next text-white"></div>
+          <div class="swiper-button-prev text-white"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Swiper + Modal Scripts -->
+<script>
+  const reelsSwiper = new Swiper('.reelsSwiper', {
+    slidesPerView: 1.2,
+    spaceBetween: 15,
+    loop: true,
+    navigation: {
+      nextEl: '.reels-next',
+      prevEl: '.reels-prev',
+    },
+    breakpoints: {
+      576: { slidesPerView: 2 },
+      768: { slidesPerView: 3 },
+      992: { slidesPerView: 6 }
+    }
+  });
+
+  const modalSwiper = new Swiper(".modalReelsSwiper", {
+    loop: false,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+
+  document.querySelectorAll(".open-reel").forEach((el) => {
+    el.addEventListener("click", function () {
+      const index = parseInt(this.getAttribute("data-index"));
+      modalSwiper.slideTo(index, 0); // Go to the clicked video
+      const modal = new bootstrap.Modal(document.getElementById("reelsModal"));
+      modal.show();
+    });
+  });
+
+
+</script>
+
+<!-- Styles -->
+<style>
+  .dxb-video-thumb {
+    width: 100%;
+    height: 300px !important;
+    object-fit: cover;
+  }
+
+  .reels-heading {
+    text-align: left;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .reels-view-all {
+    text-decoration: none;
+  }
+
+  .reelsSwiper {
+    position: relative;
+  }
+
+  .reels-title {
+    font-size: 16px;
+    font-weight: 600;
+    height: 45px;
+    overflow: hidden;
+    text-align: left;
+    line-height: 22px;
+  }
+
+  .reels-title a {
+    text-decoration: none;
+  }
+
+  .reels-title a:hover {
+    text-decoration: none;
+    color: #f3342a !important;
+  }
+
+  .reels-meta {
+    font-size: 12px;
+    text-align: left;
+  }
+
+  .reels-prev,
+  .reels-next {
+    color: #fff;
+  }
+
+  .swiper-slide {
+    border-radius: 12px !important;
+  }
+
+  /* ✅ Modal Fullscreen Styling */
+  #reelsModal .modal-dialog {
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+  }
+
+  #reelsModal .modal-content {
+    height: 100vh;
+    background: black;
+    border-radius: 0;
+    border: none;
+  }
+
+  .modal-body {
+    max-height: 98vh !important;
+    padding: 0;
+    overflow: auto;
+    top: 0px !important;
+    position: relative;
+  }
+
+
+  .modalReelsSwiper .swiper-slide {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100% !important;
+    padding: 0 !important;
+
+  }
+
+  .modalReelsSwiper .swiper-slide iframe {
+    width: 100% !important;
+    height: 100vh !important;
+    border: none !important;
+  }
+</style>

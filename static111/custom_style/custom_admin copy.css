@@ -1,0 +1,91 @@
+.change-list table {
+    display: block;
+    max-height: 420px;
+    overflow-y: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.change-list thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+#changelist-filter {
+    max-height: 550px;
+    overflow-y: auto;
+}
+
+#changelist-filter>details>ul {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+
+#header {
+    background-color: #000000;
+    color: #d31406;
+}
+
+
+#site-name a:link,
+#site-name a:visited {
+    color: #d31406;
+    font-weight: bold;
+}
+
+
+div.breadcrumbs {
+    background-color: #4891cd;
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+    margin: 0;
+    padding: 8px;
+    padding-left: 8px;
+    font-weight: 400;
+    font-size: 0.8125rem;
+    text-align: left;
+    background: #d31406;
+}
+
+
+a.section:link,
+a.section:visited {
+    color: var(--header-link-color);
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+#nav-sidebar .current-model {
+    background: #d6ebfc;
+}
+
+td,
+th {
+    font-size: 0.8125rem;
+    line-height: 1rem;
+    border-bottom: 1px solid #0364b3;
+    vertical-align: top;
+    padding: 8px;
+    padding-left: 8px;
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+}
+
+#changelist-filter details > summary {
+  list-style-type: none;
+  color: red;
+  font-weight: bold;
+}

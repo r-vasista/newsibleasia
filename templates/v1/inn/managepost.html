@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block body %}
+{% load static %}
+
+
+<div class="container-fluid bg-light py-5">
+  <div class="container dashboard-container">
+    <div class="row">
+      <div class="col-lg-3">
+        <!-- collam-left-menu !-->
+        {% include "inn/dbmenu.html" %}
+        <!-- collam-left !-->
+      </div>
+      <div class="col-lg-9">
+        <div class="box my-4 mr-4">
+          <div class="box-header">
+            <h3 class=" box-title">Post Listing </h3>
+            <div class="pull-right">
+              <a href="/guest-news-post" class="btn addnews-btn">Add News +</a>
+            </div>
+          </div><!-- /.box-header -->
+          <div class="box-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Order</th>
+                  <th scope="col">Post Date</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for Blog in BlogData %}
+                <tr>
+                  <td scope="col">{{Blog.id}}</td>
+                  <td scope="col">
+                    {% if Blog.status == 'active' %}
+                    <a href="/{{ Blog.slug }}">{{ Blog.post_title }}</a>
+                    {% else %}
+                    <p>{{ Blog.post_title }}</p>
+                    {% endif %}
+                  </td>
+                  <td scope="col">{{Blog.post_cat}}</td>
+                  <td scope="col">{{Blog.order}}</td>
+                  <td scope="col">{{Blog.post_date}}</td>
+                  <td scope="col">
+                    {% if Blog.status == "active" %}
+                    <p>Active</p>
+                    {% else %}
+                    <a href="/edit-news-post/{{ Blog.id }}" class="btn edit">Edit</a>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dashboard-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 0px;
+  }
+
+  .news-post {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px 20px 30px 0px;
+    border-radius: 8px;
+  }
+
+  .addnews-btn {
+    background: #2f79ba;
+    color: #fff !important;
+    margin: 10px 0px;
+    float: right;
+  }
+
+  .edit {
+    background: #2f79ba;
+    color: #fff !important;
+    padding: 0px 10px;
+    align-items: center;
+    display: flex;
+  }
+</style>
+
+{% endblock %}

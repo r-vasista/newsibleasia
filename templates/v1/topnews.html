@@ -1,0 +1,263 @@
+{% load static %}
+
+<div class="section panel overflow-hidden container container">
+  <div class="section-outer panel pb-4 pt-3 sm:py-4 sm:py-5">
+    <div class="container-fluid"> <!-- ✅ Full Width Container -->
+      <div class="section-inner panel vstack gap-4">
+        <div class="section-content">
+          <div class="row g-5">
+
+            <!-- 🔴 Column 1: Breaking News -->
+            <div class="col-lg-4 order-2 order-lg-1">
+              <div class="block-layout panel h-100">
+                <div class="block-header panel vstack items-center justify-center text-center gap-1 mb-3">
+                  <h2 class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
+                    <!-- <span class="panel d-inline-block bg-primary w-8px h-8px translate-y-px"></span> -->
+                    <span>Breaking News</span>
+                  </h2>
+                </div>
+                <div class="block-content panel row sep-x gx-4 gy-4 lg:gy-2">
+                 {% for news in headline|slice:":6" %}
+                  <article class="post type-post panel mb-1">
+                    <div class="d-flex align-items-start">
+                      <!-- Date / Time Box -->
+                      <div class="text-center bg-light text-dark px-2 py-1 border rounded me-3 flex-shrink-0" style="min-width: 120px;">
+                        <div class="small fs-7 fw-bold">
+                         <div class="d-none d-lg-block">{{ news.post_date|date:"F d, Y" }}</div> 
+                          <div>{{ news.post_date|date:"g:i a" }}</div>
+                        </div>
+                      </div>
+
+                      <!-- Title / Headline Text -->
+                      <div class="flex-grow-1">
+                        <a href="/{{ news.slug }}" class="text-decoration-none dark:text-white fw-medium d-block">
+                          <span class="d-inline-block text-truncate fs-7 fs-lg-6" style="max-width: 100%;">
+                            {{ news.post_title|truncatechars:80 }}
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                {% endfor %}
+
+                </div>
+              </div>
+            </div>
+          
+
+            <!-- 🟡 Column 2: Latest Videos Swiper -->
+            <div class="col-lg-5 order-1 order-lg-2">
+              <div class="block-header panel vstack items-center justify-center text-center gap-1 mb-3">
+                    <h2 class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
+                      <span class="panel d-inline-block icon-narrow unicon-dot-mark text-red w-8px h-8px translate-y-px"></span>
+                      <span>Newsible Asia — From Billions, For Billions</span>
+                    </h2>
+                  </div>
+             
+              <iframe class="video-frame lazy entered loaded ifremvid"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    frameborder="0"
+                    data-src="https://www.youtube.com/embed/tNTz7-PxvEE?autoplay=1&mute=1"
+                    data-ll-status="loaded"
+                    src="https://www.youtube.com/embed/tNTz7-PxvEE?autoplay=1&mute=1" width="100%" height="282px">
+                </iframe>
+              <div class="panel swiper-parent h-100" >
+                <div class="swiper w-100 uc-visible-toggle"
+                  data-uc-swiper="items: 1; active: 1; gap: 32; speed: 500; dots: .dot-nav; next: .nav-next; prev: .nav-prev; disable-class: d-none;">
+                  
+                  
+                  <!-- <div class="swiper-wrapper">
+                    {% for video in videos|slice:":5" %}
+                    <div class="swiper-slide">
+                      <article class="post type-post panel vstack gap-3">
+                        <div class="post-header panel vstack justify-center text-center gap-1">
+                          <div class="post-meta panel hstack justify-center gap-1 fs-7 fw-medium dark:text-white text-opacity-60 d-none md:d-flex z-1">
+                            <div>
+                              <div class="post-category hstack gap-narrow fw-semibold">
+                                <a class="text-none hover:text-primary duration-150 dark:text-white" href="#">
+                                  {{ video.News_Category }}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <h3 class="post-title h5 xl:h4 m-0  dark:text-white">
+                            <a class="text-none hover:text-primary duration-150 dark:text-white" href="/video/{{ video.slug }}">
+                              {{ video.video_title|truncatechars:50 }}
+                            </a>
+                          </h3>
+                        </div>
+                        <div class="post-media panel uc-transition-toggle overflow-hidden">
+                          <div class="featured-image bg-gray-25 dark:bg-gray-800 ratio ratio-16x9">
+                            <iframe class="w-100 h-100"
+                              src="https://www.youtube.com/embed/{{ video.video_url }}?rel=0&showinfo=0&autoplay=0"
+                              title="{{ video.video_title }}"
+                              frameborder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowfullscreen></iframe>
+                          </div>
+                          <a href="/video/{{ video.slug }}" class="position-cover"></a>
+                        </div>
+                      </article>
+                    </div>
+                    {% endfor %}
+                  </div> -->
+
+                  <!-- Swiper Navigation -->
+                  <div class="swiper-nav nav-next btn btn-gray-900 p-0 border-0 w-40px h-40px rounded-circle shadow-sm position-absolute top-30 end-0 me-2 z-2 uc-hidden-hover mt-2">
+                    <i class="icon-1 unicon-chevron-right"></i>
+                  </div>
+                  <div class="swiper-nav nav-prev btn btn-gray-900 p-0 border-0 w-40px h-40px rounded-circle shadow-sm position-absolute top-30 start-0 ms-2 z-2 uc-hidden-hover mt-2">
+                    <i class="icon-1 unicon-chevron-left"></i>
+                  </div>
+                  <div class="swiper-pagination dot-nav gap-2 z-0 h-40px mt-3 position-relative text-primary"></div>
+                
+                </div>
+                <div class="mt-3" style="display: flex; justify-content: center; align-items: center;">
+                      <img src="{% static 'assets/img/I-love-KL-video.gif' %}" alt="I love KL Video" class="w-100 h-auto" />
+                </div>
+              </div>
+              
+            </div>
+
+            <!-- 🟢 Column 3: Articles -->
+            <div class="col-lg-3 order-3 order-lg-3 d-lg-block">
+              <div class="block-layout panel h-100">
+                <div class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white mb-3">
+                  <h2 class="block-title h6 lg:h5 m-0 cstack gap-1 text-dark">
+                    <i class="icon" data-uc-animate="flash"></i>
+                    <span>Articles</span>
+                  </h2>
+                </div>
+                <div class="block-content panel vstack gap-3">
+                  {% for article in Articale|slice:"1:2" %}
+                  <article class="post type-post panel vstack gap-1 lg:gap-2 border-bottom pb-2">
+                    <div class="post-media panel overflow-hidden">
+                      <div class="featured-video bg-gray-700 ratio ratio-16x9">
+                        {% if article.video_file %}
+                        <video class="video-cover video-lazyload min-h-100px" preload="none" loop playsinline autoplay muted>
+                          <source src="{{ article.video_file.url }}" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                        {% else %}
+                        <img src="{{ article.post_image.url }}" alt="{{ article.post_title }}" title="{{ article.post_title }}"
+                             loading="lazy" class="w-100 h-auto" />
+                        {% endif %}
+                      </div>
+                      <!-- <span class="cstack has-video-icon position-absolute top-0 end-0 fs-6 w-40px h-40px text-white">
+                        <i class="icon-narrow unicon-play-filled-alt"></i>
+                      </span> -->
+                      <a href="/{{ article.slug }}" class="position-cover"></a>
+                    </div>
+                    <div class="post-header panel vstack">
+                       <a href="{% url 'catdetails' catlink=article.post_cat.sub_cat.cat_slug slug=article.post_cat.subcat_slug %}"
+                        class="article-tag dark:text-white">
+                        {{ article.post_cat|truncatechars:30 }}
+                      </a>
+                      <h3 class="post-title h6 xl:h65 text-truncate-2  dark:text-white my-1">
+                        <a class="text-none hover:text-primary duration-150 dark:text-white" href="/{{ article.slug }}">
+                          {{ article.post_title|truncatechars:70 }}
+                        </a>
+                      </h3>
+                       <div class="meta mt-1">
+                        <span>{{ article.post_date }}</span>
+                        <div class="share-icons-container" style="--custom-bottom: 0px; --custom-right: 0px;">
+                          {% include 'share.html' %}
+                        </div>
+                  </div>
+                    </div>
+                  </article>
+                  {% endfor %}
+
+                </div>
+                <div class="block-content panel vstack gap- mt-4">
+                  {% for article in Articale|slice:"2:3 " %}
+                  <article class="post type-post panel row g-3 align-items-stretch border-bottom pb-2 mb-3">
+                     <!-- Left: Content (col-8) -->
+                      <div class="col-lg-8 col-12 d-flex flex-column justify-content-between">
+                        <div>
+                          <a href="{% url 'catdetails' catlink=article.post_cat.sub_cat.cat_slug slug=article.post_cat.subcat_slug %}"
+                            class="article-tag dark:text-white fw-semibold fs-7">
+                            {{ article.post_cat|truncatechars:30 }}
+                          </a>
+                          <h6 class="post-title h6 text-truncate-2 dark:text-white my-1">
+                            <a class="text-decoration-none hover:text-primary  dark:text-white fs-6" href="/{{ article.slug }}">
+                              {{ article.post_title|truncatechars:70 }}
+                            </a>
+                          </h6>
+                        </div>
+                        <div class="meta mt-1">
+                          <span class="">{{ article.post_date }}</span>
+                          <div class="share-icons-container" style="--custom-bottom: 0px; --custom-right: 0px;">
+                            {% include 'share.html' %}
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Right: Image/Video (col-4) -->
+                      <div class="col-lg-4 col-12">
+                        <div class="post-media overflow-hidden h-100">
+                          <div class="featured-video bg-gray-700 ratio ratio-16x9">
+                            {% if article.video_file %}
+                            <video class="video-cover video-lazyload w-100 h-100 object-cover" preload="none" loop playsinline autoplay muted>
+                              <source src="{{ article.video_file.url }}" type="video/mp4">
+                              Your browser does not support the video tag.
+                            </video>
+                            {% else %}
+                            <img src="{{ article.post_image.url }}" alt="{{ article.post_title }}" title="{{ article.post_title }}"
+                                loading="lazy" class="w-100 h-100 object-cover" />
+                            {% endif %}
+                          </div>
+                          <!-- <a href="/{{ article.slug }}" class="position-absolute top-0 start-0 w-100 h-100 z-1"></a> -->
+                        </div>
+                      </div>
+
+                     
+
+                    </article>
+
+                  {% endfor %}
+                </div>
+
+              </div>
+            </div>
+
+          </div> <!-- row end -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Swiper Init -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Swiper('.swiper', {
+      loop: true,
+      navigation: {
+        nextEl: '.nav-next',
+        prevEl: '.nav-prev',
+      },
+      pagination: {
+        el: '.dot-nav',
+        clickable: true,
+      },
+      speed: 500,
+      spaceBetween: 32,
+    });
+  });
+</script>
+<style>
+  .meta {
+    font-size: 14px;
+    color: gray;
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+.article-tag {
+    font-size: 14px;
+    padding-top: 10px;
+    z-index: 99;
+    text-decoration: none;
+}
+</style>

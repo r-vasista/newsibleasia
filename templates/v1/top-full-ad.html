@@ -1,0 +1,63 @@
+{% load static %}
+<!-- top ad Start -->
+<div class="container d-none d-lg-block bgshadow">
+  
+
+    <div class="row">
+           <div class="col-lg-12" style="margin-top:110px;">
+                {% for headtop in headtopad %}
+                {% if headtop.is_active == 1 %}
+                <a href="{{headtop.ad_url}}"  target="_blank">
+                {% if headtop.ad_type == 'stil' %}
+                <img class="img-fluid w-100" src="../upload/{{headtop.ad_image}}" alt="{{headtop.ad_url}}">
+                {% else %}
+                <video  autoplay loop muted style="width: 100%; min-height:250px;"><source src="../upload/{{headtop.ad_image}}"></video>
+                {% endif %}
+                </a>
+                {% endif %}
+                {% endfor %}
+            
+           </div>
+    </div>
+{% comment %} ----------google ad start--------------- {% endcomment %}
+<p style="top-margin:100px">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5922835412614482"
+crossorigin="anonymous"></script>
+<!-- Home Page Ads Horizontal -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5922835412614482"
+     data-ad-slot="7387521801"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+{% comment %} ----------google ad end--------------- {% endcomment %}
+</div>
+<!-- top ad Start -->
+
+{% comment %} ----------ad start--------------- {% endcomment %}
+<div class="col-lg-12 mt-1" >
+    <!-- top ad Start -->
+        <div class="row">
+            <div class="col-lg-12">
+                 {% for headtop in headtopad %}
+                 {% if headtop.is_active == true %}
+                 <a href="{{headtop.ad_url}}"  target="_blank">
+                 {% if headtop.ad_type == 'stil' %}
+                 <img class="img-fluid w-100" src="../upload/{{headtop.ad_image}}" alt="{{headtop.ad_url}}">
+                 {% else %}
+                 <video  autoplay loop muted style="width:100%; height:auto;">
+                    <source src="../upload/{{headtop.ad_image}}">
+                </video>
+                 {% endif %}
+                 </a>
+                 {% endif %}
+                 {% endfor %}
+            </div>
+     </div>
+    <!-- top ad end -->
+    </div>
+       {% comment %} ---------ad-end------------  {% endcomment %}

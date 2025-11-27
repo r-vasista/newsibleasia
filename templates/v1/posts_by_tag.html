@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container my-5">
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="article-card">
+                <div class="image-section">
+                    <a href="/{{ post.slug }}">
+                        <img src="{{ post.post_image.url }}" alt="{{ post.post_title }}" title="{{ post.post_title }}"
+                            loading="lazy" class="post-image" />
+                    </a>
+                    <div class="content-section items_background">
+                        <a href="{% url 'catdetails' catlink=post.post_cat.sub_cat.cat_slug slug=post.post_cat.subcat_slug %}"
+                            class="article-tag">
+                            {{ post.post_cat|truncatechars:30 }}
+                        </a>
+                        <a href="/{{ post.slug }}">
+                            <h4 class="article-heading">{{ post.post_title|truncatechars:65 }}</h4>
+                        </a>
+
+                        <div class="d-flex align-items-center px-2 my-1 mb-1 meta">
+                            <small><i class="fas fa-calendar-alt"></i> {{post.schedule_date|date}}</small>
+                            <small class="ml-3"><i class="fas fa-clock"></i> {{ post.schedule_date|time }}</small>
+                            <small class="ml-3"><i class="far fa-eye mr-2"></i>{{post.post_status|add:post.viewcounter}}</small>
+                            <div class="ml-3 share-icons-container" style="--custom-bottom: 0px; --custom-right: 0px;">
+                                {% include 'share.html' with posts=post %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination my-4 d-flex align-items-center justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if posts.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?page={{ posts.previous_page_number }}&vpage={{ video.number }}">Previous</a>
+                </li>
+                {% endif %}
+
+                {% for num in posts.paginator.page_range %}
+                {% if posts.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %} <li class="page-item"><a
+                        class="page-link" href="?page={{ num }}&vpage={{ video.number }}">{{ num }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if posts.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ posts.next_page_number }}&vpage={{ video.number }}">Next</a>
+                    </li>
+                    {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+
+    <div class="row">
+        {% for post in video %}
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="article-card">
+                <div class="image-section">
+                    <a href="/video/{{post.slug}}">
+                        <img src="https://img.youtube.com/vi/{{post.video_url}}/hqdefault.jpg"
+                            alt="{{post.video_title}}" title="{{post.video_title}}" loading="lazy" />
+                    </a>
+                    <div class="content-section items_background">
+                        <a href="{% url 'catdetails' catlink=post.News_Category.sub_cat.cat_slug slug=post.News_Category.subcat_slug %}"
+                            class="article-tag">
+                            {{ post.News_Category|truncatechars:30 }}
+                        </a>
+                        <a href="/{{ post.slug }}">
+                            <h2 class="article-heading">{{ post.video_title|truncatechars:65 }}</h2>
+                        </a>
+
+                        <div class="d-flex align-items-center px-2 my-1 mb-1 meta">
+                            <small><i class="fas fa-calendar-alt"></i> {{post.schedule_date|date}}</small>
+                            <small class="ml-3"><i class="fas fa-clock"></i> {{ post.schedule_date|time }}</small>
+                            <small class="ml-3"><i class="far fa-eye mr-2"></i>{{post.post_status|add:post.viewcounter}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination my-4 d-flex align-items-center justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if video.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?vpage={{ video.previous_page_number }}&page={{ posts.number }}">Previous</a>
+                </li>
+                {% endif %}
+
+                {% for num in video.paginator.page_range %}
+                {% if video.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% elif num > video.number|add:'-3' and num < video.number|add:'3' %} <li class="page-item"><a
+                        class="page-link" href="?vpage={{ num }}&page={{ posts.number }}">{{ num }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if video.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?vpage={{ video.next_page_number }}&page={{ posts.number }}">Next</a>
+                    </li>
+                    {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+</div>
+{% endblock %}

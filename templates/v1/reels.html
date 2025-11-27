@@ -1,0 +1,85 @@
+{% load static %}
+
+<div id="trending-posts" class="section panel overflow-hidden bg-gray-25 dark:bg-gray-800 dark:text-white container-fluid">
+  <div class="section-outer panel py-4 pb-0 sm:py-2">
+    <div class="container px-3">
+      <div class="section-inner">
+        <section class="Container_background mb-0 pb-0">
+          <!-- Heading -->
+          <div class="trending-wrapper mb-4">
+            <div class="text-start">
+              <h5 class="mb-0"><a class="dark:text-white text-start" href="/all-video-news/all">
+                <img src="{% static 'assets/img/quick-cut.gif' %}" alt="Quick Cut" class="h-40px">
+                 
+              </a></h5>
+              <!-- <a href="/all-video-news/all" class="small dark:text-white">View All</a> -->
+            </div>
+          </div>
+
+          {% if Reels %}
+          <div class="swiper reelsSwiper position-relative mb-0">
+            <div class="swiper-wrapper">
+              {% for reels in Reels %}
+              <div class="swiper-slide" style="width: 200px !important;">
+                <div class="reels-video-wrapper" >
+                  <a href="/video/{{ reels.slug }}">
+                    <img src="https://img.youtube.com/vi/{{ reels.video_url }}/hqdefault.jpg"
+                         alt="{{ reels.video_title }}"
+                         class="img-fluid rounded w-100" />
+                  </a>
+                  <div class="items_background p-2">
+                    <a class="article-tag d-block mb-1"
+                       href="{% url 'catdetails' catlink=reels.News_Category.sub_cat.cat_slug slug=reels.News_Category.subcat_slug %}">
+                      {{ reels.News_Category|truncatechars:30 }}
+                    </a>
+                    <h6 class="reels-title mb-2 text-truncate">
+                      <a href="/video/{{ reels.slug }}">{{ reels.video_title|truncatechars:55 }}</a>
+                    </h6>
+                    <p class="reels-meta fs-7 text-muted mb-0">
+                      <i class="fas fa-calendar-alt"></i> {{ reels.schedule_date }}
+                      <i class="fas fa-eye mx-1"></i>{{ reels.counter|add:reels.viewcounter }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            <div class="swiper-button-next reels-next"></div>
+            <div class="swiper-button-prev reels-prev"></div>
+          </div>
+          {% else %}
+          <p>No reels found.</p>
+          {% endif %}
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.reelsSwiper .swiper-button-prev,
+.reelsSwiper .swiper-button-next {
+  top: 40%;
+  transform: translateY(-50%);
+  color: #007bff;
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+}
+.reelsSwiper {
+  position: relative;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 20px;
+}
+.trending-wrapper, .reelsSwiper a{
+ color: var(--bs-heading-color) !important;
+}
+.trending-wrapper, .reelsSwiper a:hover{
+  color: #0848e4 !important;
+}
+
+</style>

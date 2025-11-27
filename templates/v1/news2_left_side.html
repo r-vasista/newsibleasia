@@ -1,0 +1,87 @@
+<div class="d-lg-block sticky-sidebar">
+  <div>
+    <div class="custom-tabs">
+      <button class="custom-tab active">Recent</button>
+      <button class="custom-tab">Popular</button>
+    </div>
+
+    <div class="custom-tab-content Container_background active">
+      <div class="custom-post"
+        style="max-height: 800px; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none;">
+        {% for news in LatestNews %}
+        <div class="items_background d-flex border-bottom my-3 p-2">
+          <a style="display: flex;" href="/{{ news.slug }}">
+            <img style="object-fit: contain !important;" src="../upload/{{ news.post_image }}" />
+          </a>
+          <div class="text-left col-9">
+            <h6 class="mb-1">
+              <a  href="/{{ news.slug }}">
+                {{ news.post_title|truncatechars:45 }}
+              </a>
+            </h6>
+            <div class="meta">
+              <span>{{ news.schedule_date|date }} | {{ news.schedule_date|time }}</span>
+              <div style="--custom-bottom: 0px; --custom-right: 0px;">
+                {% include 'share.html' with posts=news %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="custom-tab-content Container_background">
+      <div class="custom-post"
+        style="max-height: 800px; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none;">
+        {% for news in trendpost %}
+        <div class="items_background d-flex border-bottom my-3 p-2">
+          <a style="display: flex;" href="/{{ news.slug }}">
+            <img style="object-fit: contain !important;" src="../upload/{{ news.post_image }}" />
+          </a>
+          <div class="text-left col-9">
+            <h6 class="mb-1">
+              <a  href="/{{ news.slug }}">
+                  {{ news.post_title|truncatechars:45 }}
+              </a>
+            </h6>
+            <div class="meta">
+              <span>{{ news.schedule_date|date }} | {{ news.schedule_date|time }}</span>
+              <div style="--custom-bottom: 0px; --custom-right: 0px;">
+                {% include 'share.html' with posts=news %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const customTabs = document.querySelectorAll('.custom-tab');
+  const customContents = document.querySelectorAll('.custom-tab-content');
+
+  customTabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      customTabs.forEach(t => t.classList.remove('active'));
+      customContents.forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      customContents[index].classList.add('active');
+    });
+  });
+</script>
+<style>
+  .custom-post::-webkit-scrollbar {
+    display: none;
+  }
+
+.sticky-sidebar {
+  position: sticky !important;
+  top: 50px;
+  z-index: 10;
+}
+
+</style>

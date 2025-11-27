@@ -1,0 +1,581 @@
+{% include "head.html" %}
+{% block body %}
+{% load static %}
+<div class="container-fluid dxb-bg-dashbord">
+    <div class="row">
+        <!-- Sidebar Menu -->
+        <div class="col-lg-2 col-md-12 col-sm-12 p-0">
+            {% include "inn/Journalist_menu.html" %}
+        </div>
+        <!-- Main Dashboard Content -->
+        <div class="col-lg-10 p-0">
+            <h3 class="dash-title">Profile</h3>
+            <section class="content">
+                <div class="news-post bg-light">
+                    <div class="align-item-center mx-5">
+                        <div class="position-relative rounded overflow-hidden" style="height: 250px;">
+                            <!-- Banner Image -->
+                            <img src="{% if journalist.banner %}{{ journalist.banner.url }}{% else %}{% static 'assets/dnn/img/defoult_banner.jpg' %}{% endif %}"
+                                id="bannerImage" class="w-100 h-100 object-fit-cover" alt="Banner" />
+
+                            <!-- Edit Icon -->
+                            <button class="btn btn-light rounded-circle position-absolute top-0 end-0 m-2 shadow"
+                                data-bs-toggle="modal" data-bs-target="#editBannerModal">
+                                <i class="fas fa-pen text-primary"></i>
+                            </button>
+                        </div>
+
+                        <div class="align-item-center">
+                            <div class="service-details">
+                                <img id="profileImage" style="object-fit: cover;"
+                                    src="{% if journalist.profile_picture %}{{ journalist.profile_picture.url }}{% else %}{% static 'assets/dnn/img/user_random.jpg' %}{% endif %}"
+                                    alt="Journalist Profile">
+                                <input type="file" id="imageUpload" class="d-none" accept="image/*">
+                                <div class="service-hover-text">
+                                    <h3 class="text-capitalize">{{ journalist.first_name }} {{ journalist.last_name }}
+                                    </h3>
+                                    <h4>Reporter</h4>
+                                    <p>{{ journalist.biography|slice:":120" }}
+                                        {% if journalist.biography|length > 120 %}...{% endif %}</p>
+                                </div>
+                                <div class="service-white service-text">
+                                    <p class="text-capitalize m-0">{{ journalist.first_name }} {{ journalist.last_name }}</p>
+                                    <a href="#">{{ journalist.email }}</a>
+
+                                    <!-- Button to Trigger Modal -->
+                                    <div class="col-lg-12 col-md-12 mt-4">
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-edit" data-bs-toggle="modal"
+                                                data-bs-target="#editProfilepicModal">
+                                                <i class="fas fa-edit"></i> Change Profile Picture
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Profile Details -->
+                        <div class="col-lg-12">
+                            <div class="">
+                                <div class="row g-3">
+                                    <div class="profile-card shadow-sm border-0  mb-4 col-md-12 p-0">
+                                        <div class="row mb-4 profile-card-head">
+                                            <div class="col-lg-10 col-md-10">
+                                                <h4 class="text-start"><i class="fas fa-user"></i> Contact Information
+                                                </h4>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 text-right">
+                                                <!-- Edit Button (Triggers Modal) -->
+                                                <div class="text-end">
+                                                    <button type="button" class="btn btn-edit" data-bs-toggle="modal"
+                                                        data-bs-target="#editProfileModal">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row p-3">
+                                            <div class="col-md-6 mb-4">
+                                                <label class="form-label"><i class="fas fa-user"></i> Name</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ journalist.first_name }} {{ journalist.last_name }}"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <label class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                                                <input type="email" class="form-control" value="{{ journalist.email }}"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <label class="form-label"><i class="fas fa-phone"></i> Phone
+                                                    Number</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ journalist.phone_number }}" readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <label class="form-label"><i class="fas fa-mobile-alt"></i> Alternative
+                                                    Phone</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ journalist.alternative_phone_number }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="profile-card shadow-sm border-0  mb-4 col-md-12 p-0">
+                                        <div class="row mb-4 profile-card-head">
+                                            <div class="col-lg-10 col-md-10">
+                                                <h4 class="text-start "><i class="fas fa-home"></i> Address</h4>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 text-right">
+                                                <div class="text-end ">
+                                                    <button type="button" class="btn btn-edit" data-bs-toggle="modal"
+                                                        data-bs-target="#editAddressModal">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row p-3">
+                                            <div class="col-md-4 mb-4">
+                                                <label class="form-label"><i class="fas fa-globe"></i>
+                                                    Nationality</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ journalist.nationality }}" readonly>
+                                            </div>
+                                            <div class="col-md-4 mb-4">
+                                                <label class="form-label"><i class="fas fa-map"></i> State</label>
+                                                <input type="text" class="form-control" value="{{ journalist.state }}"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4 mb-4">
+                                                <label class="form-label"><i class="fas fa-city"></i> City</label>
+                                                <input type="text" class="form-control" value="{{ journalist.city }}"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-8 mb-4">
+                                                <label class="form-label"><i class="fas fa-map-marker-alt"></i>
+                                                    Address</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ journalist.address_line1 }}, {{ journalist.address_line2 }}"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-4 mb-4">
+                                                <label class="form-label"><i class="fas fa-map-pin"></i> Zipcode</label>
+                                                <input type="text" class="form-control" value="{{ journalist.zipcode }}"
+                                                    readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-card shadow-sm border-0 mb-4 col-md-12 p-0">
+                                        <div class="row mb-4 profile-card-head">
+                                            <div class="col-lg-10 col-md-10">
+                                                <h4 class="text-start"><i class="fas fa-file-alt"></i> Key Information
+                                                </h4>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 text-right">
+                                                <div class="text-end ">
+                                                    <button type="button" class="btn btn-edit" data-bs-toggle="modal"
+                                                        data-bs-target="#editAboutMeModal">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row p-3">
+                                            {% if journalist.registration_type != "organisation" %}
+                                            <div class="col-md-6 mb-4">
+                                                <label class="form-label"><i class="fas fa-graduation-cap"></i> Higher
+                                                    Education</label>
+                                                <input type="text" class="form-control"
+                                                    value="{{ journalist.higher_education }}" readonly>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-md-6 mb-4">
+                                                <label class="form-label"><i class="fas fa-language"></i>
+                                                    Languages</label>
+                                                <input type="text" class="form-control"
+                                                    value="{% for lang in journalist.languages.all %}{{ lang.name }}, {% endfor %}"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-md-12 mb-4">
+                                                <label class="form-label"><i class="fas fa-file-alt"></i>
+                                                    Biography</label>
+                                                <textarea class="form-control" rows="3"
+                                                    readonly>{{ journalist.biography }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% if journalist.registration_type == "journalist" %}
+                                    <div class="profile-card shadow-sm border-0  mb-4 col-md-12 p-0">
+                                        <div class="row mb-4 profile-card-head">
+                                            <div class="col-lg-10 col-md-10">
+                                                <h4 class="text-start"><i class="fas fa-tools"></i> Equipment</h4>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 text-right">
+                                                <button type="button" class="btn btn-edit" data-bs-toggle="modal"
+                                                    data-bs-target="#editEquipmentModal">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mb-4 ">
+                                            <div class="row mt-3 mb-4">
+                                                {% for eq in journalist.selected_equipment.all %}
+                                                <div class="badge-card p-2 col mx-2 text-center">{{ eq.name }}</div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="col-md-12">
+                                        <div class="profile-card shadow-sm border-0  mb-4">
+                                            <div class="row mb-4 profile-card-head">
+                                                <div class="col-lg-9 col-md-9">
+                                                    <h4 class="text-start"><i class="fas fa-share-alt me-2"></i> Social
+                                                        Media</h4>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 text-right">
+                                                    <div class="text-end ">
+                                                        <button type="button" class="btn btn-edit"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#editSocialMediaModal">
+                                                            <i class="fas fa-edit"></i> Edit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12 mb-4 pb-4">
+                                                <div class="d-flex flex-wrap gap-3">
+                                                    {% for platform, link in journalist.social_media_links.items %}
+                                                    <a href="{{ link }}" target="_blank"
+                                                        class="mx-2 btn btn-outline-primary d-flex align-items-center gap-2 rounded-pill shadow-sm px-3 py-1">
+                                                        <i class="{% if platform == 'globe' %}fas fa-globe{% else %}fab fa-{{ platform }}{% endif %}"></i>
+                                                    </a>
+                                                    {% empty %}
+                                                    <p class="text-muted">No social media links available.</p>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-body p-0 position-relative text-center">
+                <button type="button" class="btn-close position-absolute top-0 m-3" data-bs-dismiss="modal"
+                    aria-label="Close">X</button>
+                <img id="modalImage" src="" class="img-fluid rounded shadow w-100">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'inn/profile_model.html' %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet" />
+
+<script>
+    const bannerInput = document.getElementById('bannerInput');
+    const cropImage = document.getElementById('cropImage');
+    const bannerImage = document.getElementById('bannerImage');
+    let cropper = null;
+
+    bannerInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file && /^image\//.test(file.type)) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                cropImage.src = e.target.result;
+                cropImage.classList.remove('d-none');
+                if (cropper) cropper.destroy();
+                cropper = new Cropper(cropImage, {
+                    aspectRatio: 4, // Adjust as needed
+                    viewMode: 2,
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    function cropAndSave() {
+        if (cropper) {
+            const canvas = cropper.getCroppedCanvas({
+                width: 1000,
+                height: 250,
+            });
+            bannerImage.src = canvas.toDataURL('image/png');
+
+            // Optional: destroy cropper to reset
+            cropper.destroy();
+            cropper = null;
+
+            // Hide modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editBannerModal'));
+            modal.hide();
+        }
+    }
+
+    function changeImage(imageUrl) {
+        document.getElementById('modalImage').src = imageUrl;
+    }
+</script>
+<style>
+    #cropImage {
+        max-height: 400px;
+    }
+
+    .modal-content img {
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .image-section {
+        display: flex;
+        gap: 16px;
+
+
+    }
+
+    .image-section img {
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .image-section img:hover {
+        transform: scale(1.02);
+    }
+
+    .btn-close {
+        right: 0;
+        z-index: 1;
+    }
+
+    .btn-edit {
+        background: #dc3545;
+        color: white;
+        border-radius: 5px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .btn-edit:hover {
+        background: #c82333;
+        color: white;
+    }
+
+    .profile-card {
+        border-radius: 15px;
+
+        margin-bottom: 40px !important;
+        background: #fff;
+    }
+
+    .profile-card-head {
+        background: #eeeeee;
+        border-radius: 15px 15px 0px 0px;
+        padding: 20px 0px;
+        margin: 0;
+    }
+
+    .badge-card {
+        background: #e1e6eb8a;
+        border-radius: 20px;
+    }
+
+    .form-label {
+
+        color: #333;
+    }
+
+    .form-control {
+        background: #f9f9f9;
+        border-radius: 8px;
+    }
+
+
+    .dxb-bg-dashbord {
+        background: #b1b1b1;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    .das-section {
+        margin: 30px;
+    }
+
+    .dash-title {
+        color: #000;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .news-post {
+        padding: 40px;
+        background: #f4d8e7;
+    }
+
+
+    .form-control:read-only {
+        background-color: #eeeeee6e !important;
+    }
+
+
+    .service-details {
+        width: 460px;
+        height: 250px;
+        left: 29%;
+        overflow: hidden;
+        position: relative;
+        bottom: 150px !important;
+    }
+
+    .service-details img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: inherit;
+        width: 232px;
+        height: 250px;
+        float: left;
+        transition: all 0.8s;
+        -moz-transition: all 0.8s;
+        object-fit: cover;
+    }
+
+
+    .service-details .service-hover-text h3 {
+        padding: 0px;
+        margin: 0px;
+        font-size: 25px;
+        font-weight: 300;
+        font-family: "Open Sans";
+    }
+
+    .service-details .service-hover-text h4 {
+        padding: 0px;
+        padding-bottom: 13px;
+        margin: 0px;
+        font-size: 14px;
+        letter-spacing: 3px;
+        width: 90%;
+        font-family: "Open Sans";
+        text-transform: uppercase;
+        border-bottom: 2px solid #000;
+    }
+
+    .service-details .service-hover-text p {
+        padding-top: 13px;
+        font-size: 14px;
+        line-height: 20px;
+        font-family: "Open Sans";
+    }
+
+
+    .service-details .service-hover-text {
+        width: 50%;
+        height: 100%;
+        position: absolute;
+        top: 0%;
+        left: 50%;
+        padding: 3% 4%;
+        background: #d61e25;
+        color: rgba(255, 255, 255, 1);
+        /*	display: none;*/
+        transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.4s;
+    }
+
+    .service-details:hover .service-hover-text {
+        display: block !important;
+        color: rgba(255, 255, 255, 1);
+        background: rgba(214, 30, 37, 0.85);
+        left: 0px;
+        top: 0px;
+    }
+
+
+    .service-details .service-text {
+        width: 50%;
+        height: inherit;
+        background: #000;
+        float: left;
+        position: absolute;
+        left: 50%;
+    }
+
+    .service-details .service-text p {
+        padding: 100px 0px 0px 20px;
+        font-size: 24px;
+        font-family: "Open Sans";
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .service-details .service-text p span {
+        font-family: "Open Sans" !important;
+    }
+
+    .service-details .service-text a,
+    .service-white .service-text {
+        padding: 0px 0px 0px 20px;
+        font-size: 14px !important;
+        color: #d61e25 !important;
+        font-family: "Open Sans" !important;
+        text-decoration: none !important;
+    }
+
+    .service-details .service-text {
+        float: left;
+    }
+
+    .service-white {
+        background: #eee !important;
+        width: 50% !important;
+        height: inherit !important;
+    }
+
+    .service-white p {
+        color: #000 !important;
+    }
+
+    .change-profile-button {
+        border: 1px solid #d61e25 !important;
+        color: #d61e25;
+        font-size: 14px;
+    }
+
+    .change-profile-button:hover {
+        border: 1px solid #d61e25 !important;
+        background: #d61e25;
+        color: #fff;
+    }
+
+
+    .profile-image-container img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border: 4px solid #007bff;
+    }
+
+
+
+
+    .btn-outline-primary {
+        border-radius: 25px;
+    }
+</style>
+
+{% endblock %}

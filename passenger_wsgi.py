@@ -1,0 +1,1 @@
+from newsibleasia.wsgi import application

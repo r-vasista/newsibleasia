@@ -1,0 +1,53 @@
+{% load static %}  
+<div class="container">
+    <div class="row">
+<!-- reels Slider End -->
+
+<!-- left-reels-start -->
+<div class="col-lg-6">
+    <div class="col-lg-12">
+        <div class="head-title text-center border-b mb-1 mt-5">TRUE TALES</div>
+    </div>
+    <div class="owl-carousel news-carousel carousel-item-4 position-relative bg-white" >
+       {% for truet in tt %}
+        <div class="position-relative overflow-hidden mb-3 reel">
+            <a href="/video/{{truet.slug}}">
+            <div class="reelimg">
+                <p class="reelplaybut"><i class="fa fa-play-circle" aria-hidden="true"></i></p>
+                <img src="https://img.youtube.com/vi/{{truet.video_url}}/mqdefault.jpg" alt="Video Thumbnail" class="reelthum">
+            </div>
+        </a>  
+        </div>
+        {% endfor %} 
+
+    </div>
+    <h6 class="text-center"><a href="/special-program/truetales-by-dnn" type="button" class="btn btn-danger mb-3 mt-3">More Short Stories</a></h6>
+
+</div>
+
+<!-- right-reels-start -->
+<div class="col-lg-6">
+    <div class="col-lg-12">
+        <div class="head-title text-center border-b mb-1 mt-5">ROZINA'S RECIPE</div>
+    </div>
+    <div class="owl-carousel news-carousel carousel-item-4 position-relative bg-white" >
+       {% for rcp in recipe %}
+        <div class="position-relative overflow-hidden mb-3 reel">
+            <a href="/video/{{rcp.slug}}">
+            <div class="reelimg">
+                <p class="reelplaybut"><i class="fa fa-play-circle" aria-hidden="true"></i></p>
+                <img src="https://img.youtube.com/vi/{{rcp.video_url}}/mqdefault.jpg" alt="Video Thumbnail" class="reelthum">
+            </div>
+        </a>
+            
+        </div>
+        {% endfor %} 
+
+    </div>
+    <h6 class="text-center"><a href="/special-program/recipe" type="button" class="btn btn-danger mb-3 mt-3">More Short Stories</a></h6>
+
+</div>
+
+</div>
+</div>
+

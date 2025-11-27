@@ -1,0 +1,192 @@
+{% extends 'inn/base.html' %}
+{% block body %}
+{% load static %}
+
+<div class="container-fluid bg-light py-5">
+  <div class="container dashboard-container">
+    <div class="row">
+      <!-- Sidebar Menu -->
+      <div class="col-lg-3 dash-sidebar">
+        {% include "inn/dbmenu.html" %}
+      </div>
+      <!-- Main Dashboard Content -->
+      <div class="col-lg-9">
+        <section class="content py-2">
+          <h3 class="mt-2 mb-4">Dashboard</h3>
+          <div class="row">
+            <!-- Total Posts -->
+            <div class="col-lg-3 col-md-6">
+              <div class="dash-box bg-primary">
+                <div class="inner">
+                  <h3>150</h3>
+                  <p>Total Posts</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-file-alt"></i>
+                </div>
+                <a href="#" class="box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+            <!-- Total Articles -->
+            <div class="col-lg-3 col-md-6">
+              <div class="dash-box bg-success">
+                <div class="inner">
+                  <h3>53</h3>
+                  <p>Total Articles</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-newspaper"></i>
+                </div>
+                <a href="#" class="box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+            <!-- Total Video Posts -->
+            <div class="col-lg-3 col-md-6">
+              <div class="dash-box bg-warning">
+                <div class="inner">
+                  <h3>44</h3>
+                  <p>Total Video Posts</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-video"></i>
+                </div>
+                <a href="#" class="box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+
+            <!-- Trending Posts -->
+            <div class="col-lg-3 col-md-6">
+              <div class="dash-box bg-danger">
+                <div class="inner">
+                  <h3>65</h3>
+                  <p>Trending Posts</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-chart-line"></i>
+                </div>
+                <a href="#" class="box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+ /* Main Dashboard Container */
+.dashboard-container {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar Styling */
+.dash-sidebar {
+  background: linear-gradient(135deg, #4289c7, #007bff);
+  color: #fff;
+  border-radius: 15px 0 0 15px;
+  padding: 0px;
+  text-align: center;
+}
+
+/* Profile Box */
+.profile-box {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.profile-box img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-box h3 {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.profile-box .status {
+  color: green;
+  font-size: 14px;
+}
+
+/* Dashboard Cards */
+.dash-box {
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 20px;
+  color: white;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dash-box h3 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dash-box .icon {
+  font-size: 30px;
+  opacity: 0.6;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+/* Hover Effect */
+.dash-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* More Info Button */
+.box-footer {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  color: white !important;
+ 
+  border-radius: 0 0 10px 10px;
+  text-decoration: none;
+  transition: 0.3s;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.box-footer:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Card Colors */
+.bg-primary { background: #4288c6 !important; }
+.bg-success { background: #28a745 !important; }
+.bg-warning { background: #ffc107 !important; }
+.bg-danger  { background: #dc3545 !important; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dash-box {
+      margin-bottom: 15px;
+  }
+
+  .dash-sidebar {
+      border-radius: 15px;
+      padding: 15px;
+      text-align: left;
+  }
+}
+
+</style>
+
+{% endblock %}

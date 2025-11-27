@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+
+    {% for sitemap in sitemaps %}
+    <url>
+        <loc>{{ sitemap.loc }}</loc>
+        <lastmod>{{ sitemap.lastmod }}</lastmod>
+        <video:video>
+            {% if sitemap.video_type == "reel" %}
+            <video:content_loc>https://www.youtube.com/shorts/{{ sitemap.video }}</video:content_loc>
+            {% else %}
+            <video:content_loc>https://www.youtube.com/watch?v={{ sitemap.video }}</video:content_loc>
+            {% endif %}
+            <video:thumbnail_loc>https://img.youtube.com/vi/{{ sitemap.video }}/mqdefault.jpg</video:thumbnail_loc>
+            <video:title>{{ sitemap.title }}</video:title>
+            <video:description>{{ sitemap.video_short_des }}</video:description>
+            <video:viewcounter>{{ sitemap.viewcounter }}</video:viewcounter>
+            <video:publication_date>{{ sitemap.publish_date }}</video:publication_date>
+        </video:video>
+    </url>
+    {% endfor %}
+</urlset>

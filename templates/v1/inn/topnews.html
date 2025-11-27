@@ -1,0 +1,144 @@
+<div class="m-3">
+  <div class="row ">
+    <div class="col-lg-5 col-md-12 col-sm-12 mb-3">
+      <div class="breaking-news-bar">
+        <div class="breaking-news-banner">
+          <div class="breaking">VIDEO</div>
+          <div class="news">NEWS</div>
+        </div>
+
+        <div class="ticker-container" onmouseover="pauseTicker('tickerText')" onmouseout="resumeTicker('tickerText')">
+          <div class="ticker-text" id="tickerText">
+            {% for CatVid in CatV|slice:":2" %}
+            <a style="color: #d8f0ff !important;" href="/video/{{CatVid.slug}}">
+              <span style="color: #d8f0ff;">{{ CatVid.video_date }}:-</span> {{ CatVid.video_title }}!
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="ticker-nav">
+          <a href="/all-video-news/all">
+            <button>View More</button>
+          </a>
+        </div>
+      </div>
+      <div class="slider-container-top">
+        <div class=" main-swiper">
+          <div class="swiper-wrapper">
+            {% for CatVid in videos %}
+            <div class="swiper-slide">
+              <a href="/video/{{CatVid.slug}}">
+                <img src="https://img.youtube.com/vi/{{CatVid.video_url}}/hqdefault.jpg"
+                  alt="{{CatVid.video_title}}" title="{{CatVid.video_title}}" loading="lazy" width="709" height="363"/>
+              </a>
+              <div class="overlay">
+                <span class="category">{{ CatVid.News_Category }}</span>
+                <a href="/video/{{CatVid.slug}}">
+                  <h2 class="title">{{ CatVid.video_title }}</h2>
+                </a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+
+        <div class="swiper thumb-swiper">
+          <div class="swiper-wrapper">
+            {% for CatVid in videos %}
+            <div class="swiper-slide">
+              <img src="https://img.youtube.com/vi/{{CatVid.video_url}}/hqdefault.jpg"
+                  alt="{{CatVid.video_title}}" title="{{CatVid.video_title}}" loading="lazy">
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5 col-md-12 col-sm-12 mb-3">
+      <div class="breaking-news-bar">
+        <div class="breaking-news-banner">
+          <div class="breaking">HEAD </div>
+          <div class="news">LINES</div>
+        </div>
+        <div class="ticker-container" onmouseover="pauseTicker('trendingTickerText')"
+          onmouseout="resumeTicker('trendingTickerText')">
+          <div class="ticker-text" id="trendingTickerText">
+            {% for news in headline %}
+            <a style="color: #d8f0ff !important;" href="/{{news.slug}}">
+              <span style="color: #d8f0ff;">{{ news.schedule_date }}:-</span> {{news.post_title }}!
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="ticker-nav">
+          <a href="all-news/head-lines">
+            <button>View More</button>
+          </a>
+        </div>
+      </div>
+
+      <div class="slider-container-top">
+        <div class=" trending-swiper">
+          <div class="swiper-wrapper">
+            {% for news in headline %}
+            <div class="swiper-slide">
+              <a href="/{{news.slug}}">
+                <img src="{{ news.post_image.url }}" alt="{{ news.post_title }}" title="{{ news.post_title }}" loading="lazy" width="709" height="363">
+              </a>
+              <div class="overlay">
+                <span class="category">{{ news.post_cat }}</span>
+                <a href="/{{news.slug}}">
+                  <h2 class="title">{{ news.post_title|slice:":80"|safe }}</h2>
+                </a>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="swiper-button-next trending-next"></div>
+          <div class="swiper-button-prev trending-prev"></div>
+        </div>
+        <div class="swiper trending-thumb-swiper">
+          <div class="swiper-wrapper">
+            {% for news in headline %}
+            <div class="swiper-slide"><img src="{{ news.post_image.url }}" alt="{{ news.post_title }}" title="{{ news.post_title }}" loading="lazy"></div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-12 col-sm-12 mb-3 p-0">
+      {% include 'inn/upcoming_events.html'%}
+    </div>
+
+  </div>
+</div>
+
+<!--profiles start -->
+{% include 'guist_profiles.html' %}
+<!--profiles end -->
+
+<div class="row my-2">
+  <div class="col-lg-6 col-md-12">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5922835412614482"
+      crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5922835412614482" data-ad-slot="2979021120"
+      data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  <div class="col-lg-6 col-md-12">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5922835412614482"
+      crossorigin="anonymous"></script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5922835412614482" data-ad-slot="2979021120"
+      data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+</div>

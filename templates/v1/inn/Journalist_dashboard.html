@@ -1,0 +1,446 @@
+{% include "head.html" %}
+{% block body %}
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<div class="container-fluid dxb-bg-dashbord">
+    <div class="row">
+        <div class="col-lg-2 p-0">
+            {% include "inn/Journalist_menu.html" %}
+        </div>
+
+        <div class="col-lg-10 p-0">
+            <div class="container-fluid py-3 px-4 dash-title">
+                <div class="row align-items-center">
+                    <div class="col-md-6 col-12 mb-2 mb-md-0">
+                        <h5 class="mb-0 fw-semibold">Welcome back, {{ journalist.first_name }} {{ journalist.last_name }}</h5>
+                        <small class="text-white">Welcome back, {{ journalist.first_name }}
+                            {{ journalist.last_name }}! Here is an overview of your content.</small>
+                    </div>
+
+                    <div
+                        class="col-md-6 col-12 text-md-end text-start d-flex justify-content-md-end justify-content-start align-items-center gap-3">
+                        {% if journalist.registration_type == "artist" %}
+                        <a style="text-decoration: none;" href="{% static 'assets/dnn/docs/A50_Artisit.pdf' %}"
+                            download>
+                            <button class="dhamaka-download-button artist">
+                                <i class="fas fa-download"></i> Artist Guide
+                            </button>
+                        </a>
+                        {% elif journalist.registration_type == "organisation" %}
+                        <div>
+                            <a href="#" data-toggle="modal" data-target="#addArtistModal"><i
+                                    class="fa fa-user-plus mr-2"></i></a>
+                        </div>
+                        <!-- Add Artist Modal -->
+                        <div class="modal fade" id="addArtistModal" tabindex="-1" role="dialog"
+                            aria-labelledby="addArtistModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addArtistModalLabel">Request to Enroll an Artist</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body bg-light">
+                                        <form action="{% url 'add_artist' %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name *" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name *" required>
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <input type="email" class="form-control" id="email" name="email" placeholder="Email *" required>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a style="text-decoration: none;"
+                            href="{% static 'assets/dnn/docs/TheArt_Guild_Instituitions.pdf' %}" download>
+                            <button class="dhamaka-download-button organisation">
+                                <i class="fas fa-download"></i> Org Guide
+                            </button>
+                        </a>
+                        {% endif %}
+
+                        <i class="fas fa-expand fs-5 cursor-pointer"></i>
+                        <i class="fas fa-moon fs-5 cursor-pointer"></i>
+                        <i class="fas fa-bell fs-5 cursor-pointer"></i>
+                        <img class="rounded-circle border border-dark"
+                            style="width: 40px; height: 40px; object-fit: cover;"
+                            src="{% if journalist.profile_picture %}
+                            {{ journalist.profile_picture.url }}{% else %}{% static 'assets/dnn/img/user_random.jpg' %}{% endif %}" alt="Journalist Profile">
+                    </div>
+                </div>
+            </div>
+            <div class="row m-4">
+                <div class="col-lg-9">
+                    <section class="content das-section">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <a href="#" class="" onclick="showDetails('posts-info')">
+                                    <div class="dash-box bg-primary">
+                                        <div class="icon">
+                                            <i class="fa fa-file-alt"></i>
+                                        </div>
+                                        <div class="inner">
+                                            <p>Total Active Posts</p>
+                                            <h3 class="text-white">{{ total_active_posts_count }}</h3>
+                                        </div>
+                                        <div class="box-footer" onclick="showDetails('posts-info')">More info <i
+                                                class="fa fa-arrow-circle-right"></i></div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- Total Articles -->
+
+                            <div class="col-lg-3 col-md-6">
+                                <a href="#" class="" onclick="showDetails('articles-info')">
+                                    <div class="dash-box bg-primary">
+                                        <div class="icon">
+                                            <i class="fa fa-newspaper"></i>
+                                        </div>
+                                        <div class="inner">
+                                            <p>Total Active Articles</p>
+                                            <h3 class="text-white">{{ total_active_articles_count }}</h3>
+
+                                        </div>
+
+                                        <div href="#" class="box-footer" onclick="showDetails('articles-info')">More
+                                            info <i class="fa fa-arrow-circle-right"></i></div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- Total Video Posts -->
+                            <div class="col-lg-3 col-md-6">
+                                <a href="#" class="" onclick="showDetails('videos-info')">
+                                    <div class="dash-box bg-primary">
+                                        <div class="icon">
+                                            <i class="fa fa-video"></i>
+                                        </div>
+                                        <div class="inner">
+                                            <p>Active Video Posts</p>
+                                            <h3 class="text-white">{{ active_video_count }}</h3>
+                                        </div>
+
+                                        <div class="box-footer" onclick="showDetails('videos-info')">More info <i
+                                                class="fa fa-arrow-circle-right"></i></div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- Trending Posts -->
+                            <div class="col-lg-3 col-md-6">
+                                <a href="#" class="" onclick="showDetails('trending-info')">
+                                    <div class="dash-box bg-primary">
+                                        <div class="icon">
+                                            <i class="fa fa-film"></i>
+                                        </div>
+                                        <div class="inner">
+                                            <p>Active Reel Posts</p>
+                                            <h3 class="text-white">{{ active_reels_count }}</h3>
+                                        </div>
+
+                                        <div class="box-footer" onclick="showDetails('trending-info')">More info <i
+                                                class="fa fa-arrow-circle-right"></i></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- INFO SECTIONS (hidden by default) -->
+                        <section id="info-sections" style="padding: 30px 0px;">
+                            <div id="posts-info" class="info-box" style="display:block;">
+                                <h4>My Posts</h4>
+                                <div class="justify-content-between  p-4 post-data row align-items-left">
+                                    {% for post in total_active_posts %}
+                                    <p>
+                                        <a href="/{{post.slug}}" class="mb-0 text-left" target="_blank">{{ post.post_title }}</a></br>
+                                        <small class="mb-0">Post On : {{ post.schedule_date|date }} | {{ post.schedule_date|time }}</small>
+                                        <small class="ml-3"><i class="far fa-eye mr-2"></i>{{post.post_status|add:post.viewcounter}}</small>
+                                    </p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div id="articles-info" class="info-box" style="display:none;">
+                                <h4>My Articles </h4>
+                                <div class="justify-content-between  p-4 post-data row align-items-left">
+                                    {% for post in total_active_articles %}
+                                    <p>
+                                        <a href="/{{post.slug}}" class="mb-0 text-left" target="_blank">{{ post.post_title }}</a></br>
+                                        <small class="mb-0">Post On : {{ post.schedule_date|date }} | {{ post.schedule_date|time }}</small>
+                                        <small class="ml-3"><i class="far fa-eye mr-2"></i>{{post.post_status|add:post.viewcounter}}</small>
+                                    </p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div id="videos-info" class="info-box" style="display:none;">
+                                <h4>My Videos </h4>
+                                <div class="justify-content-between  p-4 post-data row align-items-left">
+                                    {% for post in active_video_type %}
+                                    <p>
+                                        <a href="/video/{{post.slug}}" class="mb-0 text-left" target="_blank">{{ post.video_title }}</a></br>
+                                        <small class="mb-0">Post On : {{ post.schedule_date|date }} | {{ post.schedule_date|time }}</small>
+                                        <small class="ml-3"><i class="far fa-eye mr-2"></i>{{post.counter|add:post.viewcounter}}</small>
+                                    </p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div id="trending-info" class="info-box" style="display:none;">
+                                <h4>My Reels </h4>
+                                <div class="justify-content-between  p-4 post-data row align-items-left">
+                                    {% for post in active_reels_type %}
+                                    <p>
+                                        <a href="/video/{{post.slug}}" class="mb-0 text-left" target="_blank">{{ post.video_title }}</a></br>
+                                        <small class="mb-0">Post On : {{ post.schedule_date|date }} | {{ post.schedule_date|time }}</small>
+                                        <small class="ml-3"><i class="far fa-eye mr-2"></i>{{post.counter|add:post.viewcounter}}</small>
+                                    </p>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </section>
+                    </section>
+                </div>
+                <div class="col-lg-3">
+                    {% include 'inn/upcoming_events.html'%}
+
+                    {% if journalist.registration_type == "organisation" %}
+                    <div class="my-3 Artists-box">
+                        <h5 class="my-3"><i class="fa fa-users mr-3"></i> My Artist</h5>
+                        <div style="max-height: 365px; overflow-y: auto;">
+                            {% for profile in child_profiles %}
+                            <div class="d-flex align-items-center mb-3">
+                                <a href="{% url 'journalist_profile' profile.id %}">
+                                    <img src="{{ profile.profile_picture.url }}" class="artist-img me-2 shadow-sm"
+                                        style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                                </a>
+                                <div>
+                                    <a href="{% url 'journalist_profile' profile.id %}"
+                                        class="text-decoration-none fw-semibold">
+                                        {{ profile.first_name }} {{ profile.last_name }}
+                                    </a>
+                                    <small class="text-muted d-block">{{ profile.registration_type }}</small>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showDetails(id) {
+        document.querySelectorAll('.info-box').forEach(box => box.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+        document.getElementById('info-sections').scrollIntoView({ behavior: '' });
+    }
+
+    const boxes = document.querySelectorAll('.dash-box');
+    boxes.forEach(box => {
+        box.addEventListener('click', () => {
+            boxes.forEach(b => b.classList.remove('active'));
+            box.classList.add('active');
+        });
+    });
+</script>
+
+<style>
+    .Artists-box {
+        padding: 20px 15px;
+        border-radius: 4px;
+        color: #333;
+        text-align: left;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        min-height: 160px;
+        background: #fff;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .das-section a {
+        text-decoration: none;
+        color: #4b3e82 !important;
+        padding: 5px 0px;
+    }
+
+    .das-section a:hover {
+        text-decoration: underline;
+    }
+
+    .post-data {
+        height: 200px;
+        overflow-y: scroll;
+    }
+
+    .info-box {
+        padding: 20px 15px;
+        border-radius: 4px;
+        color: #333;
+        text-align: left;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        min-height: 160px;
+        background: #fff;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .info-box:hover {
+        transform: scale(1.02);
+    }
+
+    .info-box h4 {
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 20px;
+        color: #df1c15;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .dxb-bg-dashbord {
+        background: #fff;
+        min-height: 100vh;
+        width: 100%;
+    }
+
+    .dash-title {
+        color: #000;
+        padding: 15px 30px;
+        background: #b1b1b1;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    .dash-box {
+        border-radius: 3px;
+        margin-bottom: 15px;
+        padding: 10px;
+        color: #000;
+        text-align: center;
+        max-width: 250px;
+        border: 1px solid #f4f4f4;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        background: #fff;
+    }
+
+    .dash-box:hover,
+    .dash-box.active {
+        transform: translateY(-5px);
+        background: linear-gradient(to bottom right, #2164a9, #c81e26) !important;
+        color: #fff !important;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        border: none;
+    }
+
+    .dash-box h3 {
+        font-size: 36px;
+        font-weight: 500;
+    }
+
+    .dash-box p {
+        font-size: 18px;
+        font-weight: 500;
+        margin: 10px 0px;
+    }
+
+    .dash-box .icon {
+        font-size: 40px;
+        opacity: 0.8;
+        color: #fff;
+    }
+
+    .box-footer {
+        display: block;
+        padding: 10px;
+        text-align: center;
+        color: rgb(18, 0, 153) !important;
+        border-radius: 0 0 10px 10px;
+        transition: 0.3s;
+    }
+
+    .box-footer:hover {
+        text-decoration: none;
+    }
+
+    /* Text Colors */
+    .text-primary {
+        color: #007bff !important;
+    }
+
+    .text-success {
+        color: #28a745 !important;
+    }
+
+    .text-warning {
+        color: #ffc107 !important;
+    }
+
+    .text-danger {
+        color: #dc3545 !important;
+    }
+
+    @media (max-width: 768px) {
+        .dash-box {
+            margin-bottom: 15px;
+        }
+    }
+
+    .dhamaka-download-button {
+        padding: 14px 28px;
+        font-weight: bold;
+        font-size: 1rem;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 0 15px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .dhamaka-download-button.artist {
+        background: linear-gradient(45deg, #ff00cc, #3333ff);
+        box-shadow: 0 0 15px #ff00cc;
+    }
+
+    .dhamaka-download-button.organisation {
+        background: linear-gradient(45deg, #ff6a00, #0072ff);
+        box-shadow: 0 0 15px #ff6a00;
+    }
+
+    .dhamaka-download-button:hover {
+        transform: scale(1.05);
+    }
+
+    .dhamaka-download-button.organisation:hover {
+        background: linear-gradient(45deg, #0072ff, #ff6a00);
+    }
+</style>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% load static %}  
+<div class="container">
+<!-- Main News Slider Start -->
+<div class="container-fluid">
+    <div class="row">
+        {% comment %} <div class="col-lg-6">
+            <div class="owl-carousel main-carousel position-relative">
+                {% for MainVid in MainV %}
+                <div class="position-relative overflow-hidden" style="height:368px;">
+                <img class="img-fluid h-100" src="https://img.youtube.com/vi/{{MainVid.video_url}}/hqdefault.jpg" style="object-fit: cover;">
+                    <div class="overlay">
+                        <p class="playbut1">
+                            <a href="/video/{{MainVid.slug}}">
+                            <i class="fa fa-play-circle" aria-hidden="true"></i></a></p>
+                        <div class="mb-2">
+                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                href="/video/{{MainVid.slug}}">{{MainVid.News_Category}}</a>
+                            <a class="t-white" href=""><i class="fas fa-calendar-alt"></i> {{MainVid.video_date|date}} || <i class="far fa-eye mr-2"></i>{{MainVid.video_status}}</a>
+                        </div>
+                        <a class="h2 m-0 t-white text-uppercase font-weight-bold" href="/video/{{MainVid.slug}}">{{MainVid.video_title}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div> {% endcomment %}
+        {% comment %} small-img-start {% endcomment %}
+        <div class="col-lg-12 px-0">
+            <div class="row mx-0 px-0">
+                {% for CatVid in CatV %}
+                <div class="col-md-3 ml-0 mb-2 pl-0">
+                    <div class="position-relative overflow-hidden" style="height:180px;">
+                        <p class="playbut">
+                            <a href="/video/{{CatVid.slug}}">
+                                <i class="fa fa-play-circle" aria-hidden="true"></i></a></p>
+                           
+                        <img class="img-fluid w-100 h-100" src="https://img.youtube.com/vi/{{CatVid.video_url}}/hqdefault.jpg" style="object-fit: cover;">
+                        <div class="overlay">
+                            <a class="badge badge-primary text-uppercase font-weight-semi-bold mr-1"
+                                    href="/video/{{CatVid.slug}}">{{CatVid.News_Category}}</a>
+                            <a class="h6 m-0 t-white text-uppercase font-weight-bold" href="/video/{{CatVid.slug}}">{{CatVid.video_title}}</a>
+                            <div class="mb-1">
+                                <a class="t-white" href=""><small><i class="fas fa-calendar-alt"></i> {{CatVid.video_date|date}} || <i class="far fa-eye mr-1"></i>                                {{CatVid.counter|add:CatVid.viewcounter}}
+                                </small></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<h6 class="text-center"><a href="/all-video-news/all" type="button" class="btn btn-danger mb-3 mt-3">More News</a></h6>
+<!-- Main News Slider End -->
+<div class="col-lg-12 mb-3  mt-3">
+    {% for adledb in adtop %}
+    <a href=""><img class="img-fluid w-100" src="../upload/{{adledb.ad_image}}" alt=""></a>
+    {% endfor %}
+</div>
+<!-- leaderbord-ad-end -->
+<div class="col-lg-12">
+    <div class="head-title text-center mb-1 mt-5">SHORT STORY</div>
+</div>
+    <div class="owl-carousel news-carousel carousel-item-8 position-relative bg-white" >
+       {% for reel in Reels %}
+        <div class="position-relative overflow-hidden mb-3 reel">
+            <a href="/video/{{reel.slug}}">
+            <div class="reelimg">
+                <p class="reelplaybut"><i class="fa fa-play-circle" aria-hidden="true"></i></p>
+                <img src="https://img.youtube.com/vi/{{reel.video_url}}/mqdefault.jpg" alt="Video Thumbnail" class="reelthum">
+            </div>
+        </a>
+            
+        </div>
+        {% endfor %} 
+
+        
+        
+
+        {% comment %} {% for reel in Reels %}
+        <div class="position-relative overflow-hidden mb-3 reel">
+            <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" width="100%" height="220" frameborder="0" class="lazy entered loaded" data-src="https://www.youtube.com/embed/{{reel.video_url}}" data-ll-status="loaded" src="https://www.youtube.com/embed/{{reel.video_url}}&autoplay=1&loop=1&playlist=j-EQgzyoXMk&showinfo=0&controls=0&autohid=1"></iframe>
+            
+        </div>
+        {% endfor %} {% endcomment %}
+    </div>
+    <h6 class="text-center"><a href="/all-video-news/stories" type="button" class="btn btn-danger mb-3 mt-3">More Short Stories</a></h6>
+
+</div>
+

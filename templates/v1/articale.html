@@ -1,0 +1,141 @@
+{% load static %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<div class="m-3">
+   <div class="trending-wrapper mb-2">
+      <div class="trending-label">
+        <a href="/all-news/articles">
+        <h4 class="dark:text-white  text-uppercase fw-bold">Latest Article</h4>
+        </a>
+      </div>
+    </div>
+  <div class="row">
+    
+    <div class="col-lg-8 col-md-12 col-sm-12 mb-4">
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          {% for article in Articale|slice:"4:6" %}
+            <div class="article-card">
+              <div class="image-section">
+                <a href="/{{ article.slug }}">
+                  <img src="{{ article.post_image.url }}" alt="{{ article.post_title }}" title="{{ article.post_title }}"
+                    loading="lazy" class="article-image" />
+                </a>
+                <div class="content-section items_background my-2">
+                  <a href="{% url 'catdetails' catlink=article.post_cat.sub_cat.cat_slug slug=article.post_cat.subcat_slug %}"
+                    class="article-tag dark:text-white">
+                    {{ article.post_cat|truncatechars:30 }}
+                  </a>
+                  <a href="/{{ article.slug }}">
+                    <h6 class=" dark:text-white fw-bold mb-0">{{ article.post_title|truncatechars:80 }}</h6>
+                  </a>
+                  <div class="meta d-flex">
+                    <span class="dark:text-white me-2 small">{{ article.post_date }}</span>
+                    <div class="share-icons-container " style="--custom-bottom: 0px; --custom-right: 0px;">
+                      {% include 'share.html' with posts=article %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="col-lg-6 col-md-12">
+           {% for article in Articale|slice:"6:8" %}
+            <div class="article-card">
+              <div class="image-section">
+                <a href="/{{ article.slug }}">
+                  <img src="{{ article.post_image.url }}" alt="{{ article.post_title }}" title="{{ article.post_title }}"
+                    loading="lazy" class="article-image" />
+                </a>
+                <div class="content-section items_background  my-2">
+                  <a href="{% url 'catdetails' catlink=article.post_cat.sub_cat.cat_slug slug=article.post_cat.subcat_slug %}"
+                    class="article-tag dark:text-white">
+                    {{ article.post_cat|truncatechars:30 }}
+                  </a>
+                  <a href="/{{ article.slug }}">
+                    <h6 class="dark:text-white fw-bold mb-0">{{ article.post_title|truncatechars:80 }}</h6>
+                  </a>
+                  <div class="meta d-flex">
+                    <span class="dark:text-white me-2 small">{{ article.post_date }}</span>
+                    <div class="share-icons-container" style="--custom-bottom: 0px; --custom-right: 0px;">
+                      {% include 'share.html' with posts=article %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 mb-4">
+      <div class="article-slider-wrapper">
+        <div class="article-slider-main" id="articleSliderMain">
+          {% for article in Articale|slice:"8:10" %}
+          <div class="article-slide-item">
+            <img src="{{ article.post_image.url }}" alt="{{ article.post_title }}" title="{{ article.post_title }}"
+              loading="lazy">
+            <div class="article-content my-2">
+              <a class="article-tag dark:text-white"
+                href="{% url 'catdetails' catlink=article.post_cat.sub_cat.cat_slug slug=article.post_cat.subcat_slug %}">
+                {{ article.post_cat }}
+              </a>
+              <a class="text-start dark:text-white" href="/{{ article.slug }}">
+                <h6 class="dark:text-white fw-bold mb-0">{{ article.post_title|truncatechars:80 }}</h6>
+              </a>
+              <!-- <a href="/{{ article.slug }}">
+                <p class="text-start dark:text-white">{{ article.post_short_des|truncatechars:150 }}</p>
+              </a> -->
+              <div class="meta d-flex">
+                <span class="dark:text-white me-2 small">{{ article.post_date }}</span>
+                <div class="share-icons-container " style="--custom-bottom: 0px; --custom-right: 0px;">
+                  {% include 'share.html' with posts=article %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <!-- <div class="article-slider-thumbs mt-3">
+          {% for article in Articale|slice:":4" %}
+          <div class="article-thumb-item" onclick="goToArticleSlide({{ forloop.counter0 }})">
+            <img src="{{ article.post_image.url }}" alt="{{ article.post_title }}" title="{{ article.post_title }}"
+              loading="lazy">
+          </div>
+          {% endfor %}
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    {% for article in Articale|slice:"10:16" %}
+    <div class="col-lg-3 col-md-6 col-sm-12">
+      <div class="article-card">
+        <div class="image-section">
+          <a href="/{{ article.slug }}">
+            <img src="{{ article.post_image.url }}" alt="{{ article.post_title }}" title="{{ article.post_title }}"
+              loading="lazy" class="article-image" />
+          </a>
+          <div class="content-section items_background my-2">
+            <a href="{% url 'catdetails' catlink=article.post_cat.sub_cat.cat_slug slug=article.post_cat.subcat_slug %}"
+              class="article-tag dark:text-white">
+              {{ article.post_cat|truncatechars:30 }}
+            </a>
+            <a href="/{{ article.slug }}">
+              <h6 class="dark:text-white fw-bold mb-0">{{ article.post_title|truncatechars:50 }}</h6>
+            </a>
+            <div class="meta d-flex">
+              <span class="dark:text-white me-2 small">{{ article.post_date }}</span>
+              <div class="share-icons-container dark:text-white" style="--custom-bottom: 0px; --custom-right: 0px;">
+                {% include 'share.html' with posts=article %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

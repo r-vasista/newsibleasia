@@ -1,0 +1,345 @@
+/* Responsive - Tablets */
+@media screen and (max-width: 1024px) {
+  .cust-pm {
+    margin-top: 0px;
+  }
+  .thumb-swiper .swiper-slide,
+  .trending-thumb-swiper .swiper-slide {
+    width: 163px !important;
+  }
+  .top-menu {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .menu-left {
+    margin-bottom: 10px;
+  }
+
+  .menu-right {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cust-pl-0 {
+    padding: 20px 0px;
+  }
+  .cust-pr-0 {
+    padding: 0;
+  }
+  .news-content p {
+    height: 68px;
+  }
+}
+
+/* Responsive - tablet */
+@media screen and (max-width: 768px) {
+  .brand-logo {
+    width: 125px;
+  }
+  .brand-logo img {
+    max-height: 125px;
+  }
+  .cust-pm {
+    margin-top: 0px;
+  }
+
+  .thumb-swiper .swiper-slide,
+  .trending-thumb-swiper .swiper-slide {
+    width: 135px !important;
+    margin: auto !important;
+  }
+
+  .main-label {
+    font-size: 18px;
+  }
+
+  .menu-right a,
+  .dropdown-content a {
+    font-size: 13px;
+  }
+
+  .dropbtn {
+    font-size: 18px;
+  }
+
+  .cust-pl-0 {
+    padding: 20px 0px;
+  }
+  .cust-pr-0 {
+    padding: 0;
+  }
+
+  .heading-text {
+    text-align: left;
+  }
+  .view-all {
+    text-align: right;
+  }
+
+  .article-card {
+    margin: 5px;
+  }
+
+  .content-section {
+    padding: 6px 15px 25px;
+  }
+
+  .article-heading {
+    font-size: 12px;
+  }
+
+  .article-text {
+    font-size: 15px;
+  }
+  #mainImage {
+    height: 272px !important;
+  }
+  .dxb-article .main-banner .content {
+    height: 100%;
+  }
+  .dxb-article .main-banner .content p {
+    text-align: left;
+  }
+  .dxb-article .thumb .caption {
+    display: none;
+  }
+  .video-section h2 {
+    text-align: center;
+  }
+  .event-container {
+    max-width: 700px !important;
+  }
+  .custom-tab-widget {
+    width: 100% !important;
+  }
+  ol,
+  ul {
+    padding-left: 0;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-label {
+    font-size: 16px;
+  }
+
+  .menu-right {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-right a {
+    margin-left: 0;
+    padding: 5px 0;
+  }
+
+  .dropbtn {
+    margin-left: 0;
+  }
+
+  .top-menu {
+    padding: 10px;
+  }
+  .heading-text {
+    text-align: center;
+  }
+  .view-all {
+    text-align: center;
+  }
+}
+
+
+
+@media (min-width: 280px) and (max-width: 667px) {
+  .top-bar-bg{
+    padding: 0px !important;
+  }
+  .header a{
+    font-size: 13px !important;
+  }
+  .modal-content {
+    max-width: 340px;
+  }
+
+  .sticky-nav {
+    padding-top: 18px !important;
+  }
+  .header i {
+    font-size: 22px !important;
+  }
+
+  .header p {
+    font-size: 12px;
+    font-weight: normal;
+  }
+  .calender {
+    padding: 0px !important;
+    margin: 10px 0px;
+  }
+  .logo {
+    margin: 0px -6px !important;
+  }
+  .top_search_section {
+    position: relative;
+    right: 0px !important;
+    top: 0px !important;
+    left: 10px !important;
+  }
+    .nav-border {
+    border-top: none !important;
+    border-bottom: none !important;
+    background: var(--background-color);
+    margin: 0px !important;
+    background: #0645c7  !important;
+  }
+  .top_search_section li {
+    width: 50% !important;
+    text-align: right !important;
+    margin-bottom: 20px !important;
+  }
+  .flash-button {
+    width: 194px !important;
+  }
+  .cust-pl-0 {
+    padding-top: 0px !important;
+  }
+  .article-content {
+    padding: 40px 30px 0px 100px !important;
+  }
+
+  .dxv-overlay {
+    background: rgba(255, 255, 255, 0.85) !important;
+  }
+  .modal-content {
+    max-width: 340px;
+  }
+
+  .article-content h3 {
+    height: 44px;
+    overflow: hidden;
+  }
+
+  .article-content p {
+    height: 44px;
+    overflow: hidden;
+  }
+  .sticky-sidebar {
+    z-index: 950 !important;
+  }
+  .modal-backdrop {
+    z-index: 949 !important;
+  }
+  .row-p-0 {
+    padding: 0px !important;
+  }
+  .items_background {
+    border-radius: 6px !important;
+  }
+  .cust-pl-0 {
+    margin: 0px !important;
+  }
+  .top-menu .menu-right {
+    flex-direction: initial;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+  }
+  .form-wrapper {
+    padding: 12px !important;
+  }
+  .video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+  }
+  .navbar-expand-lg .navbar-nav .nav-link{
+    color: #fff !important;
+  }
+  .footer{
+    text-align: center;
+  }
+ .bottom-footer{
+    text-align: center;
+ }
+}
+
+@media (min-width: 767px) and (max-width: 992px) {
+  .top-bar-bg{
+        padding: 16px 0px 10px 0px;
+  }
+  .navbar {
+    padding: 10px !important;
+  }
+  .nav-border {
+    border-top: none !important;
+    border-bottom: none !important;
+    background: var(--background-color);
+    margin: 0px !important;
+    background: #0645c7  !important;
+  }
+  .navbar-expand-lg .navbar-nav .nav-link{
+    color: #fff !important;
+  }
+  .sticky-nav {
+    padding-top: 18px !important;
+  }
+
+  .calender {
+    justify-content: space-between !important;
+  }
+  .top_search_section {
+    right: 19px;
+    top: 0px;
+    justify-content: space-between !important;
+  }
+  .row-content {
+    display: inline !important;
+  }
+
+  .items_background {
+    border-radius: 6px !important;
+  }
+  .cust-pl-0 {
+    margin: 0px !important;
+  }
+  .top-menu {
+    flex-direction: inherit !important;
+    align-items: inherit !important;
+    padding: 0 !important;
+  }
+  .article-slider-thumbs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    bottom: 57px !important;
+    position: relative;
+    background: #f9f9f9;
+    padding: 10px;
+  }
+  .video-background {
+    height: 100vh !important;
+  }
+  .dxb-bg{
+    justify-content: center !important;
+  }
+  .form-container{
+    width: 550px !important;
+  }
+  .footer-content{
+  text-align: left;
+}
+.bottom-footer {
+    text-align: center;
+}
+}
+/* Styles for iPad Air portrait */
+@media only screen and (min-width: 768px) and (max-width: 834px) and (orientation: portrait) {
+  .event-container {
+    max-width: 700px !important;
+  }
+}
