@@ -30,13 +30,13 @@
                                 </button>
 
                             </div>
-                                <div class="slider-item">
+                                {% comment %} <div class="slider-item">
                                    <button href="https://www.instagram.com/dxbnews" class="btn" title="Go to Instagram" target="_blank">
                                     <i class="fab fa-instagram"></i>  <!-- Instagram Icon -->
                                     </button>
-                                </div>
+                                </div> {% endcomment %}
 
-                            <div class="slider-item">
+                            {% comment %} <div class="slider-item">
 
                                 <a href="mailto:?subject=Check%20this%20out&body=Read%20here:%20{{ request.build_absolute_uri }}/{{ posts.slug }}"
 
@@ -46,7 +46,7 @@
 
                                 </a>
 
-                            </div>
+                            </div> {% endcomment %}
 
                             <div class="slider-item">
 
@@ -66,12 +66,12 @@
 
                             </div>
 
-                            <div class="slider-item">
+                            {% comment %} <div class="slider-item">
                                 <a href="https://www.snapchat.com/share?u={{ request.build_absolute_uri }}/{{ posts.slug }}"
                                     class="text-warning" target="_blank">
                                     <i class="fab fa-snapchat"></i>
                                 </a>
-                            </div>
+                            </div> {% endcomment %}
 
                             <div class="slider-item">
                              <a href="https://www.linkedin.com/shareposts?mini=true&url={{ request.build_absolute_uri }}/{{ posts.slug }}" class="text-primary" target="_blank"><i class="fab fa-linkedin"></i>
