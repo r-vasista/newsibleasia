@@ -11,11 +11,12 @@
             <div class="col-lg-4 order-2 order-lg-1">
               <div class="block-layout panel h-100">
                 <div class="block-header panel vstack items-center justify-center text-center gap-1 mb-3">
-                  <h3 class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
-                    <!-- <span class="panel d-inline-block bg-primary w-8px h-8px translate-y-px"></span> -->
-                    <span>Breaking News</span>
-                  </h3>
-                </div>
+      
+                <h2 class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
+                  <span>Breaking News</span>
+                </h2>
+
+              </div>
                 <div class="block-content panel row sep-x gx-4 gy-4 lg:gy-2">
                  {% for news in headline|slice:":6" %}
                   <article class="post type-post panel mb-1">
@@ -47,12 +48,12 @@
 
             <!-- 🟡 Column 2: Latest Videos Swiper -->
             <div class="col-lg-5 order-1 order-lg-2">
-              <div class="block-header panel vstack items-center justify-center text-center gap-1 mb-3">
-                    <h3 class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
-                      <span class="panel d-inline-block icon-narrow unicon-dot-mark text-red w-8px h-8px translate-y-px"></span>
-                      <span>Newsible Asia — From Billions, For Billions</span>
-                    </h3>
-                  </div>
+            <div class="block-header panel vstack items-center justify-center text-center gap-1 mb-3">
+                  <h1 class="block-title h5 m-0 hstack gap-1 border-bottom pb-1 dark:text-white">
+                    <span class="panel d-inline-block icon-narrow unicon-dot-mark text-red w-8px h-8px translate-y-px"></span>
+                    <span>Newsible Asia — From Billions, For Billions</span>
+                  </h1>
+            </div>
              
               <iframe class="video-frame lazy entered loaded ifremvid"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
