@@ -1,0 +1,518 @@
+{% load static %}
+
+<!-- Stories Section -->
+<div class="stories-container py-3 bg-light dark:bg-gray-800">
+    <div class="container-fluid">
+        {% if stories %}
+        <div class="stories-wrapper">
+            <div class="d-flex gap-3 overflow-auto pb-2" id="storiesScroll">
+                {% for story in stories %}
+                <div class="story-item" data-story-id="{{ story.id }}">
+                    <div class="story-circle position-relative" 
+                         onclick="openStory({{ story.id }}, '{{ story.media_type }}', '{{ story.media_file.url }}', '{{ story.title|escapejs }}', '{{ story.description|default:''|escapejs }}', '{{ story.link|default:'' }}')">
+                        
+                        {% if story.media_type == 'video' %}
+                            {% if story.thumbnail %}
+                                <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}" class="story-preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="video-placeholder d-none align-items-center justify-content-center">
+                                    <i class="bi bi-play-circle-fill text-white" style="font-size: 2rem;"></i>
+                                </div>
+                            {% else %}
+                                <div class="video-placeholder d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-play-circle-fill text-white" style="font-size: 2rem;"></i>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <img src="{{ story.media_file.url }}" alt="{{ story.title }}" class="story-preview" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="video-placeholder d-none align-items-center justify-content-center">
+                                <i class="bi bi-image text-white" style="font-size: 2rem;"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="story-gradient"></div>
+                        <div class="story-title">{{ story.title|truncatechars:15 }}</div>
+                        
+                        {% if story.media_type == 'video' %}
+                        <div class="play-icon-small position-absolute top-50 start-50 translate-middle">
+                            <i class="bi bi-play-circle-fill text-white" style="font-size: 1.5rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Story Modal -->
+<div class="modal fade" id="storyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+        <div class="modal-content bg-dark border-0">
+            <div class="modal-header border-0 position-absolute w-100 z-3">
+                <div class="story-header w-100 d-flex align-items-center gap-2 px-3">
+                    <div class="story-progress-bars flex-grow-1">
+                        <div class="progress" style="height: 3px; background-color: rgba(255,255,255,0.3);">
+                            <div class="progress-bar" id="storyProgress" role="progressbar" style="width: 0%; background: linear-gradient(90deg, #00d4ff, #0066ff);"></div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            
+            <div class="modal-body p-0 d-flex align-items-center justify-content-center position-relative">
+                <div id="storyContent" class="w-100 h-100 d-flex align-items-center justify-content-center">
+                    <!-- Story content will be injected here -->
+                </div>
+                
+                <div class="story-info position-absolute bottom-0 start-0 end-0 p-4 text-white">
+                    <h5 id="storyTitle" class="mb-2 fw-bold"></h5>
+                    <p id="storyDescription" class="mb-3 small opacity-75"></p>
+                    <a id="storyLink" href="#" class="btn btn-sm story-read-more" target="_blank" style="display: none;">
+                        Read More <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+                
+                <!-- Navigation arrows -->
+                <button class="btn btn-link position-absolute start-0 top-50 translate-middle-y text-white story-nav-btn" 
+                        onclick="previousStory()" id="prevBtn" style="z-index: 10;">
+                    <i class="bi bi-chevron-left" style="font-size: 2.5rem;"></i>
+                </button>
+                <button class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-white story-nav-btn" 
+                        onclick="nextStory()" id="nextBtn" style="z-index: 10;">
+                    <i class="bi bi-chevron-right" style="font-size: 2.5rem;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.stories-container {
+    border-bottom: 1px solid #dee2e6;
+    background: linear-gradient(135deg, #e0f7fa 0%, #b3e5fc 100%);
+}
+
+.dark .stories-container {
+    background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+}
+
+.stories-wrapper {
+    max-width: 100%;
+}
+
+#storiesScroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+#storiesScroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+#storiesScroll::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.2);
+    border-radius: 3px;
+}
+
+#storiesScroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #0066ff, #00d4ff);
+    border-radius: 3px;
+}
+
+.story-item {
+    flex-shrink: 0;
+}
+
+.story-circle {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #0066ff, #00d4ff) border-box;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 102, 255, 0.3);
+}
+
+.story-circle:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 16px rgba(0, 102, 255, 0.5);
+}
+
+.story-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.video-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0066ff, #00d4ff);
+}
+
+.story-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    pointer-events: none;
+}
+
+.story-title {
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+    padding: 0 3px;
+    line-height: 1.2;
+}
+
+.play-icon-small {
+    pointer-events: none;
+}
+
+#storyModal .modal-content {
+    background: #000;
+    min-height: 100vh;
+}
+
+#storyModal .modal-body {
+    min-height: 100vh;
+}
+
+#storyContent {
+    padding: 60px 20px 20px;
+}
+
+#storyContent img {
+    max-width: 100%;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+#storyContent video {
+    max-width: 100%;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.story-info {
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 70%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.story-info * {
+    pointer-events: auto;
+}
+
+.story-header {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+}
+
+.story-read-more {
+    background: linear-gradient(135deg, #0066ff, #00d4ff);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.story-read-more:hover {
+    background: linear-gradient(135deg, #0052cc, #00b8d4);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.4);
+}
+
+.story-nav-btn {
+    background: rgba(0, 102, 255, 0.2);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.story-nav-btn:hover {
+    background: rgba(0, 102, 255, 0.4);
+    transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+    .story-circle {
+        width: 75px;
+        height: 75px;
+    }
+    
+    #storyContent {
+        padding: 50px 10px 10px;
+    }
+    
+    #storyContent img,
+    #storyContent video {
+        max-height: 75vh;
+    }
+    
+    .story-nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .story-nav-btn i {
+        font-size: 2rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .story-circle {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .story-title {
+        font-size: 0.65rem;
+    }
+}
+</style>
+
+<script>
+let currentStoryIndex = 0;
+let storyData = [];
+let storyModal;
+let progressInterval;
+let currentVideo = null;
+
+// Initialize story data from DOM
+document.addEventListener('DOMContentLoaded', function() {
+    const modalEl = document.getElementById('storyModal');
+    if (modalEl) {
+        storyModal = new bootstrap.Modal(modalEl);
+    }
+    
+    // Collect all story data
+    document.querySelectorAll('.story-item').forEach((item, index) => {
+        const storyId = item.dataset.storyId;
+        storyData.push({
+            id: storyId,
+            index: index
+        });
+    });
+});
+
+function openStory(id, mediaType, mediaUrl, title, description, link) {
+    // Find story index
+    currentStoryIndex = storyData.findIndex(s => s.id == id);
+    
+    displayStory(mediaType, mediaUrl, title, description, link);
+    storyModal.show();
+    
+    // Update navigation buttons visibility
+    updateNavButtons();
+    
+    // Increment view count
+    fetch(`/api/story/${id}/view/`, { 
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    }).catch(e => console.log('View count error:', e));
+}
+
+function displayStory(mediaType, mediaUrl, title, description, link) {
+    const content = document.getElementById('storyContent');
+    const storyTitle = document.getElementById('storyTitle');
+    const storyDesc = document.getElementById('storyDescription');
+    const storyLink = document.getElementById('storyLink');
+    
+    // Clear previous content
+    content.innerHTML = '';
+    clearInterval(progressInterval);
+    
+    // Stop previous video if any
+    if (currentVideo) {
+        currentVideo.pause();
+        currentVideo = null;
+    }
+    
+    // Reset progress
+    document.getElementById('storyProgress').style.width = '0%';
+    
+    // Set info
+    storyTitle.textContent = title || 'Story';
+    storyDesc.textContent = description || '';
+    
+    if (link && link !== 'None' && link !== '' && link !== 'null') {
+        storyLink.href = link;
+        storyLink.style.display = 'inline-block';
+    } else {
+        storyLink.style.display = 'none';
+    }
+    
+    // Display media
+    if (mediaType === 'video') {
+        const video = document.createElement('video');
+        video.src = mediaUrl;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+        video.style.maxHeight = '85vh';
+        video.style.width = 'auto';
+        video.style.maxWidth = '100%';
+        
+        video.addEventListener('loadedmetadata', function() {
+            const duration = video.duration * 1000;
+            startProgress(duration);
+        });
+        
+        video.addEventListener('ended', function() {
+            clearInterval(progressInterval);
+            setTimeout(nextStory, 500);
+        });
+        
+        video.addEventListener('error', function() {
+            console.error('Video load error');
+            content.innerHTML = '<div class="text-white text-center"><i class="bi bi-exclamation-triangle" style="font-size: 3rem;"></i><p class="mt-3">Unable to load video</p></div>';
+            startProgress(3000);
+        });
+        
+        content.appendChild(video);
+        currentVideo = video;
+        
+    } else {
+        const img = document.createElement('img');
+        img.src = mediaUrl;
+        img.alt = title;
+        img.style.maxHeight = '85vh';
+        img.style.width = 'auto';
+        img.style.maxWidth = '100%';
+        
+        img.addEventListener('load', function() {
+            startProgress(5000);
+        });
+        
+        img.addEventListener('error', function() {
+            console.error('Image load error');
+            content.innerHTML = '<div class="text-white text-center"><i class="bi bi-image-fill" style="font-size: 4rem; opacity: 0.5;"></i><p class="mt-3">Image Unavailable</p></div>';
+            startProgress(3000);
+        });
+        
+        content.appendChild(img);
+    }
+}
+
+function startProgress(duration = 5000) {
+    clearInterval(progressInterval);
+    const progress = document.getElementById('storyProgress');
+    let width = 0;
+    const interval = 50;
+    const increment = (interval / duration) * 100;
+    
+    progressInterval = setInterval(() => {
+        width += increment;
+        if (width >= 100) {
+            width = 100;
+            clearInterval(progressInterval);
+            setTimeout(nextStory, 500);
+        }
+        progress.style.width = width + '%';
+    }, interval);
+}
+
+function nextStory() {
+    if (currentStoryIndex < storyData.length - 1) {
+        currentStoryIndex++;
+        const storyItem = document.querySelectorAll('.story-item')[currentStoryIndex];
+        const circle = storyItem.querySelector('.story-circle');
+        circle.click();
+    } else {
+        storyModal.hide();
+    }
+}
+
+function previousStory() {
+    if (currentStoryIndex > 0) {
+        currentStoryIndex--;
+        const storyItem = document.querySelectorAll('.story-item')[currentStoryIndex];
+        const circle = storyItem.querySelector('.story-circle');
+        circle.click();
+    }
+}
+
+function updateNavButtons() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    if (prevBtn) {
+        prevBtn.style.opacity = currentStoryIndex > 0 ? '1' : '0.3';
+        prevBtn.style.pointerEvents = currentStoryIndex > 0 ? 'auto' : 'none';
+    }
+    
+    if (nextBtn) {
+        nextBtn.style.opacity = currentStoryIndex < storyData.length - 1 ? '1' : '0.3';
+    }
+}
+
+// Clean up on modal close
+const modalEl = document.getElementById('storyModal');
+if (modalEl) {
+    modalEl.addEventListener('hidden.bs.modal', function() {
+        clearInterval(progressInterval);
+        if (currentVideo) {
+            currentVideo.pause();
+            currentVideo = null;
+        }
+        document.getElementById('storyProgress').style.width = '0%';
+    });
+}
+
+// Pause/resume on click
+document.addEventListener('DOMContentLoaded', function() {
+    const modalBody = document.querySelector('#storyModal .modal-body');
+    if (modalBody) {
+        modalBody.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-body') || e.target.id === 'storyContent') {
+                if (currentVideo && !currentVideo.paused) {
+                    currentVideo.pause();
+                    clearInterval(progressInterval);
+                } else if (currentVideo && currentVideo.paused) {
+                    currentVideo.play();
+                    const remaining = (1 - currentVideo.currentTime / currentVideo.duration) * currentVideo.duration * 1000;
+                    startProgress(remaining);
+                }
+            }
+        });
+    }
+});
+</script>
+
+<!-- Add Bootstrap Icons if not already included -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
