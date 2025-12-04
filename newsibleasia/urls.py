@@ -19,6 +19,7 @@ from django.urls import path, include
 from newsibleasia import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import render
 #from newsibleasia.sitemap import BlogSitemap,StaticSitemap
 #from django.contrib.sitemaps.views import sitemap
 from django.views.generic.base import TemplateView
@@ -37,6 +38,17 @@ admin.site.index_title="Dasboard"
 #      'post':BlogSitemap,
 #      'StaticUrl':StaticSitemap
 #    }
+
+# Custom error handlers
+def custom_404_view(request, exception):
+    return render(request, "404.html", status=404)
+
+def custom_500_view(request):
+    return render(request, "500.html", status=500)
+
+# Assign handlers (must be at module level)
+handler404 = custom_404_view
+handler500 = custom_500_view
 
 urlpatterns = [
     path('', views.home, name="home"),

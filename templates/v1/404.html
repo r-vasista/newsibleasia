@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page Not Found - 404</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 60px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 72px;
+      color: #dc3545;
+      margin-bottom: 0;
+    }
+    h2 {
+      font-size: 26px;
+      color: #343a40;
+    }
+    p {
+      font-size: 16px;
+      color: #6c757d;
+    }
+    a {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: #273c64;
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 500;
+    }
+    a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>404</h1>
+    <h2>Oops! Page not found.</h2>
+    <p>The page you're looking for doesn't exist or was moved.</p>
+   <a href="{% url 'home' %}">Go to Homepage</a>
+
+  </div>
+</body>
+</html> 
