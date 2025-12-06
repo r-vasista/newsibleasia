@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 from django.db.models import Q
 
-from post_management.models import category,sub_category,NewsPost,VideoNews,Tag
+from post_management.models import category,sub_category,NewsPost,VideoNews,Tag, NewsRedirect
 
 from setting.models import profile_setting, CMS
 
@@ -399,8 +399,17 @@ def newsdetails(request, slug):
         return render(request, 'news-details.html', data)
 
     except ObjectDoesNotExist:
+        # Check if there's a redirect for this slug
+        try:
+            news_redirect = NewsRedirect.objects.get(old_slug=slug, is_active=True)
+            # Perform a 301 permanent redirect (best for SEO)
+            return redirect('newsdetails', slug=news_redirect.redirect_slug, permanent=True)
+        except NewsRedirect.DoesNotExist:
+            # No redirect found, show 404
+            raise Http404("News post not found")
+    except Exception as e:
+        print('error',str(e))
         raise Http404("News post not found")
-# News-details-page--end--------
 
 # News-pdf--------
 

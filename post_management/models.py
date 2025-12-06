@@ -24,6 +24,8 @@ from django.core.files.base import ContentFile
 
 import os
 
+from django.core.exceptions import ValidationError
+
 
 class category(models.Model):
 
@@ -487,4 +489,42 @@ class slider(models.Model):
 
         return self.slidercat
 
-    
+
+class NewsRedirect(models.Model):
+    """
+    Model to store redirects for deleted/moved news posts.
+    This helps preserve SEO value by redirecting old URLs to similar content.
+    """
+    old_slug = models.SlugField(
+        max_length=255,
+        unique=True,
+        db_index=True,
+        help_text="The slug of the deleted/old news post"
+    )
+    redirect_slug = models.SlugField(
+        max_length=255,
+        db_index=True,
+        help_text="The slug to redirect to (similar news post)"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Enable/disable this redirect"
+    )
+    notes = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Optional notes about why this redirect was created"
+    )
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.old_slug} → {self.redirect_slug}"
+
+    def clean(self):
+        """Validate that old_slug and redirect_slug are different"""
+        if self.old_slug == self.redirect_slug:
+            raise ValidationError("Old slug and redirect slug cannot be the same")
