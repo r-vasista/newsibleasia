@@ -1,4 +1,5 @@
 {% load static %}
+{% load image_filters %}
 
 <div id="trending-posts" class="section panel overflow-hidden bg-gray-25 dark:bg-gray-800 dark:text-white container-fluid">
   <div class="section-outer panel py-4 pb-0 sm:py-2">
@@ -10,9 +11,7 @@
             <div class="text-start">
               <h5 class="mb-0"><a class="dark:text-white text-start" href="/all-video-news/all">
                 <img src="{% static 'assets/img/quick-cut.gif' %}" alt="Quick Cut" title="Quick Cut" class="h-40px">
-                 
               </a></h5>
-              <!-- <a href="/all-video-news/all" class="small dark:text-white">View All</a> -->
             </div>
           </div>
 
@@ -21,11 +20,11 @@
             <div class="swiper-wrapper">
               {% for reels in Reels %}
               <div class="swiper-slide" style="width: 200px !important;">
-                <div class="reels-video-wrapper" >
+                <div class="reels-video-wrapper">
                   <a href="/video/{{ reels.slug }}">
                     <img src="https://img.youtube.com/vi/{{ reels.video_url }}/hqdefault.jpg"
                          alt="{{ reels.video_title }}"
-                         title ="{{ reels.video_title }}"
+                         title="{{ reels.video_title }}"
                          class="img-fluid rounded w-100" />
                   </a>
                   <div class="items_background p-2">
@@ -82,5 +81,4 @@
 .trending-wrapper, .reelsSwiper a:hover{
   color: #0848e4 !important;
 }
-
 </style>

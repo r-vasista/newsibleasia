@@ -1,32 +1,18 @@
 {% load static %}
+{% load image_filters %}
+
 <div id="brand-partners" class="section panel overflow-hidden container">
   <div class="section-outer panel pt-3 pb-3 sm:pb-6">
     <div class="">
       <div class="section-inner">
         <div class="row child-cols-12 lg:child-cols col-match g-3" data-uc-grid>
 
-          <!-- Left Column -->
-          <!-- <div class="lg:col-4">
-            <div class="block-layout grid-layout vstack panel overflow-hidden">
-              <div class="block-header panel min-h-40px px-2 py-1 bg-gray-800 text-white">
-                <h2 class="h6 lg:h5 m-0 text-inherit dark:text-white hstack gap-1">
-                  
-                  <span class="post-title">Our Trusted Partners</span>
-                </h2>
-              </div>
-              <div class="block-content panel px-2 py-3 xl:p-3 bg-gray-25 dark:bg-gray-800">
-                <p class="fs-5 fw-semibold">We are proud to collaborate with global and local partners.</p>
-              </div>
-            </div>
-          </div> -->
-
           <!-- Right Column -->
           <div class="lg:col-8">
             <div class="block-layout grid-layout vstack gap-4 panel">
               <div class="block-header panel min-h-40px px-2 py-1">
-                <h3 class="m-0 text-inherit dark:text-white  gap-1 pt-1 text-start">
-                  <!-- <span class="panel d-inline-block bg-primary w-8px h-8px translate-y-px"></span> -->
-                <img src="{% static 'assets/img/circle.gif' %}" alt="Quick Cut" title="Quick Cut" class="h-40px">
+                <h3 class="m-0 text-inherit dark:text-white gap-1 pt-1 text-start">
+                  <img src="{% static 'assets/img/circle.gif' %}" alt="Quick Cut" title="Quick Cut" class="h-40px">
                 </h3>
               </div>
 
@@ -36,14 +22,14 @@
                     {% for brandpartner in bplogo|slice:":9" %}
                     <div class="brand-logos">
                       <a href="{{ brandpartner.url }}" target="_blank">
-                        <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}" title="{{ brandpartner.name }}">
+                        <img src="{{ brandpartner.Logo.url|thumbnail_url }}" alt="{{ brandpartner.name }}" title="{{ brandpartner.name }}">
                       </a>
                     </div>
                     {% endfor %}
                     {% for brandpartner in bplogo|slice:":9" %}
                     <div class="brand-logos">
                       <a href="{{ brandpartner.url }}" target="_blank">
-                        <img src="{{ brandpartner.Logo.url }}" alt="{{ brandpartner.name }}" title="{{ brandpartner.name }}">
+                        <img src="{{ brandpartner.Logo.url|thumbnail_url }}" alt="{{ brandpartner.name }}" title="{{ brandpartner.name }}">
                       </a>
                     </div>
                     {% endfor %}

@@ -1,5 +1,7 @@
 <!-- tvstyle_posts.html -->
 {% load static %}
+{% load image_filters %}
+
 <div id="tv-posts" class="tv-posts section panel overflow-hidden bg-gray-800 text-white uc-dark">
   <div class="section-outer panel py-4 sm:py-5">
     <div class="container mx-5">
@@ -14,10 +16,11 @@
                       
                       <div class="d-flex align-items-center mb-3">
                         <h3 class="text-white mt-1">{{ category.cat_name }}</h3>
-                            <a href="/{{ posts.0.slug }}" class="mx-3 fs-7 dark:text-white">
-                            Show More →
-                            </a>
-                        </div>
+                        <a href="/{{ posts.0.slug }}" class="mx-3 fs-7 dark:text-white">
+                          Show More →
+                        </a>
+                      </div>
+
                       <div class="row g-3">
                         <!-- Left: Large post -->
                         <div class="col-md-8">
@@ -27,17 +30,17 @@
                               <div class="featured-image bg-gray-25 dark:bg-gray-800 h-100 d-none md:d-block">
                                 <canvas class="h-100 w-100"></canvas>
                                 <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
-                                     src="../upload/{{ post.post_image }}"
-                                     alt="{{ post.post_title }}"
-                                     title = "{{ post.post_title }}"
-                                     loading="lazy" />
+                                    src="{{ post.post_image.url|thumbnail_url }}"
+                                    alt="{{ post.post_title }}"
+                                    title="{{ post.post_title }}"
+                                    loading="lazy" />
                               </div>
                               <div class="featured-image bg-gray-25 dark:bg-gray-800 ratio ratio-16x9 d-block md:d-none">
                                 <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
-                                     src="../upload/{{ post.post_image }}"
-                                     alt="{{ post.post_title }}"
-                                     title="{{ post.post_title }}"
-                                     loading="lazy" />
+                                    src="{{ post.post_image.url|thumbnail_url }}"
+                                    alt="{{ post.post_title }}"
+                                    title="{{ post.post_title }}"
+                                    loading="lazy" />
                               </div>
                             </div>
                             <div class="position-cover bg-gradient-to-t from-black to-transparent opacity-90"></div>
@@ -64,10 +67,10 @@
                                 <div class="post-media panel uc-transition-toggle overflow-hidden">
                                   <div class="featured-image bg-gray-25 dark:bg-gray-800 ratio ratio-1x1 sm:ratio-4x3">
                                     <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
-                                         src="../upload/{{ post.post_image }}"
-                                         alt="{{ post.post_title }}"
-                                         title="{{ post.post_title }}"
-                                         loading="lazy" />
+                                        src="{{ post.post_image.url|thumbnail_url }}"
+                                        alt="{{ post.post_title }}"
+                                        title="{{ post.post_title }}"
+                                        loading="lazy" />
                                   </div>
                                 </div>
                                 <div class="position-cover bg-gradient-to-t from-black to-transparent opacity-90"></div>
@@ -87,18 +90,16 @@
                         </div>
                         {% endif %}
                       </div>
+
                       {% if posts %}
-                        <!-- <div class="text-end mt-3">
-                            <a href="/{{ posts.0.slug }}" class="btn btn-outline-light btn-sm">
-                            Show More →
-                            </a>
-                        </div> -->
-                        {% endif %}
+                        {# Optional Show More button was here #}
+                      {% endif %}
 
                     </div>
                   {% endif %}
                 {% endwith %}
               {% endfor %}
+
 
             </div>
           </div>
