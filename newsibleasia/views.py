@@ -407,9 +407,6 @@ def newsdetails(request, slug):
         except NewsRedirect.DoesNotExist:
             # No redirect found, show 404
             raise Http404("News post not found")
-    except Exception as e:
-        print('error',str(e))
-        raise Http404("News post not found")
 
 # News-pdf--------
 
