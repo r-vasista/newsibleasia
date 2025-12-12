@@ -50,27 +50,28 @@ IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp", ".gif")
 @receiver(post_save, sender=NewsPost)
 def run_thumbnail_logic_on_new_post(sender, instance, created, **kwargs):
     """
-    Run thumbnail generation ONLY when a new NewsPost is created.
+    Generate a single WEBP thumbnail when a new NewsPost is created.
     """
 
     if not created:
-        return   # <-- UPDATE par run nahi hoga, sirf CREATE par
+        return   # Only for newly created posts
 
     if not instance.post_image:
-        return   # No image uploaded, skip
+        return
 
     original_path = instance.post_image.path
     root = os.path.dirname(original_path)
     filename = os.path.basename(original_path)
 
-    # Thumbnail folder
     thumb_dir = os.path.join(root, "thumbnails")
     os.makedirs(thumb_dir, exist_ok=True)
 
-    thumb_path = os.path.join(thumb_dir, filename)
+    # Final thumbnail name: same base name, but .webp extension
+    base_name, _ = os.path.splitext(filename)
+    webp_thumb_path = os.path.join(thumb_dir, f"{base_name}.webp")
 
-    # Skip if thumb exists
-    if os.path.exists(thumb_path):
+    # Skip if exists
+    if os.path.exists(webp_thumb_path):
         return
 
     try:
@@ -79,10 +80,11 @@ def run_thumbnail_logic_on_new_post(sender, instance, created, **kwargs):
                 img = img.convert("RGB")
 
             img.thumbnail(THUMBNAIL_SIZE)
-            img.save(thumb_path, "JPEG", quality=85)
 
-            print("Thumbnail Created:", thumb_path)
+            # Save ONLY in WEBP format
+            img.save(webp_thumb_path, "WEBP", quality=85, method=6)
+
+            print("WEBP Thumbnail Created:", webp_thumb_path)
 
     except Exception as e:
         print("Thumbnail Error:", e)
-        
