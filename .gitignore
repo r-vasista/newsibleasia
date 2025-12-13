@@ -9,3 +9,4 @@ media/
 upload/
 static*
 newsibleasia.sqlite3
+env
