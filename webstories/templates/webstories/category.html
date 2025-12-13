@@ -1,0 +1,23 @@
+{% extends 'webstories/home.html' %}
+
+{% block title %}{{ category.name }} Stories{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="section-title">{{ category.name }} Stories</h2>
+    <div class="stories-grid">
+        {% for story in stories %}
+        <a href="{{ story.get_absolute_url }}" class="story-card text-decoration-none" target="_blank">
+            <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}">
+            <div class="story-overlay">
+                <h3 class="story-title">{{ story.title }}</h3>
+                <div class="story-meta">
+                    <span><i class="fas fa-eye"></i>{{ story.views }}</span>
+                    <span><i class="fas fa-images"></i>{{ story.slides.count }}</span>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

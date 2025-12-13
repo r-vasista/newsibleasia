@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0*1-!85r4l-7h5ts!ri+cii%wm@s2wk7o#+w%7t!!a8x2$om1+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ['newsibleasia.com','www.newsibleasia.com']
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'rest_framework',
     #'django_crontab',
     #'embed_video',
+    'webstories',
 ]
 SITE_ID = 1
 from easy_thumbnails.conf import Settings as thumbnail_settings

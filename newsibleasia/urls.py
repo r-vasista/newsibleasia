@@ -52,6 +52,7 @@ handler500 = custom_500_view
 
 urlpatterns = [
     path('', views.home, name="home"),
+    path('webstories/', include('webstories.urls')),
     path('auth/', include('journalist.urls')),
     path('topic/<slug:slug>', views.posts_by_tag, name='posts_by_tag'),
     path('artdomain/<str:username>/', views.profiledxb, name='journalist_profile'),
