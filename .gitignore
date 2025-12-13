@@ -8,3 +8,4 @@ logs/
 media/
 upload/
 static*
+newsibleasia.sqlite3
