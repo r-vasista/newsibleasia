@@ -66,9 +66,10 @@ from django_user_agents.utils import get_user_agent
 # home-pahe---------
 
 def home(request):
-
+    user_agent = get_user_agent(request)
+    is_mobile = user_agent.is_mobile
     seo=seo_optimization.objects.get(pageslug='https://www.newsibleasia.com')
-
+    
     current_datetime = datetime.now()
 
     blogdata=NewsPost.objects.filter(schedule_date__lt=current_datetime,is_active=1,status='active').order_by('-id')[:10]
@@ -263,10 +264,13 @@ def home(request):
 
             'profiles': profiles,
             
+            'is_mobile': is_mobile,
 
         }
-
-    return render(request,'index.html',data)
+    if is_mobile:
+     return render(request, 'mobile/index.html', data)
+    else:
+     return render(request,'index.html',data)
 
 # News-details-page----------
 
@@ -372,7 +376,8 @@ def newsdetails(request, slug):
 
         slider = NewsPost.objects.order_by('-id')[:5]
         latestnews = NewsPost.objects.order_by('-id')[:5]
-
+        user_agent = get_user_agent(request)
+        is_mobile = user_agent.is_mobile
         data = {
             'indseo': seo,
             'Blogdetails': blogdetails,
@@ -394,6 +399,7 @@ def newsdetails(request, slug):
             'trendpost': trending,
             'bnews': brknews,
             'vidnews': podcast,
+            'is_mobile': is_mobile,
         }
 
         return render(request, 'news-details.html', data)
@@ -767,7 +773,8 @@ def AllNews(request,slug):
     slider=NewsPost.objects.filter().order_by('-id')[:5]
 
     latestnews=NewsPost.objects.all().order_by('-id')[:5]
-
+    user_agent = get_user_agent(request)
+    is_mobile = user_agent.is_mobile
     data={
 
             'indseo':seo,
@@ -813,7 +820,7 @@ def AllNews(request,slug):
             'bnews':brknews,
 
             'vidnews':podcast,
-
+            'is_mobile': is_mobile,
         }
 
    
@@ -939,6 +946,8 @@ def AllvideoNews(request,slug):
     slider=NewsPost.objects.filter().order_by('-id')[:5]
 
     latestnews=NewsPost.objects.all().order_by('-id')[:5]
+    user_agent = get_user_agent(request)
+    is_mobile = user_agent.is_mobile
 
     data={
 
@@ -985,7 +994,7 @@ def AllvideoNews(request,slug):
             'bnews':brknews,
 
             'vidnews':podcast,
-
+            'is_mobile': is_mobile,
         }
 
    
@@ -1077,6 +1086,8 @@ def UcEvents(request):
     slider=NewsPost.objects.filter().order_by('-id')[:5]
 
     latestnews=NewsPost.objects.all().order_by('-id')[:5]
+    user_agent = get_user_agent(request)
+    is_mobile = user_agent.is_mobile
 
     data={
 
@@ -1117,7 +1128,7 @@ def UcEvents(request):
             'bnews':brknews,
 
             'vidnews':podcast,
-
+            'is_mobile': is_mobile,
         }
 
    
@@ -1383,6 +1394,8 @@ def videonewsdetails(request,slug):
     slider=NewsPost.objects.filter().order_by('-id')[:5]
 
     latestnews=NewsPost.objects.all().order_by('-id')[:5]
+    user_agent = get_user_agent(request)
+    is_mobile = user_agent.is_mobile
 
     data={
 
@@ -1423,7 +1436,7 @@ def videonewsdetails(request,slug):
             'bnews':brknews,
 
             'vidnews':podcast,
-
+            'is_mobile': is_mobile,
         }
 
     return render(request,'video-news-details.html',data)
@@ -1551,6 +1564,8 @@ def catdetails(request,catlink,slug):
     slider=NewsPost.objects.filter().order_by('-id')[:5]
 
     latestnews=NewsPost.objects.all().order_by('-id')[:5]
+    user_agent = get_user_agent(request)
+    is_mobile = user_agent.is_mobile
 
     data={ 
 
@@ -1595,7 +1610,7 @@ def catdetails(request,catlink,slug):
             'adtr':adtopright,
 
             'bgad':festive,
-
+            'is_mobile': is_mobile,
         }
 
 
@@ -1659,6 +1674,8 @@ def Contactus(request):
     
     slider=NewsPost.objects.filter().order_by('-id')[:5]
     latestnews=NewsPost.objects.all().order_by('-id')[:5]
+    user_agent = get_user_agent(request)
+    is_mobile = user_agent.is_mobile
     data={
             'BlogData':blogdata,
             'mainnews':mainnews,
@@ -1677,6 +1694,7 @@ def Contactus(request):
             'trendpost':trending,
             'bnews':brknews,
             'vidnews':podcast,
+            'is_mobile': is_mobile,
         }
     return render(request,'contact.html',data)
 # cat-contact-page--end--------

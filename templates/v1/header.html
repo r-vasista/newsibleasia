@@ -53,17 +53,22 @@
                         <li class="uc-parent">
                             <a href="#">{{ link.cat_name }}</a>
                             <ul class="uc-nav-sub">
-                        {% for sublink in link.sub_category_set.all %}
-                        <li>
-                            <a href="/{{ link.cat_slug }}/{{ sublink.subcat_slug }}">{{ sublink.subcat_name }}</a>
-                        </li>
-                        {% endfor %}
+                                {% for sublink in link.sub_category_set.all %}
+                                <li>
+                                    <a href="/{{ link.cat_slug }}/{{ sublink.subcat_slug }}">{{ sublink.subcat_name }}</a>
+                                </li>
+                                {% endfor %}
                             </ul>
                         </li>
+                        
                         {% endfor %}
                     </ul>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link " href="/webstories/" target="_blank">
+                        Web Stories
+                    </a>
+                </li>
                 <!-- Divider -->
                 <li class="hr opacity-10 my-1"></li>
 
@@ -510,8 +515,8 @@
                                         </li>
                                         <li class="hr opacity-10 my-1"></li>
                                         {% endfor %}
-                                        <li>
-                                            <a href="/webstories/" target="_blank">
+                                        <li class="nav-item">
+                                            <a class="nav-link text-white" href="/webstories/" target="_blank">
                                                 <i class="unicon-book-open me-2"></i>Web Stories
                                             </a>
                                         </li>

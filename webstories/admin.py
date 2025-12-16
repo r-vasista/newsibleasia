@@ -15,7 +15,7 @@ class WebStoryCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(WebStory)
 class WebStoryAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'author', 'is_published', 'views', 'published_date']
+    list_display = ['title', 'category', 'order', 'author', 'is_published', 'views', 'published_date']
     list_filter = ['category', 'is_published', 'published_date']
     list_editable = ['is_published']
     search_fields = ['title', 'category__name']

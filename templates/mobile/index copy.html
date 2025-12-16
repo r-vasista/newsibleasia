@@ -1,0 +1,455 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+
+<!-- top ad -->
+{% for ads in headtopad %}
+<div class="p-2" role="alert">
+  <!-- <button type="button" class="btn-close btn-closee" data-bs-dismiss="alert" aria-label="Close"></button> -->
+  <a href="{{ads.ad_url}}" target="_blank">
+    {% if ads.ad_type == 'stil' %}
+    <img class="w-100" src="../upload/{{ads.ad_image}}" alt="{{ads.ad_url}}" />
+    {% else %}
+    <video class="w-100 topsingleads" autoplay loop muted>
+      <source src="../upload/{{ads.ad_image}}" />
+    </video>
+    {% endif %}
+  </a>
+</div>
+{% endfor %}
+<!-- top ad end -->
+
+
+<!-- tody news -->
+<div class="news-today-wrapper">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+      <h5 class="mb-3 ps-1 newsten-title">News Today</h5>
+      <p class="mb-3 line-height-1" id="dashboardDate2"></p>
+    </div>
+
+
+    <div class="hero-slides owl-carousel">
+      {% for news in LatestNews|slice:":5" %}
+      <div class="single-hero-slide" style="background-image: url('{{ news.post_image.url }}')">
+        <div class="background-shape">
+          <div class="circle2"></div>
+          <div class="circle3"></div>
+        </div>
+        <div class="slide-content h-100 d-flex align-items-end">
+          <div class="container-fluid mb-3">
+            <!-- <a class="bookmark-post" href="#"><i class="ti ti-bookmark"></i></a> -->
+            <a class="post-catagory" href="catagory.html">{{ news.post_cat }}</a>
+            <a class="post-title d-block" href="{{ news.slug }}">{{ news.post_title }}</a>
+            <div class="post-meta d-flex align-items-center">
+              {% if news.author %}
+              <a href=""><i class="me-1 ti ti-user-circle"></i> {{ news.author.first_name|default:""|capfirst }}
+                {{ news.author.last_name|default:""|capfirst }}</a>
+              {% elif news.journalist %}
+              <a href="{% url 'journalist_profile' news.journalist.username %}">
+                <i class="me-1 ti ti-user-circle"></i>
+                {{ news.journalist.first_name|default:""|capfirst }}
+                {{ news.journalist.last_name|default:""|capfirst }}
+              </a>
+              {% else %}
+              <i class="me-1 ti ti-user-circle"></i> Admin
+              {% endif %}
+              <!-- <span><i class="ti ti-calendar-month me-1"></i> Y{{ news.schedule_date|date:"Y-m-d" }}</span> -->
+              <span><i class="me-1 ti ti-chart-bar"></i> {{ news.schedule_date|timesince }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- tody news end-->
+
+
+<!-- buttons -->
+<div class="container button-container mb-2">
+  <button class="custom-btn newsbtn-center">
+    <a href="{% url 'voices-of-uae' %}">Voices of UAE</a>
+  </button>
+  <button class="custom-btn newsbtn-right">
+    <a href="{% url 'sign-in' %}">ArtDomain</a>
+  </button>
+</div>
+<!-- buttons end -->
+
+
+
+<!-- top left ad -->
+{% for ads in adtl|slice:":4" %}
+<div class="mb-3 p-2">
+  <a href="{{ads.ad_url}}" target="_blank">
+    {% if ads.ad_type == 'stil' %}
+    <img class="w-100" src="../upload/{{ads.ad_image}}" alt="{{ads.ad_url}}" />
+    {% else %}
+    <video class="w-100" autoplay loop muted>
+      <source src="../upload/{{ads.ad_image}}" />
+    </video>
+    {% endif %}
+  </a>
+</div>
+{% endfor %}
+<!-- top left ad end-->
+
+<!-- Articale -->
+<div class="top-catagories-wrapper bg-light">
+  <h6 class="mb-3 catagory-title">Top Articles</h6>
+  <div class="container">
+    <!-- Catagory Slides-->
+    <div class="catagory-slides owl-carousel">
+      <!-- Catagory Card-->
+      {% for article in Articale %}
+      <div class="card catagory-card">
+        <a href="/{{ article.slug }}">
+          <img src="{{ article.post_image.url }}" alt="{{ article.post_title }}" title="{{ article.post_title }}"
+            loading="lazy">
+          <h6 style="font-size: 7px !important;">{{ article.post_cat }}</h6>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- Articale end-->
+
+
+<!-- top Right ad -->
+{% for trad in adtr|slice:":4" %}
+<div class="mb-3 p-2">
+  <a href="{{trad.ad_url}}" target="_blank">
+    {% if trad.ad_type == 'stil' %}
+      <img class="w-100" src="../upload/{{trad.ad_image}}" alt="{{trad.ad_url}}" />
+      {% else %}
+      <video class="w-100" autoplay loop muted>
+        <source src="../upload/{{trad.ad_image}}" />
+      </video>
+    {% endif %}
+  </a>
+</div>
+{% endfor %}
+<!-- top Right ad end-->
+
+
+<!-- voices of uae end -->
+<div class="editorial-choice-news-wrapper">
+  <!-- Background Shapes-->
+  <div class="bg-shape1"><img src="img/core-img/edito.png" alt=""></div>
+  <div class="bg-shape2" style="background-image: url('img/core-img/edito2.png')"></div>
+
+  <div class="container">
+    <div class="editorial-choice-title text-center mb-4">
+      <h4 class="newsten-title text-white">Voices Of UAE</h4>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Editorial Choice News Slide-->
+    <div class="editorial-choice-news-slide owl-carousel">
+      <!-- Single Slide-->
+      <div class="single-editorial-slide ">
+        <a class="bookmark-post" href="#">
+          <i class="ti ti-bookmark"></i>
+        </a>
+        <div class="post-thumbnail w-100" style="max-width: 100%;">
+          <img src="https://www.dxbnewsnetwork.com/upload/blog/cropped_oSBOQzW.jpeg" alt="">
+        </div>
+        <div class="post-contentw-100" style="max-width: 100%;">
+          <h5 class="text-white mt-2">Art as a Force for Nature Art4you Gallery’s Creative Pledge for the Planet
+          </h5>
+
+        </div>
+      </div>
+      <!-- Single Slide-->
+      <div class="single-editorial-slide ">
+        <a class="bookmark-post" href="#">
+          <i class="ti ti-bookmark"></i>
+        </a>
+        <div class="post-thumbnail w-100" style="max-width: 100%;">
+          <img
+            src="https://www.dxbnewsnetwork.com/upload/media/2025/06/23/Art-as-a-Force-for-Nature-Art4you-Gallerys-Creative-Pledge-for-the-Planet.jpg"
+            alt="">
+        </div>
+        <div class="post-contentw-100" style="max-width: 100%;">
+          <h5 class="text-white mt-2">Art as a Force for Nature Art4you Gallery’s Creative Pledge for the Planet
+          </h5>
+
+        </div>
+      </div>
+      <!-- Single Slide-->
+      <div class="single-editorial-slide ">
+        <a class="bookmark-post" href="#">
+          <i class="ti ti-bookmark"></i>
+        </a>
+        <div class="post-thumbnail w-100" style="max-width: 100%;">
+          <img src="https://www.dxbnewsnetwork.com/upload/media/2025/06/18/Image_Courtesy_-_Teo_San_Jose_Artist.jpg"
+            alt="">
+        </div>
+        <div class="post-contentw-100" style="max-width: 100%;">
+          <h5 class="text-white mt-2">Art as a Force for Nature Art4you Gallery’s Creative Pledge for the Planet
+          </h5>
+
+        </div>
+      </div>
+      <!-- Single Slide-->
+      <div class="single-editorial-slide ">
+        <a class="bookmark-post" href="#">
+          <i class="ti ti-bookmark"></i>
+        </a>
+        <div class="post-thumbnail w-100" style="max-width: 100%;">
+          <img src="https://www.dxbnewsnetwork.com/upload/media/2025/06/19/Cristina_Benardini_1_q8z1TUh.jpg" alt="">
+        </div>
+        <div class="post-contentw-100" style="max-width: 100%;">
+          <h5 class="text-white mt-2">Cristina Bernardini Named Portugal’s Official Ambassador for 2025 Qatar
+            International Art Festival</h5>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- voices of uae end -->
+
+
+<!-- popular or tranding news -->
+<div class="trending-news-wrapper">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h5 class="mb-0 ps-1 newsten-title">Popular News</h5>
+      <a style="width: auto;" class="btn btn-primary btn-sm" href="/all-news/trending">View All</a>
+    </div>
+  </div>
+
+  <div class="container">
+    {% for news in trendpost %}
+    <div class="single-trending-post d-flex">
+      <div class="post-thumbnail">
+        <img src="{{ news.post_image.url }}" alt="">
+      </div>
+      <div class="post-content">
+        <a class="post-title" href="/{{ news.slug }}">{{ news.post_title|truncatechars:45 }}</a>
+        <div class="post-meta d-flex align-items-center">
+          <a style="font-size: 7px !important;" href="#">{{ news.post_cat }}</a>
+          <a href="#">{{ news.schedule_date|date }}</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<!-- popular or tranding news end -->
+
+
+<!-- ArdDomain -->
+<div class="editorial-choice-news-wrapper">
+  <!-- Background Shapes-->
+  <div class="bg-shape1">
+    <img src="{% static 'mobile/img/core-img/edito.png' %}" alt="">
+  </div>
+  <div class="bg-shape2" style="background-image: url('mobile/img/core-img/edito2.png')"></div>
+
+  <div class="container">
+    <div class="editorial-choice-title text-center mb-4"><i class="ti ti-shield"></i>
+      <h6 class="newsten-title">ArtDomain</h6>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="editorial-choice-news-slide owl-carousel">
+      {% for profile in profiles %}
+      <div class="single-editorial-slide d-flex">
+        <!-- <a class="bookmark-post" href="#">
+          <i class="ti ti-bookmark"></i>
+        </a> -->
+        <div class="post-thumbnail">
+          <a href="{% url 'journalist_profile' profile.username %}">
+            <img src="{{ profile.profile_picture.url }}" alt="{{ profile.username }}" title="{{ profile.username }}"
+              loading="lazy">
+          </a>
+        </div>
+        <div class="post-content">
+
+          {% if profile.registration_type == 'artist' %}
+          <a href="{% url 'journalist_profile' profile.username %}" class="post-title d-block">
+            {{ profile.first_name }} {{ profile.last_name }}
+          </a>
+          {% else %}
+          <a href="{% url 'journalist_profile' profile.username %}" class="post-title d-block">
+            {{ profile.organisation_name|truncatechars:30 }}
+          </a>
+          {% endif %}
+          <a class="post-catagory" href="#">{{ profile.registration_type|capfirst }}</a>
+          <div class="post-meta d-flex align-items-center">
+            <a href="#"><i class="me-1 ti ti-user-circle"></i>{{ profile.nationality }}</a>
+            <!-- <a href="#"><i class="me-1 ti ti-clock"></i>30 March</a> -->
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- ArdDomain end-->
+
+
+<!-- Videos News-->
+<div class="for-you-news-wrapper">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between">
+      <h5 class="mb-0 ps-1 newsten-title">Video News</h5>
+      <a style="width: auto;" class="btn btn-primary btn-sm" href="#">View All</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <!-- Single Recommended Post-->
+      {% for video in videos|slice:":6" %}
+      <div class="col-6 col-md-4">
+        <div class="single-recommended-post mt-3">
+          <!-- <a class="bookmark-post" href="#">
+            <i class="ti ti-bookmark"></i>
+          </a> -->
+          <a href="/video/{{video.slug}}">
+          <div class="post-thumbnail">
+              <div style="left: 5rem; top: 4rem;" class="video-icon">
+                <i class="ti ti-player-play"></i>
+              </div>
+              <img style="height: 150px;" src="https://img.youtube.com/vi/{{video.video_url}}/hqdefault.jpg"
+                alt="{{video.video_title}}" title="{{video.video_title}}" loading="lazy" class="dxb-video-thumb" />
+              </div>
+              <!-- <div class="post-content">
+                <a style="font-size: 7px;" class="post-catagory"
+                href="{% url 'catdetails' catlink=video.News_Category.sub_cat.cat_slug slug=video.News_Category.subcat_slug %}">
+                {{ video.News_Category|truncatechars:30 }}</a>
+                <a class="post-title" href="/video/{{video.slug}}">{{ video.video_title|truncatechars:40 }}</a>
+              </div> -->
+            </div>
+          </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<!-- Video News end -->
+
+
+<!-- Events-->
+<div class="tabs-news-wrapper bg-gray">
+  <div class="container">
+    <!-- Nav Tabs-->
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button style="width: 30% !important; font-size: 11px;" class="nav-link" id="nav-newest-tab" data-bs-target="#nav-newest" data-bs-toggle="tab" role="tab"
+          aria-controls="nav-newest" aria-selected="false">Upcoming Events</button>
+
+        <button style="width: 30% !important; font-size: 11px;" class="nav-link active" id="nav-popular-tab" data-bs-target="#nav-popular" data-bs-toggle="tab"
+          role="tab" aria-controls="nav-popular" aria-selected="true">Past Events</button>
+
+        <button style="width: 30% !important; font-size: 11px;" class="nav-link" id="nav-featured-tab" data-bs-target="#nav-featured" data-bs-toggle="tab" role="tab"
+          aria-controls="nav-featured" aria-selected="false">Ongoing Events</button>
+      </div>
+    </nav>
+
+    <!-- Tabs Content-->
+    <div class="tab-content" id="nav-tabContent">
+      <!-- upcoming_events-->
+      <div class="tab-pane fade" id="nav-newest" role="tabpanel" aria-labelledby="nav-newest-tab" tabindex="0">
+        {% for event in upcoming_events|slice:":6" %}
+        <div class="single-news-post d-flex align-items-center">
+          <div class="post-thumbnail">
+            <!-- <div class="video-icon">
+              <i class="ti ti-player-play"></i>
+            </div> -->
+            <img src="{{ event.post_image.url }}" alt="">
+          </div>
+          <div class="post-content">
+            <a class="post-title" href="/{{ event.slug }}">{{ event.post_title }}</a>
+            <div class="post-meta d-flex align-items-center">
+              <a href="catagory.html">{{ event.post_cat }}</a>
+              <a href="#">Starts in: {{ event.Event_date|timeuntil:now }}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- past_events-->
+      <div class="tab-pane fade show active" id="nav-popular" role="tabpanel" aria-labelledby="nav-popular-tab"
+        tabindex="0">
+        {% for event in past_events|slice:":6" %}
+        <div class="single-news-post d-flex align-items-center">
+          <div class="post-thumbnail">
+            <img src="{{ event.post_image.url }}" alt="">
+          </div>
+          <div class="post-content">
+            <a class="post-title" href="/{{ event.slug }}">{{ event.post_title }}</a>
+            <div class="post-meta d-flex align-items-center">
+              <a href="catagory.html">{{ event.post_cat }}</a>
+              <a href="#">End At : {{ event.Eventend_date }}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+
+      <!-- ongoing_events -->
+      <div class="tab-pane fade" id="nav-featured" role="tabpanel" aria-labelledby="nav-featured-tab" tabindex="0">
+        {% for event in ongoing_events|slice:":6" %}
+        <div class="single-news-post d-flex align-items-center">
+          <div class="post-thumbnail">
+            <!-- <div class="video-icon">
+              <i class="ti ti-player-play"></i>
+            </div> -->
+            <img src="{{ event.post_image.url }}" alt="">
+          </div>
+          <div class="post-content">
+            <a class="post-title" href="/{{ event.slug }}">{{ event.post_title }}</a>
+            <div class="post-meta d-flex align-items-center">
+              <a href="catagory.html">{{ event.post_cat }}</a>
+              <a href="#">Start At{{ event.Event_date }}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Events End -->
+
+<!-- Brand Partners -->
+{% include 'bp-logo.html' %}
+<!-- Brand Partners End-->
+
+
+<!-- Popular Tags-->
+<div class="popular-tags-wrapper">
+  <div class="container">
+    <h5 class="mb-3 ps-2 newsten-title text-white">Popular Tags</h5>
+  </div>
+
+  <div class="container mb-5">
+    <!-- Popular Tags List-->
+    <div class="popular-tags-list">
+      {% with colors="primary,success,warning,danger,info,secondary" %}
+        {% for tag in tags %}
+          {% with color=forloop.counter0|stringformat:"d"|add:"0"|divisibleby:"6"|yesno:"primary,success,warning,danger,info,secondary"%}
+          <a style="width: auto;" class="btn btn-{{ color }} btn-sm m-1" href="tags/{{ tag.slug }}">{{ tag.name }}</a>
+          <!-- <a style="width: 30%;" class="btn btn-{{ color }} btn-sm m-1" href="tags/{{ tag.slug }}">{{ tag.name }}</a> -->
+          {% endwith %}
+        {% endfor %}
+      {% endwith %}
+    </div>
+  </div>
+</div>
+<!-- Popular Tags end-->
+
+{% endblock %}
+

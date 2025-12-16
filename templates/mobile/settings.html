@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+
+<div class="page-content-wrapper">
+  <div class="container">
+    <!-- Settings Wrapper-->
+    <div class="settings-wrapper">
+      <div class="card settings-card">
+        <div class="card-body">
+          <!-- Single Settings-->
+          <div class="single-settings d-flex align-items-center justify-content-between">
+            <div class="title"><i class="ti ti-alarm"></i><span>Notifications</span></div>
+            <div class="data-content">
+              <div class="toggle-button-cover">
+                <div class="button r">
+                  <input class="checkbox" type="checkbox" checked>
+                  <div class="knobs"></div>
+                  <div class="layer"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card settings-card">
+        <div class="card-body">
+          <!-- Single Settings-->
+          <div class="single-settings d-flex align-items-center justify-content-between">
+            <div class="title"><i class="ti ti-moon"></i><span>Night Mode</span></div>
+            <div class="data-content">
+              <div class="toggle-button-cover">
+                <div class="button r">
+                  <input class="checkbox" id="darkSwitch" type="checkbox">
+                  <div class="knobs"></div>
+                  <div class="layer"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card settings-card">
+        <div class="card-body">
+          <!-- Single Settings-->
+          <div class="single-settings d-flex align-items-center justify-content-between">
+            <div class="title"><i class="ti ti-info-square-rounded"></i><span>Support</span></div>
+            <div class="data-content"><a class="ps-4" href="contact.html"><i class="ti ti-arrow-badge-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card settings-card">
+        <div class="card-body">
+          <!-- Single Settings-->
+          <div class="single-settings d-flex align-items-center justify-content-between">
+            <div class="title"><i class="ti ti-shield"></i><span>Privacy</span></div>
+            <div class="data-content"><a class="ps-4" href="privacy-policy.html"><i
+                  class="ti ti-arrow-badge-right"></i></a></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="card settings-card">
+          <div class="card-body">
+            <div class="single-settings d-flex align-items-center justify-content-between">
+              <div class="title"><i class="ti ti-circle-key"></i><span>Password<span>Updated 15 days ago</span></span></div>
+              <div class="data-content"><a href="change-password.html">Change<i class="ti ti-arrow-badge-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </div> -->
+    </div>
+  </div>
+</div>
+
+{% endblock %}

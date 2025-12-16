@@ -5,6 +5,7 @@ app_name = 'webstories'
 
 urlpatterns = [
     path('', views.webstories_home, name='home'),
+    path('latest/', views.webstories_latest, name='latest'),
     path('<slug:category_slug>/', views.webstories_category, name='category'),
     path('<slug:category_slug>/<slug:story_slug>/', views.webstory_detail, name='detail'),
 ]

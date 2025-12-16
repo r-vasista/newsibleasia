@@ -1,0 +1,102 @@
+{% load static %}
+<!-- Preloader-->
+<!-- <div class="preloader" id="preloader">
+    <div class="spinner-grow text-secondary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div> -->
+<div id="uc-search-modal" class="uc-modal-full uc-modal bg-gray-25 dark:bg-gray-800 dark:text-white"
+    data-uc-modal="overlay: true">
+    <div class="uc-modal-dialog d-flex justify-center bg-white text-dark dark:bg-gray-900 dark:text-white"
+        data-uc-height-viewport="">
+        <button
+            class="uc-modal-close-default p-0 icon-3 btn border-0 dark:text-white dark:text-opacity-50 hover:text-primary hover:rotate-90 duration-150 transition-all"
+            type="button">
+            <i class="unicon-close dark:text-white"></i>
+        </button>
+        <div class="panel lg:w-800px sm:w-500px px-2 py-10">
+            <h3 class="h1 text-center">Search</h3>
+            <form class="hstack gap-1 mt-4 border-bottom p-narrow dark:border-gray-700" action="?">
+                <span class="d-inline-flex justify-center items-center w-24px sm:w-40 h-24px sm:h-40px opacity-50"><i
+                        class="unicon-search icon-3"></i></span>
+                <input type="search" name="q" class="form-control-plaintext ms-1 fs-6 sm:fs-5 w-full dark:text-white"
+                    placeholder="Type your keyword.." aria-label="Search" autofocus>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Header Area-->
+<div class="header-area" id="headerArea">
+  <div class="container d-flex align-items-center justify-content-between">
+    <!-- Navbar Toggler-->
+
+    <div class="icon mt-2 icon-1" onclick="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Logo-->
+    <div class="logo-wrapper">
+      <a href="/" class="text-center">
+        <img src="{{ profile_setting.logo_dark.url }}" alt="Dark Logo" class="logo logo-light logo img-fluid w-100">
+        <img src="{{ profile_setting.logo_light.url }}" alt="Light Logo" class="logo logo-dark logo img-fluid w-100">
+      </a>
+    </div>
+
+    <!-- Search Icon -->
+    <div class="uc-navbar-item gap-2 mt-2">
+      <a href="#" class="nav-icon" data-bs-toggle="modal" data-bs-target="#ModalSubscribe">
+            <i class="bi bi-bell-fill icon-1"></i>
+          </a>
+
+          
+        <a class="text-none uc-search-trigger pt-1" href="#uc-search-modal"
+            data-uc-toggle>
+            <i class="unicon-search icon-1"></i>
+        </a>
+    </div>
+    {% include 'subscribe_model.html' %}
+  </div>
+</div>
+
+<div class="mt-5"></div>
+
+
+<!-- Sidenav Black Overlay-->
+<div class="sidenav-black-overlay"></div>
+
+<!-- Side Nav Wrapper-->
+
+<!-- Side Navigation -->
+<div class="side-menu" id="sideMenu">
+
+  <!-- Back Button -->
+  <div class="menu-back" onclick="closeMenu()">&larr; BACK</div>
+
+  <!-- Category List -->
+  {% for link in Blogcat %}
+  <div class="menu-item" onclick="showSubmenu('submenu-{{ link.id }}')">
+    {{ link.cat_name }} 
+    <i class="fas fa-chevron-right float-end"></i>
+  </div>
+  {% endfor %}
+
+  <!-- Subcategory Lists -->
+  {% for link in Blogcat %}
+  <div id="submenu-{{ link.id }}" class="thirdmenu">
+    <div class="menu-back" onclick="hideSubmenu('submenu-{{ link.id }}')">
+      &larr; BACK TO MAIN MENU
+    </div>
+
+    {% for sublink in link.sub_category_set.all %}
+      {% if sublink.subcat_status == 'active' %}
+      <div class="menu-item">
+        <a href="/{{ link.cat_slug }}/{{ sublink.subcat_slug }}" style="color: white !important; text-decoration: none;">
+          {{ sublink.subcat_name }}
+        </a>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% endfor %}
+  
+</div>

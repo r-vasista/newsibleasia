@@ -2,272 +2,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Stories | Newsible</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Stories | Newsible</title>
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-        }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-        }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+body{
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:#fafafa;
+    color:#111;
+}
 
-        .category-nav {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            margin-bottom: 2rem;
-            position: sticky;
-            top: 72px;
-            z-index: 999;
-        }
+/* ================= HEADER ================= */
+.header{
+    background:#fff;
+    border-bottom:1px solid #eaeaea;
+    padding:12px 0;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+.logo{
+    font-weight:700;
+    font-size:1.4rem;
+    color:#000;
+    text-decoration:none;
+}
 
-        .category-pills {
-            display: flex;
-            gap: 0.75rem;
-            overflow-x: auto;
-            padding: 0.5rem 0;
-            scrollbar-width: none;
-        }
+/* ================= CATEGORY ================= */
+.category-nav{
+    background:#fff;
+    border-bottom:1px solid #eee;
+    padding:8px 0;
+}
+.category-pills{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    scrollbar-width:none;
+}
+.category-pills::-webkit-scrollbar{display:none;}
+.category-pill{
+    padding:6px 16px;
+    background:#f1f3f4;
+    border-radius:20px;
+    font-size:14px;
+    color:#000;
+    text-decoration:none;
+    white-space:nowrap;
+}
+.category-pill.active{
+    background:#0d6efd;
+    color:#fff;
+}
 
-        .category-pills::-webkit-scrollbar {
-            display: none;
-        }
+/* ================= SECTION ================= */
+.section-title{
+    font-size:1.2rem;
+    font-weight:700;
+    margin:22px 0 12px;
+    text-transform: uppercase;
+}
 
-        .category-pill {
-            padding: 0.75rem 1.5rem;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            border-radius: 50px;
-            color: #fff;
-            text-decoration: none;
-            white-space: nowrap;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
+/* ================= GRID ================= */
+.stories-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:16px;
+}
 
-        .category-pill:hover, .category-pill.active {
-            background: #4a90e2;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
-        }
+/* ================= CARD ================= */
+/* wrapper */
+.stories-slider-wrap{
+    position:relative;
+}
 
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 3rem 0 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+/* slider */
+.stories-slider{
+    display:flex;
+    gap:16px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    padding:6px 0px;
+}
+.stories-slider::-webkit-scrollbar{
+    display:none;
+}
 
-        .stories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
+/* card SAME size */
+.story-card{
+    min-width:220px;
+    max-width:220px;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 1px 4px rgba(0,0,0,.08);
+    transition:.2s ease;
+    text-decoration:none;
+    flex-shrink:0;
+}
+.story-card:hover{transform:translateY(-3px);}
 
-        .story-card {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            aspect-ratio: 9/16;
-            background: #1a1a1a;
-        }
+.story-card img{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+}
 
-        .story-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
+/* body */
+.story-body{padding:10px 12px;}
+.story-title{
+    font-size:15px;
+    font-weight:600;
+    color:#000;
+    line-height:1.3;
+    margin-bottom:6px;
+}
+.story-meta{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#777;
+}
+.share-btn{
+    background:none;
+    border:none;
+    color:#777;
+}
 
-        .story-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
+/* nav buttons */
+.story-nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background: rgb(255 255 255 / 74%);
+    color: #282828;
+    border:none;
+    cursor:pointer;
+    z-index:5;
+}
+.story-nav.prev{left:5px;}
+.story-nav.next{right:5px;}
 
-        .story-card:hover img {
-            transform: scale(1.05);
-        }
+/* mobile */
+@media(max-width:767px){
+    .story-nav{display:none;}
+}
 
-        .story-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
-        }
-
-        .story-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-        }
-
-        .story-meta {
-            display: flex;
-            gap: 1rem;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.7);
-        }
-
-        .story-meta i {
-            margin-right: 0.3rem;
-        }
-
-        @media (max-width: 768px) {
-            .stories-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 1rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-        }
-
-        .featured-section {
-            margin-bottom: 4rem;
-        }
-
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .featured-card {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            aspect-ratio: 16/9;
-            cursor: pointer;
-        }
-
-        .featured-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .featured-card:hover img {
-            transform: scale(1.1);
-        }
-    </style>
+</style>
 </head>
+
 <body>
-    <div class="header">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <a href="/" class="logo">
-                    <i class="fas fa-book-open"></i>
-                    WEB STORIES
-                </a>
-                <a href="/" class="btn btn-outline-light btn-sm">
-                    <i class="fas fa-arrow-left me-2"></i>Back to Home
-                </a>
-            </div>
-        </div>
+
+<!-- ================= HEADER ================= -->
+<div class="header">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a href="{% url 'webstories:home' %}" class="logo"><i class="fa-solid fa-book-open me-1"></i>WEB STORIES</a>
+    <a href="/" class="btn btn-outline-secondary btn-sm">
+        <i class="fa fa-arrow-left me-1"></i>Home
+    </a>
+  </div>
+</div>
+
+<!-- ================= CATEGORY ================= -->
+<div class="category-nav">
+  <div class="container">
+    <div class="category-pills">
+      <a href="{% url 'webstories:home' %}" class="category-pill active">Home</a>
+      <a href="{% url 'webstories:latest' %}" class="category-pill">Latest</a>
+      {% for category in categories %}
+      <a href="{% url 'webstories:category' category.slug %}" class="category-pill">
+        {{ category.name }}
+      </a>
+      {% endfor %}
     </div>
+  </div>
+</div>
 
-    <div class="category-nav">
-        <div class="container">
-            <div class="category-pills">
-                <a href="{% url 'webstories:home' %}" class="category-pill active">
-                    <i class="fas fa-home me-2"></i>Home
-                </a>
-                <a href="{% url 'webstories:home' %}" class="category-pill">
-                    <i class="fas fa-fire me-2"></i>Latest
-                </a>
-                {% for category in categories %}
-                <a href="{% url 'webstories:category' category.slug %}" class="category-pill">
-                    {{ category.name }}
-                </a>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+<div class="container">
+    <!-- ================= LATEST ================= -->
+    <h2 class="section-title">Latest Stories</h2>
+    <div class="stories-slider-wrap">
+        <button class="story-nav prev" onclick="slideStories(-1)">
+            <i class="fa fa-chevron-left"></i>
+        </button>
 
-    <div class="container">
-        {% block content %}
-        <!-- Default Home Content -->
-
-        <h2 class="section-title">
-            <i class="fas fa-clock me-2"></i>Latest Stories
-        </h2>
-        <div class="stories-grid">
+        <div class="stories-slider" id="storiesSlider">
             {% for story in latest_stories %}
-            <a href="{{ story.get_absolute_url }}" class="story-card text-decoration-none" target="_blank">
-                <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}">
-                <div class="story-overlay">
-                    <h3 class="story-title">{{ story.title }}</h3>
+            <a href="{% url 'webstories:detail' story.category.slug story.slug %}" class="story-card" target="_blank">
+                <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}" loading="lazy">
+                <div class="story-body">
+                    <div class="story-title">{{ story.title }}</div>
                     <div class="story-meta">
-                        <span><i class="fas fa-eye"></i>{{ story.views }}</span>
-                        <span><i class="fas fa-images"></i>{{ story.slides.count }}</span>
+                        <span><i class="fa fa-eye me-1"></i>{{ story.views }}</span>
+                        <button class="share-btn"
+                            onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.category.slug story.slug %}','{{ story.title }}')">
+                            <i class="fa fa-share"></i>
+                        </button>
                     </div>
                 </div>
             </a>
             {% endfor %}
         </div>
 
-        {% for category, stories in category_stories.items %}
-        {% if stories %}
-        <h2 class="section-title">{{ category.name }}</h2>
-        <div class="stories-grid">
-            {% for story in stories %}
-            <a href="{{ story.get_absolute_url }}" class="story-card text-decoration-none" target="_blank">
-                <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}">
-                <div class="story-overlay">
-                    <h3 class="story-title">{{ story.title }}</h3>
-                    <div class="story-meta">
-                        <span><i class="fas fa-eye"></i>{{ story.views }}</span>
-                        <span><i class="fas fa-images"></i>{{ story.slides.count }}</span>
-                    </div>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-        {% endif %}
-        {% endfor %}
-        {% endblock %}
+        <button class="story-nav next" onclick="slideStories(1)">
+            <i class="fa fa-chevron-right"></i>
+        </button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ================= CATEGORY WISE STORIES ================= -->
+    {% for category, stories in category_stories.items %}
+    {% if stories %}
+    <h2 class="section-title">{{ category.name }}</h2>
+
+    <div class="stories-grid">
+    {% for story in stories %}
+    <a href="{% url 'webstories:detail' story.category.slug story.slug %}" class="story-card" target="_blank">
+        <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}" loading="lazy">
+        <div class="story-body">
+            <div class="story-title">{{ story.title }}</div>
+            <div class="story-meta">
+                <span><i class="fa fa-eye me-1"></i>{{ story.views }}</span>
+                <button class="share-btn"
+                    onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.category.slug story.slug %}','{{ story.title }}')">
+                    <i class="fa fa-share"></i>
+                </button>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+    </div>
+
+    {% endif %}
+    {% endfor %}
+
+</div>
+
+<script>
+function slideStories(dir){
+    const slider = document.getElementById('storiesSlider');
+    const cardWidth = slider.querySelector('.story-card').offsetWidth + 16;
+    slider.scrollLeft += dir * cardWidth;
+}
+
+function shareStory(url, title) {
+    const fullUrl = window.location.origin + url;
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            url: fullUrl
+        }).catch(err => console.log('Share failed:', err));
+    } else {
+        navigator.clipboard.writeText(fullUrl);
+        alert('Link copied to clipboard!');
+    }
+}
+</script>
+
 </body>
 </html>

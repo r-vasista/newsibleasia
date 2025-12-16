@@ -63,6 +63,7 @@ class WebStorySlide(models.Model):
     video = models.FileField(upload_to='webstories/videos/', blank=True, null=True)
     video_url = models.URLField(blank=True, null=True, help_text="YouTube or external video URL")
     description = models.TextField(max_length=500)
+    credit = models.CharField(max_length=100, blank=True, null=True, help_text="Photo/Video credit (e.g., 'Photo: Reuters' or 'Video: AFP')")
     order = models.IntegerField(default=0)
     duration = models.IntegerField(default=5, help_text="Duration in seconds for auto-play")
     

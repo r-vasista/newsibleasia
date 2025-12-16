@@ -1,0 +1,359 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Latest Web Stories | Newsible</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:#fafafa;
+    color:#111;
+}
+
+/* ================= HEADER ================= */
+.header{
+    background:#fff;
+    border-bottom:1px solid #eaeaea;
+    padding:12px 0;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+.logo{
+    font-weight:700;
+    font-size:1.4rem;
+    color:#000;
+    text-decoration:none;
+}
+
+/* ================= CATEGORY ================= */
+.category-nav{
+    background:#fff;
+    border-bottom:1px solid #eee;
+    padding:8px 0;
+    position: sticky;
+    top: 57px;
+    z-index: 999;
+}
+.category-pills{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    scrollbar-width:none;
+}
+.category-pills::-webkit-scrollbar{display:none;}
+.category-pill{
+    padding:6px 16px;
+    background:#f1f3f4;
+    border-radius:20px;
+    font-size:14px;
+    color:#000;
+    text-decoration:none;
+    white-space:nowrap;
+}
+.category-pill.active{
+    background:#0d6efd;
+    color:#fff;
+}
+
+/* ================= SECTION ================= */
+.page-title{
+    font-size:1.6rem;
+    font-weight:700;
+    margin:24px 0 20px;
+    text-transform: uppercase;
+}
+
+/* ================= GRID ================= */
+.stories-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:20px;
+    margin-bottom:40px;
+}
+
+/* ================= CARD ================= */
+.story-card{
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    transition:.2s ease;
+    text-decoration:none;
+    position: relative;
+}
+.story-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+
+.story-card img{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+}
+
+/* Progress indicators */
+.story-progress{
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    display: flex;
+    gap: 3px;
+    z-index: 2;
+}
+.progress-dot{
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,.3);
+    border-radius: 2px;
+}
+
+/* body */
+.story-body{
+    padding:12px 14px;
+}
+.story-title{
+    font-size:15px;
+    font-weight:600;
+    color:#000;
+    line-height:1.4;
+    margin-bottom:8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.story-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+    font-size:12px;
+    color:#666;
+}
+.story-date{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.story-stats{
+    display: flex;
+    gap: 12px;
+}
+.share-btn{
+    background:none;
+    border:none;
+    color:#666;
+    cursor: pointer;
+    padding: 4px;
+}
+.share-btn:hover{
+    color:#0d6efd;
+}
+
+/* Loading state */
+.loading{
+    text-align:center;
+    padding:40px 20px;
+    color:#999;
+}
+
+/* Empty state */
+.empty-state{
+    text-align:center;
+    padding:80px 20px;
+    color:#666;
+}
+.empty-state i{
+    font-size:64px;
+    margin-bottom:20px;
+    color:#ddd;
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .stories-grid{
+        grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+        gap:16px;
+    }
+    .story-card img{
+        height:280px;
+    }
+    .page-title{
+        font-size:1.3rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<div class="header">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a href="{% url 'webstories:home' %}" class="logo">
+        <i class="fa-solid fa-book-open me-1"></i>WEB STORIES
+    </a>
+    <a href="/" class="btn btn-outline-secondary btn-sm">
+        <i class="fa fa-arrow-left me-1"></i>Home
+    </a>
+  </div>
+</div>
+
+<!-- ================= CATEGORY NAV ================= -->
+<div class="category-nav">
+  <div class="container">
+    <div class="category-pills">
+      <a href="{% url 'webstories:home' %}" class="category-pill">Home</a>
+      <a href="{% url 'webstories:latest' %}" class="category-pill active">Latest</a>
+      {% for category in categories %}
+      <a href="{% url 'webstories:category' category.slug %}" class="category-pill">
+        {{ category.name }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container">
+    <h1 class="page-title">Latest Stories</h1>
+
+    {% if latest_stories %}
+    <div class="stories-grid">
+        {% for story in latest_stories %}
+        <a href="{% url 'webstories:detail' story.category.slug story.slug %}" 
+           class="story-card" 
+           target="_blank">
+            <!-- Progress Indicators -->
+            <div class="story-progress">
+                {% for slide in story.slides.all|slice:":10" %}
+                <div class="progress-dot"></div>
+                {% endfor %}
+            </div>
+            
+            <!-- Thumbnail -->
+            <img src="{{ story.thumbnail.url }}" 
+                 alt="{{ story.title }}" 
+                 loading="lazy">
+            
+            <!-- Content -->
+            <div class="story-body">
+                <div class="story-title">{{ story.title }}</div>
+                <div class="story-meta">
+                    <span class="story-date">
+                        <i class="fa fa-clock"></i>
+                        {{ story.published_date|date:"M d, Y" }}
+                    </span>
+                    <div class="story-stats">
+                        <span title="Views">
+                            <i class="fa fa-eye"></i> {{ story.views|default:0 }}
+                        </span>
+                        <button class="share-btn" 
+                                onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.category.slug story.slug %}','{{ story.title }}')">
+                            <i class="fa fa-share-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="empty-state">
+        <i class="fa fa-book-open"></i>
+        <h3>No Stories Available</h3>
+        <p>Check back soon for new stories!</p>
+        <a href="{% url 'webstories:home' %}" class="btn btn-primary mt-3">
+            Go to Home
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+// Share functionality
+function shareStory(url, title) {
+    const fullUrl = window.location.origin + url;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: 'Check out this story!',
+            url: fullUrl
+        }).catch(err => {
+            console.log('Share cancelled or failed:', err);
+        });
+    } else {
+        // Fallback: Copy to clipboard
+        navigator.clipboard.writeText(fullUrl).then(() => {
+            showToast('Link copied to clipboard!');
+        }).catch(err => {
+            console.error('Copy failed:', err);
+        });
+    }
+}
+
+// Simple toast notification
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #333;
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        z-index: 9999;
+        animation: fadeInOut 2s ease;
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 2000);
+}
+
+// Infinite scroll (optional)
+let page = 1;
+let loading = false;
+let hasMore = true;
+
+window.addEventListener('scroll', () => {
+    if (loading || !hasMore) return;
+    
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    const docHeight = document.documentElement.scrollHeight;
+    
+    if (scrollTop + windowHeight >= docHeight - 500) {
+        // loadMoreStories();
+    }
+});
+</script>
+
+<style>
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    10%, 90% { opacity: 1; }
+}
+</style>
+
+</body>
+</html>

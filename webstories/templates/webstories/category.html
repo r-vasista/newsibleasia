@@ -1,23 +1,207 @@
-{% extends 'webstories/home.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ category.name }} Stories | Newsible</title>
 
-{% block title %}{{ category.name }} Stories{% endblock %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-{% block content %}
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:#fafafa;
+    color:#111;
+}
+
+/* ================= HEADER ================= */
+.header{
+    background:#fff;
+    border-bottom:1px solid #eaeaea;
+    padding:12px 0;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+.logo{
+    font-weight:700;
+    font-size:1.4rem;
+    color:#000;
+    text-decoration:none;
+}
+
+/* ================= CATEGORY ================= */
+.category-nav{
+    background:#fff;
+    border-bottom:1px solid #eee;
+    padding:8px 0;
+}
+.category-pills{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    scrollbar-width:none;
+}
+.category-pills::-webkit-scrollbar{display:none;}
+.category-pill{
+    padding:6px 16px;
+    background:#f1f3f4;
+    border-radius:20px;
+    font-size:14px;
+    color:#000;
+    text-decoration:none;
+    white-space:nowrap;
+}
+.category-pill.active{
+    background:#0d6efd;
+    color:#fff;
+}
+
+/* ================= SECTION ================= */
+.section-title{
+    font-size:1.4rem;
+    font-weight:700;
+    margin:22px 0 12px;
+    text-transform: uppercase;
+}
+
+/* ================= GRID ================= */
+.stories-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:16px;
+    margin-bottom:40px;
+}
+
+/* ================= CARD ================= */
+.story-card{
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 1px 4px rgba(0,0,0,.08);
+    transition:.2s ease;
+    text-decoration:none;
+}
+.story-card:hover{transform:translateY(-3px);}
+
+.story-card img{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+}
+
+/* body */
+.story-body{padding:10px 12px;}
+.story-title{
+    font-size:15px;
+    font-weight:600;
+    color:#000;
+    line-height:1.3;
+    margin-bottom:6px;
+}
+.story-meta{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#777;
+}
+.share-btn{
+    background:none;
+    border:none;
+    color:#777;
+}
+
+.empty-state{
+    text-align:center;
+    padding:60px 20px;
+    color:#666;
+}
+.empty-state i{
+    font-size:48px;
+    margin-bottom:16px;
+    color:#ccc;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<div class="header">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a href="/webstories/" class="logo"><i class="fa-solid fa-book-open me-1"></i>WEB STORIES</a>
+    <a href="/" class="btn btn-outline-secondary btn-sm">
+        <i class="fa fa-arrow-left me-1"></i>Home
+    </a>
+  </div>
+</div>
+
+<!-- ================= CATEGORY ================= -->
+<div class="category-nav">
+  <div class="container">
+    <div class="category-pills">
+      <a href="{% url 'webstories:home' %}" class="category-pill">Home</a>
+      <a href="{% url 'webstories:latest' %}" class="category-pill">Latest</a>
+      {% for cat in categories %}
+      <a href="{% url 'webstories:category' cat.slug %}" 
+         class="category-pill {% if cat.slug == category.slug %}active{% endif %}">
+        {{ cat.name }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
 <div class="container">
+    <!-- ================= CATEGORY STORIES ================= -->
     <h2 class="section-title">{{ category.name }} Stories</h2>
+
+    {% if stories %}
     <div class="stories-grid">
         {% for story in stories %}
-        <a href="{{ story.get_absolute_url }}" class="story-card text-decoration-none" target="_blank">
-            <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}">
-            <div class="story-overlay">
-                <h3 class="story-title">{{ story.title }}</h3>
+        <a href="{% url 'webstories:detail' story.category.slug story.slug %}" class="story-card" target="_blank">
+            <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}" loading="lazy">
+            <div class="story-body">
+                <div class="story-title">{{ story.title }}</div>
                 <div class="story-meta">
-                    <span><i class="fas fa-eye"></i>{{ story.views }}</span>
-                    <span><i class="fas fa-images"></i>{{ story.slides.count }}</span>
+                    <span><i class="fa fa-eye me-1"></i>{{ story.views }}</span>
+                    <button class="share-btn"
+                        onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.category.slug story.slug %}','{{ story.title }}')">
+                        <i class="fa fa-share"></i>
+                    </button>
                 </div>
             </div>
         </a>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fa fa-book-open"></i>
+        <h3>No Stories Yet</h3>
+        <p>There are no stories in this category yet. Check back soon!</p>
+        <a href="{% url 'webstories:home' %}" class="btn btn-primary mt-3">Browse All Stories</a>
+    </div>
+    {% endif %}
 </div>
-{% endblock %}
+
+<script>
+function shareStory(url, title) {
+    const fullUrl = window.location.origin + url;
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            url: fullUrl
+        }).catch(err => console.log('Share failed:', err));
+    } else {
+        navigator.clipboard.writeText(fullUrl);
+        alert('Link copied to clipboard!');
+    }
+}
+</script>
+
+</body>
+</html>
