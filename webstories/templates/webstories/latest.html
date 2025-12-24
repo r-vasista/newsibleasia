@@ -18,7 +18,6 @@ body{
     color:#111;
 }
 
-/* ================= HEADER ================= */
 .header{
     background:#fff;
     border-bottom:1px solid #eaeaea;
@@ -34,7 +33,6 @@ body{
     text-decoration:none;
 }
 
-/* ================= CATEGORY ================= */
 .category-nav{
     background:#fff;
     border-bottom:1px solid #eee;
@@ -64,7 +62,6 @@ body{
     color:#fff;
 }
 
-/* ================= SECTION ================= */
 .page-title{
     font-size:1.6rem;
     font-weight:700;
@@ -72,7 +69,6 @@ body{
     text-transform: uppercase;
 }
 
-/* ================= GRID ================= */
 .stories-grid{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
@@ -80,7 +76,6 @@ body{
     margin-bottom:40px;
 }
 
-/* ================= CARD ================= */
 .story-card{
     background:#fff;
     border-radius:12px;
@@ -101,7 +96,6 @@ body{
     object-fit:cover;
 }
 
-/* Progress indicators */
 .story-progress{
     position: absolute;
     top: 8px;
@@ -118,7 +112,6 @@ body{
     border-radius: 2px;
 }
 
-/* body */
 .story-body{
     padding:12px 14px;
 }
@@ -160,14 +153,6 @@ body{
     color:#0d6efd;
 }
 
-/* Loading state */
-.loading{
-    text-align:center;
-    padding:40px 20px;
-    color:#999;
-}
-
-/* Empty state */
 .empty-state{
     text-align:center;
     padding:80px 20px;
@@ -179,7 +164,6 @@ body{
     color:#ddd;
 }
 
-/* Responsive */
 @media(max-width:768px){
     .stories-grid{
         grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
@@ -197,7 +181,6 @@ body{
 
 <body>
 
-<!-- ================= HEADER ================= -->
 <div class="header">
   <div class="container d-flex justify-content-between align-items-center">
     <a href="{% url 'webstories:home' %}" class="logo">
@@ -209,7 +192,6 @@ body{
   </div>
 </div>
 
-<!-- ================= CATEGORY NAV ================= -->
 <div class="category-nav">
   <div class="container">
     <div class="category-pills">
@@ -224,29 +206,25 @@ body{
   </div>
 </div>
 
-<!-- ================= MAIN CONTENT ================= -->
 <div class="container">
     <h1 class="page-title">Latest Stories</h1>
 
     {% if latest_stories %}
     <div class="stories-grid">
         {% for story in latest_stories %}
-        <a href="{% url 'webstories:detail' story.category.slug story.slug %}" 
+        <a href="{% url 'webstories:detail' story.slug %}" 
            class="story-card" 
            target="_blank">
-            <!-- Progress Indicators -->
             <div class="story-progress">
-                {% for slide in story.slides.all|slice:":10" %}
+                {% for page in story.pages.all|slice:":10" %}
                 <div class="progress-dot"></div>
                 {% endfor %}
             </div>
             
-            <!-- Thumbnail -->
-            <img src="{{ story.thumbnail.url }}" 
+            <img src="{{ story.poster_portrait.url }}" 
                  alt="{{ story.title }}" 
                  loading="lazy">
             
-            <!-- Content -->
             <div class="story-body">
                 <div class="story-title">{{ story.title }}</div>
                 <div class="story-meta">
@@ -259,7 +237,7 @@ body{
                             <i class="fa fa-eye"></i> {{ story.views|default:0 }}
                         </span>
                         <button class="share-btn" 
-                                onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.category.slug story.slug %}','{{ story.title }}')">
+                                onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.slug %}','{{ story.title }}')">
                             <i class="fa fa-share-alt"></i>
                         </button>
                     </div>
@@ -270,7 +248,6 @@ body{
     </div>
 
     {% else %}
-    <!-- Empty State -->
     <div class="empty-state">
         <i class="fa fa-book-open"></i>
         <h3>No Stories Available</h3>
@@ -282,9 +259,8 @@ body{
     {% endif %}
 </div>
 
-<!-- ================= SCRIPTS ================= -->
+<!-- ✅ JAVASCRIPT IS ALLOWED HERE (This is just a landing page) -->
 <script>
-// Share functionality
 function shareStory(url, title) {
     const fullUrl = window.location.origin + url;
     
@@ -297,7 +273,6 @@ function shareStory(url, title) {
             console.log('Share cancelled or failed:', err);
         });
     } else {
-        // Fallback: Copy to clipboard
         navigator.clipboard.writeText(fullUrl).then(() => {
             showToast('Link copied to clipboard!');
         }).catch(err => {
@@ -306,7 +281,6 @@ function shareStory(url, title) {
     }
 }
 
-// Simple toast notification
 function showToast(message) {
     const toast = document.createElement('div');
     toast.textContent = message;
@@ -329,23 +303,6 @@ function showToast(message) {
         toast.remove();
     }, 2000);
 }
-
-// Infinite scroll (optional)
-let page = 1;
-let loading = false;
-let hasMore = true;
-
-window.addEventListener('scroll', () => {
-    if (loading || !hasMore) return;
-    
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const windowHeight = window.innerHeight;
-    const docHeight = document.documentElement.scrollHeight;
-    
-    if (scrollTop + windowHeight >= docHeight - 500) {
-        // loadMoreStories();
-    }
-});
 </script>
 
 <style>

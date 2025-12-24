@@ -1,5 +1,5 @@
 """
-Django Management Command to clean up unused images from December 12-13, 2025.
+Django Management Command to clean up unused images from all of December 2025.
 
 Place this file in: your_app/management/commands/cleanup_unused_images.py
 
@@ -15,7 +15,7 @@ from post_management.models import NewsPost
 
 
 class Command(BaseCommand):
-    help = 'Removes unused images from blog/2025/12/12 and blog/2025/12/13'
+    help = 'Removes unused images from blog/2025/12/ (entire December 2025 folder)'
 
     def __init__(self):
         super().__init__()
@@ -71,7 +71,7 @@ class Command(BaseCommand):
                 self.log('DRY RUN MODE - No files will be deleted', self.style.WARNING)
                 self.log('=' * 70, self.style.WARNING)
             
-            # Get ALL NewsPost instances with images (not just from Dec 12-13)
+            # Get ALL NewsPost instances with images (not just from December)
             all_posts = NewsPost.objects.exclude(post_image='').exclude(post_image=None)
             
             # Collect all image paths that ARE being used
@@ -101,41 +101,52 @@ class Command(BaseCommand):
                 self.log(f'✓ {img["name"]}')
                 self.log(f'  Post: {img["post_title"]} (ID: {img["post_id"]})')
             
-            # Define the target directories for Dec 12 and 13
-            blog_base = Path(settings.MEDIA_ROOT) / 'blog' / '2025' / '12'
-            target_days = [12, 13]
+            # Define the target directory for entire December 2025
+            december_folder = Path(settings.MEDIA_ROOT) / 'blog' / '2025' / '12'
+            
+            if not december_folder.exists():
+                self.log(f'\nFolder does not exist: {december_folder}', self.style.ERROR)
+                return
             
             deleted_files = []
             kept_count = 0
             total_size_freed = 0
             error_count = 0
             
-            for day in target_days:
-                day_folder = blog_base / f'{day:02d}'
+            self.log(f'\n' + '=' * 70)
+            self.log(f'Scanning folder: {december_folder}')
+            self.log('=' * 70)
+            
+            # Get all image files recursively from the December folder
+            image_extensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif']
+            all_files = []
+            
+            try:
+                for ext in image_extensions:
+                    # Use rglob to search recursively through all subdirectories
+                    all_files.extend(december_folder.rglob(f'*{ext}'))
+            except Exception as e:
+                self.log(f'Error scanning folder: {str(e)}', self.style.ERROR)
+                return
+            
+            self.log(f'Found {len(all_files)} total image files in December 2025 folder\n')
+            
+            # Group files by day for better logging
+            files_by_day = {}
+            for image_file in all_files:
+                # Get the day folder (e.g., "01", "12", "31")
+                day = image_file.parent.name
+                if day not in files_by_day:
+                    files_by_day[day] = []
+                files_by_day[day].append(image_file)
+            
+            # Process files day by day
+            for day in sorted(files_by_day.keys()):
+                day_files = files_by_day[day]
                 
-                if not day_folder.exists():
-                    self.log(f'\nFolder does not exist: {day_folder}', self.style.WARNING)
-                    continue
+                self.log(f'\n--- Processing December {day}, 2025 ({len(day_files)} files) ---')
                 
-                self.log(f'\n' + '=' * 70)
-                self.log(f'Checking folder: {day_folder}')
-                self.log('=' * 70)
-                
-                # Get all image files in this day's folder
-                image_extensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif']
-                all_files = []
-                
-                try:
-                    for ext in image_extensions:
-                        all_files.extend(day_folder.glob(f'*{ext}'))
-                except Exception as e:
-                    self.log(f'Error scanning folder: {str(e)}', self.style.ERROR)
-                    continue
-                
-                self.log(f'Found {len(all_files)} total image files in this folder\n')
-                
-                # Check each file
-                for image_file in all_files:
+                for image_file in day_files:
                     try:
                         # Normalize path for comparison
                         full_path = str(image_file).replace('\\', '/')
@@ -158,6 +169,7 @@ class Command(BaseCommand):
                             deleted_files.append({
                                 'name': image_file.name,
                                 'path': full_path,
+                                'day': day,
                                 'size': file_size
                             })
                             
@@ -219,9 +231,19 @@ class Command(BaseCommand):
                 self.log(f'  • Space would be freed: {total_would_free / (1024*1024):.2f} MB')
             
             if deleted_files:
-                self.log(f'\n🗑️  Files {"that would be " if dry_run else ""}deleted:')
+                self.log(f'\n🗑️  Files {"that would be " if dry_run else ""}deleted by day:')
+                # Group by day for summary
+                deleted_by_day = {}
                 for f in deleted_files:
-                    self.log(f'  • {f["name"]} ({f["size"] / 1024:.2f} KB)')
+                    day = f['day']
+                    if day not in deleted_by_day:
+                        deleted_by_day[day] = []
+                    deleted_by_day[day].append(f)
+                
+                for day in sorted(deleted_by_day.keys()):
+                    self.log(f'\n  December {day}:')
+                    for f in deleted_by_day[day]:
+                        self.log(f'    • {f["name"]} ({f["size"] / 1024:.2f} KB)')
             
             self.log('\n' + '=' * 70)
             self.log(f'📄 Full log saved to: {self.log_path}', self.style.SUCCESS)

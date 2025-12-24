@@ -28,6 +28,7 @@ from django.views.generic.base import TemplateView
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from newsibleasia.sitemaps import custom_sitemap_index, sitemap_news, sitemap_images, sitemap_images_by_month, sitemap_videos, sitemap_videos_by_month, sitemap_article, sitemap_article_by_month, sitemap_archive, sitemap_archive_by_month, sitemap_tags, sitemap_tag_detail, sitemap_static, sitemap_categories, sitemap_category_detail
+from webstories.sitemaps import WebStorySitemap
 #sitmap end
 
 admin.site.site_header="newsibleasia Admin"
@@ -38,6 +39,10 @@ admin.site.index_title="Dasboard"
 #      'post':BlogSitemap,
 #      'StaticUrl':StaticSitemap
 #    }
+
+sitemaps = {
+    'webstories': WebStorySitemap,
+}
 
 # Custom error handlers
 def custom_404_view(request, exception):
@@ -101,6 +106,11 @@ urlpatterns = [
     path('sitemap/categories', sitemap_categories, name='sitemap-categories'),
     path('sitemap/categories/<slug:slug>', sitemap_category_detail, name='sitemap-category-detail'),
     #sitmap end
+    
+    # web stories site map
+    path('sitemap-webstories.xml', sitemap, 
+         {'sitemaps': sitemaps}, 
+         name='django.contrib.sitemaps.views.sitemap'),
     #admin-user-pannel-path
     path('user-dashboard', views.Userdashboard, name="user-dashboard"),
     path('managepost', views.ManagePost, name="managepost"),

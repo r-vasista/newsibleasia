@@ -18,7 +18,6 @@ body{
     color:#111;
 }
 
-/* ================= HEADER ================= */
 .header{
     background:#fff;
     border-bottom:1px solid #eaeaea;
@@ -34,7 +33,6 @@ body{
     text-decoration:none;
 }
 
-/* ================= CATEGORY ================= */
 .category-nav{
     background:#fff;
     border-bottom:1px solid #eee;
@@ -61,7 +59,6 @@ body{
     color:#fff;
 }
 
-/* ================= SECTION ================= */
 .section-title{
     font-size:1.4rem;
     font-weight:700;
@@ -69,7 +66,6 @@ body{
     text-transform: uppercase;
 }
 
-/* ================= GRID ================= */
 .stories-grid{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
@@ -77,7 +73,6 @@ body{
     margin-bottom:40px;
 }
 
-/* ================= CARD ================= */
 .story-card{
     background:#fff;
     border-radius:10px;
@@ -94,7 +89,6 @@ body{
     object-fit:cover;
 }
 
-/* body */
 .story-body{padding:10px 12px;}
 .story-title{
     font-size:15px;
@@ -130,17 +124,15 @@ body{
 
 <body>
 
-<!-- ================= HEADER ================= -->
 <div class="header">
   <div class="container d-flex justify-content-between align-items-center">
-    <a href="/webstories/" class="logo"><i class="fa-solid fa-book-open me-1"></i>WEB STORIES</a>
+    <a href="{% url 'webstories:home' %}" class="logo"><i class="fa-solid fa-book-open me-1"></i>WEB STORIES</a>
     <a href="/" class="btn btn-outline-secondary btn-sm">
         <i class="fa fa-arrow-left me-1"></i>Home
     </a>
   </div>
 </div>
 
-<!-- ================= CATEGORY ================= -->
 <div class="category-nav">
   <div class="container">
     <div class="category-pills">
@@ -157,20 +149,19 @@ body{
 </div>
 
 <div class="container">
-    <!-- ================= CATEGORY STORIES ================= -->
     <h2 class="section-title">{{ category.name }} Stories</h2>
 
     {% if stories %}
     <div class="stories-grid">
         {% for story in stories %}
-        <a href="{% url 'webstories:detail' story.category.slug story.slug %}" class="story-card" target="_blank">
-            <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}" loading="lazy">
+        <a href="{% url 'webstories:detail' story.slug %}" class="story-card" target="_blank">
+            <img src="{{ story.poster_portrait.url }}" alt="{{ story.title }}" loading="lazy">
             <div class="story-body">
                 <div class="story-title">{{ story.title }}</div>
                 <div class="story-meta">
                     <span><i class="fa fa-eye me-1"></i>{{ story.views }}</span>
                     <button class="share-btn"
-                        onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.category.slug story.slug %}','{{ story.title }}')">
+                        onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.slug %}','{{ story.title }}')">
                         <i class="fa fa-share"></i>
                     </button>
                 </div>
@@ -188,6 +179,7 @@ body{
     {% endif %}
 </div>
 
+<!-- ✅ JAVASCRIPT IS ALLOWED HERE (This is just a landing page) -->
 <script>
 function shareStory(url, title) {
     const fullUrl = window.location.origin + url;

@@ -1,0 +1,353 @@
+<!doctype html>
+<html ⚡ lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+  
+  <title>{{ story.title }}</title>
+  
+  <!-- ⚠️ AMP Story Required Scripts (ONLY THESE ARE ALLOWED) -->
+  <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-story" src="https://cdn.ampproject.org/v0/amp-story-1.0.js"></script>
+  <script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="{{ story.meta_description|default:story.title }}">
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ story.title }}">
+  <meta property="og:description" content="{{ story.meta_description|default:story.title }}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ story.poster_portrait.url }}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ story.title }}">
+  <meta name="twitter:description" content="{{ story.meta_description|default:story.title }}">
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ story.poster_portrait.url }}">
+  
+  <!-- AMP Boilerplate (REQUIRED - DO NOT MODIFY) -->
+  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+  
+  <!-- Custom Story Styles (ONLY CSS ALLOWED, NO JS) -->
+  <style amp-custom>
+    amp-story {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    amp-story-page {
+      background-color: #000;
+    }
+    
+    /* Text styling - NO animations here, using animate-in attributes instead */
+    .page-heading {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0 0 12px 0;
+      text-shadow: 0 3px 12px rgba(0,0,0,0.95), 0 1px 3px rgba(0,0,0,0.8);
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    
+    .page-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 0;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 1px 3px rgba(0,0,0,0.7);
+      color: #fff;
+      font-weight: 400;
+    }
+    
+    .page-credit {
+      font-size: 0.85rem;
+      margin-top: 10px;
+      color: rgba(255,255,255,0.95);
+      font-weight: 500;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    }
+    
+    /* Story date badge */
+    .story-date-badge {
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      margin-bottom: 16px;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    /* Text container with strong gradient background - BOTTOM placement */
+    .text-container {
+      padding: 50px 28px 36px 28px;
+      background: linear-gradient(
+        to top, 
+        rgba(0,0,0,0.95) 0%, 
+        rgba(0,0,0,0.9) 25%,
+        rgba(0,0,0,0.75) 50%,
+        rgba(0,0,0,0.5) 70%, 
+        rgba(0,0,0,0.25) 85%,
+        transparent 100%
+      );
+      width: 100%;
+      position: relative;
+      left: 0;
+      right: 0;
+      margin: 0;
+    }
+    
+    /* Alternative layout for thirds template - MIDDLE placement */
+    .text-container-thirds {
+      padding: 32px 28px;
+      background: rgba(0,0,0,0.88);
+      border-radius: 16px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      margin: 0 24px;
+      width: calc(100% - 48px);
+    }
+    
+    /* Ensure text layers are positioned correctly */
+    amp-story-grid-layer[template="vertical"] {
+      align-content: end;
+      justify-content: center;
+      padding: 0 !important;
+    }
+    
+    amp-story-grid-layer[template="thirds"] {
+      align-content: center;
+      padding: 0 !important;
+    }
+    
+    /* Remove any default padding from grid layers */
+    amp-story-grid-layer {
+      padding: 0 !important;
+    }
+    
+    /* Close button styling */
+    .close-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 44px;
+      height: 44px;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255,255,255,0.2);
+      text-decoration: none;
+    }
+    
+    .close-button:hover,
+    .close-button:active {
+      background: rgba(0,0,0,0.9);
+      transform: scale(1.05);
+      border-color: rgba(255,255,255,0.4);
+    }
+    
+    .close-button svg {
+      width: 24px;
+      height: 24px;
+      fill: #fff;
+    }
+    
+    /* Mobile optimization */
+    @media (max-width: 768px) {
+      .close-button {
+        top: 16px;
+        left: 16px;
+        width: 40px;
+        height: 40px;
+      }
+      
+      .close-button svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Close/Back Button - Links to stories homepage -->
+  <a href="{% url 'webstories:home' %}" class="close-button" aria-label="Close story">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+    </svg>
+  </a>
+  
+  <!-- ⚠️ AMP STORY CONTAINER - This is what Google indexes -->
+  <amp-story 
+    standalone
+    title="{{ story.title }}"
+    publisher="{{ story.publisher_name }}"
+    poster-portrait-src="{{ request.scheme }}://{{ request.get_host }}{{ story.poster_portrait.url }}">
+    
+    <!-- ============ STORY PAGES ============ -->
+    {% for page in pages %}
+    <amp-story-page id="page-{{ forloop.counter }}">
+      
+      <!-- Background Layer - Image or Video with Ken Burns effect -->
+      <amp-story-grid-layer template="fill">
+        {% if page.media_type == 'image' %}
+          <!-- Image Background with zoom animation -->
+          <amp-img 
+            src="{{ page.image.url }}" 
+            width="720" 
+            height="1280"
+            layout="responsive"
+            alt="{{ page.heading }}"
+            animate-in="zoom-in"
+            animate-in-duration="2s"
+            scale-start="1.3"
+            scale-end="1">
+          </amp-img>
+        
+        {% elif page.media_type == 'video' %}
+          <!-- Video Background with zoom animation -->
+          <amp-video
+            autoplay
+            loop
+            {% if page.video_poster %}poster="{{ page.video_poster.url }}"{% endif %}
+            width="720"
+            height="1280"
+            layout="responsive"
+            alt="{{ page.heading }}"
+            animate-in="zoom-in"
+            animate-in-duration="2s"
+            scale-start="1.3"
+            scale-end="1">
+            <source src="{{ page.video.url }}" type="video/mp4">
+          </amp-video>
+        {% endif %}
+      </amp-story-grid-layer>
+      
+      <!-- Text Content Layer -->
+      {% if page.layout == 'vertical' %}
+      <!-- Bottom text layout (default) -->
+      <amp-story-grid-layer template="vertical" style="align-content: end;">
+        <div class="text-container">
+          {% if forloop.first %}
+          <div class="story-date-badge"
+               animate-in="fade-in"
+               animate-in-duration="0.6s"
+               animate-in-delay="0.3s">
+            {{ story.published_date|date:"d M Y" }}
+          </div>
+          {% endif %}
+          
+          <h2 class="page-heading"
+              animate-in="fly-in-bottom"
+              animate-in-duration="0.8s"
+              animate-in-delay="0.5s">
+            {{ page.heading }}
+          </h2>
+          
+          <p class="page-text"
+             animate-in="fly-in-bottom"
+             animate-in-duration="0.8s"
+             animate-in-delay="0.8s">
+            {{ page.text }}
+          </p>
+          
+          {% if page.credit %}
+          <p class="page-credit"
+             animate-in="fly-in-bottom"
+             animate-in-duration="0.6s"
+             animate-in-delay="1.1s">
+            {{ page.credit }}
+          </p>
+          {% endif %}
+        </div>
+      </amp-story-grid-layer>
+      
+      {% elif page.layout == 'thirds' %}
+      <!-- Middle text layout -->
+      <amp-story-grid-layer template="thirds" style="align-content: center;">
+        <div grid-area="middle-third" class="text-container-thirds">
+          {% if forloop.first %}
+          <div class="story-date-badge"
+               animate-in="fade-in"
+               animate-in-duration="0.6s"
+               animate-in-delay="0.3s">
+            {{ story.published_date|date:"d M Y" }}
+          </div>
+          {% endif %}
+          
+          <h2 class="page-heading"
+              animate-in="fly-in-bottom"
+              animate-in-duration="0.8s"
+              animate-in-delay="0.5s">
+            {{ page.heading }}
+          </h2>
+          
+          <p class="page-text"
+             animate-in="fly-in-bottom"
+             animate-in-duration="0.8s"
+             animate-in-delay="0.8s">
+            {{ page.text }}
+          </p>
+          
+          {% if page.credit %}
+          <p class="page-credit"
+             animate-in="fly-in-bottom"
+             animate-in-duration="0.6s"
+             animate-in-delay="1.1s">
+            {{ page.credit }}
+          </p>
+          {% endif %}
+        </div>
+      </amp-story-grid-layer>
+      {% endif %}
+      
+    </amp-story-page>
+    {% endfor %}
+    
+    <!-- ============ BOOKEND (Related Stories) ============ -->
+    <amp-story-bookend 
+      src="{{ request.scheme }}://{{ request.get_host }}{% url 'webstories:bookend_json' story.slug %}" 
+      layout="nodisplay">
+    </amp-story-bookend>
+    
+  </amp-story>
+  
+  <!-- ⚠️ NO CUSTOM JAVASCRIPT ALLOWED HERE -->
+  <!-- AMP handles all interactions automatically -->
+  
+  <!-- Navigation Instructions (optional, shows on first visit) -->
+  <noscript>
+    <style>
+      .story-nav-hint {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.8);
+        color: #fff;
+        padding: 12px 20px;
+        border-radius: 25px;
+        font-size: 14px;
+        z-index: 999998;
+      }
+    </style>
+    <div class="story-nav-hint">
+      Tap left/right to navigate • Press ESC to close
+    </div>
+  </noscript>
+  
+</body>
+</html>

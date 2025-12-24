@@ -18,7 +18,6 @@ body{
     color:#111;
 }
 
-/* ================= HEADER ================= */
 .header{
     background:#fff;
     border-bottom:1px solid #eaeaea;
@@ -34,7 +33,6 @@ body{
     text-decoration:none;
 }
 
-/* ================= CATEGORY ================= */
 .category-nav{
     background:#fff;
     border-bottom:1px solid #eee;
@@ -61,7 +59,6 @@ body{
     color:#fff;
 }
 
-/* ================= SECTION ================= */
 .section-title{
     font-size:1.2rem;
     font-weight:700;
@@ -69,20 +66,16 @@ body{
     text-transform: uppercase;
 }
 
-/* ================= GRID ================= */
 .stories-grid{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
     gap:16px;
 }
 
-/* ================= CARD ================= */
-/* wrapper */
 .stories-slider-wrap{
     position:relative;
 }
 
-/* slider */
 .stories-slider{
     display:flex;
     gap:16px;
@@ -94,7 +87,6 @@ body{
     display:none;
 }
 
-/* card SAME size */
 .story-card{
     min-width:220px;
     max-width:220px;
@@ -114,7 +106,6 @@ body{
     object-fit:cover;
 }
 
-/* body */
 .story-body{padding:10px 12px;}
 .story-title{
     font-size:15px;
@@ -135,7 +126,6 @@ body{
     color:#777;
 }
 
-/* nav buttons */
 .story-nav{
     position:absolute;
     top:50%;
@@ -152,11 +142,9 @@ body{
 .story-nav.prev{left:5px;}
 .story-nav.next{right:5px;}
 
-/* mobile */
 @media(max-width:767px){
     .story-nav{display:none;}
 }
-
 </style>
 </head>
 
@@ -197,14 +185,14 @@ body{
 
         <div class="stories-slider" id="storiesSlider">
             {% for story in latest_stories %}
-            <a href="{% url 'webstories:detail' story.category.slug story.slug %}" class="story-card" target="_blank">
-                <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}" loading="lazy">
+            <a href="{% url 'webstories:detail' story.slug %}" class="story-card" target="_blank">
+                <img src="{{ story.poster_portrait.url }}" alt="{{ story.title }}" loading="lazy">
                 <div class="story-body">
                     <div class="story-title">{{ story.title }}</div>
                     <div class="story-meta">
                         <span><i class="fa fa-eye me-1"></i>{{ story.views }}</span>
                         <button class="share-btn"
-                            onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.category.slug story.slug %}','{{ story.title }}')">
+                            onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.slug %}','{{ story.title }}')">
                             <i class="fa fa-share"></i>
                         </button>
                     </div>
@@ -225,14 +213,14 @@ body{
 
     <div class="stories-grid">
     {% for story in stories %}
-    <a href="{% url 'webstories:detail' story.category.slug story.slug %}" class="story-card" target="_blank">
-        <img src="{{ story.thumbnail.url }}" alt="{{ story.title }}" loading="lazy">
+    <a href="{% url 'webstories:detail' story.slug %}" class="story-card" target="_blank">
+        <img src="{{ story.poster_portrait.url }}" alt="{{ story.title }}" loading="lazy">
         <div class="story-body">
             <div class="story-title">{{ story.title }}</div>
             <div class="story-meta">
                 <span><i class="fa fa-eye me-1"></i>{{ story.views }}</span>
                 <button class="share-btn"
-                    onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.category.slug story.slug %}','{{ story.title }}')">
+                    onclick="event.preventDefault(); shareStory('{% url 'webstories:detail' story.slug %}','{{ story.title }}')">
                     <i class="fa fa-share"></i>
                 </button>
             </div>
@@ -246,6 +234,7 @@ body{
 
 </div>
 
+<!-- ✅ JAVASCRIPT IS ALLOWED HERE (This is just a landing page) -->
 <script>
 function slideStories(dir){
     const slider = document.getElementById('storiesSlider');
