@@ -1458,7 +1458,6 @@ def catdetails(request,catlink,slug):
     seourl='/'+catlink+'/'+slug
 
     seoslug = seourl.replace("-", " ").upper()
-    print(seourl, 'SEOURL')
 
    
 

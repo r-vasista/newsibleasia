@@ -97,7 +97,10 @@ ROOT_URLCONF = 'newsibleasia.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, "templates/v1"],
+        'DIRS': [
+            BASE_DIR / "templates/v1",     # Desktop templates
+            BASE_DIR / "templates",        # Mobile templates
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -107,6 +110,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'setting.context.setting_context',
                 'setting.context.cms_context',
+                
+                
             ],
         },
     },
