@@ -6,7 +6,7 @@ from .models import WebStory, WebStoryCategory, WebStoryPage
 class WebStoryPageInline(admin.TabularInline):
     model = WebStoryPage
     extra = 5
-    fields = ('order', 'media_type', 'heading', 'text', 'image', 'video', 'video_poster', 'credit', 'layout')
+    fields = ('order', 'media_type', 'heading', 'text', 'image', 'video', 'video_poster', 'duration', 'credit', 'layout')
     ordering = ['order']
     
     class Media:
@@ -34,13 +34,12 @@ class WebStoryAdmin(admin.ModelAdmin):
         'category', 
         'page_count_badge',
         'is_published', 
-        'is_amp_valid',
         'views', 
         'published_date',
         'preview_link'
     )
-    list_filter = ('is_published', 'is_amp_valid', 'category', 'published_date')
-    list_editable = ('is_published', 'is_amp_valid')
+    list_filter = ('is_published', 'category', 'published_date')
+    list_editable = ('is_published',)
     search_fields = ('title', 'slug')
     prepopulated_fields = {'slug': ('title',)}
     readonly_fields = ('created_at', 'updated_at', 'validation_status')
@@ -61,7 +60,7 @@ class WebStoryAdmin(admin.ModelAdmin):
             'fields': ('meta_description',)
         }),
         ('Publishing', {
-            'fields': ('is_published', 'is_amp_valid', 'order', 'views')
+            'fields': ('is_published', 'order', 'views')
         }),
         ('Validation', {
             'fields': ('validation_status',),
@@ -112,7 +111,7 @@ class WebStoryAdmin(admin.ModelAdmin):
 
 @admin.register(WebStoryPage)
 class WebStoryPageAdmin(admin.ModelAdmin):
-    list_display = ('story', 'order', 'media_type', 'heading', 'text_preview', 'layout')
+    list_display = ('story', 'order', 'media_type', 'heading', 'duration', 'text_preview', 'layout')
     list_filter = ('story', 'media_type', 'layout')
     search_fields = ('story__title', 'heading', 'text')
     list_editable = ('order',)
@@ -135,6 +134,10 @@ class WebStoryPageAdmin(admin.ModelAdmin):
         ('Page Content', {
             'fields': ('heading', 'text', 'credit', 'layout')
         }),
+        ('Auto-Advance', {
+            'fields': ('duration',),
+            'description': 'Duration in seconds before auto-advancing to next page'
+        }),
     )
     
     def text_preview(self, obj):
@@ -143,3 +146,4 @@ class WebStoryPageAdmin(admin.ModelAdmin):
     
     class Media:
         js = ('admin/js/webstory_page_admin.js',)
+        

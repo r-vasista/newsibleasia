@@ -96,11 +96,8 @@ class WebStory(models.Model):
     views = models.IntegerField(default=0)
     order = models.IntegerField(default=0)
     
-    # AMP specific
-    is_amp_valid = models.BooleanField(
-        default=False,
-        help_text="Mark as valid after AMP validation"
-    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -202,6 +199,12 @@ class WebStoryPage(models.Model):
     )
     
     order = models.IntegerField(default=0)
+    
+    # Auto-advance duration (in seconds)
+    duration = models.IntegerField(
+        default=5,
+        help_text="Duration in seconds before auto-advancing to next page (3-15 seconds recommended)"
+    )
     
     # AMP layer template choice
     LAYOUT_CHOICES = [
