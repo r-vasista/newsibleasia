@@ -1,18 +1,50 @@
+# --------------------
+# Python cache
+# --------------------
 __pycache__/
-db.sqlite3
-**/migrations/*
+*.pyc
+*.pyo
+*.pyd
+
+# --------------------
+# Virtual Environments
+# --------------------
 env/
-.env
 env2/
+venv/
+.env
+
+# --------------------
+# Django files
+# --------------------
+db.sqlite3
+*.sqlite3
 logs/
 media/
 upload/
-static*
-newsibleasia.sqlite3
-env
-static/videos/
-*.sqlite3
+
+# --------------------
+# Migrations (keep __init__.py)
+# --------------------
+**/migrations/*
+!**/migrations/__init__.py
+
+# --------------------
+# Static files
+# --------------------
+static/
+staticfiles/
 static/assets/videos/
+static/videos/
+
+# --------------------
+# Media files
+# --------------------
 *.mp4
-db.sqlite3
-newsibleasia.sqlite3
+
+# --------------------
+# OS / Editor
+# --------------------
+.DS_Store
+Thumbs.db
+.vscode/
