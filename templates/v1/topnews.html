@@ -33,7 +33,7 @@
                       <!-- Title / Headline Text -->
                       <div class="flex-grow-1">
                         <a href="/{{ news.slug }}" class="text-decoration-none dark:text-white fw-medium d-block">
-                          <span class="d-inline-block text-truncate fs-7 fs-lg-6" style="max-width: 100%;">
+                          <span class="d-inline-block text-truncate fs-7 fs-lg-6 text-left" style="max-width: 100%;">
                             {{ news.post_title|truncatechars:80 }}
                           </span>
                         </a>
@@ -131,7 +131,7 @@
                     <span>Articles</span>
                   </h3>
                 </div>
-                <div class="block-content panel vstack gap-3">
+                <div class="block-content panel vstack gap-3 text-left">
                   {% for article in Articale|slice:"1:2" %}
                   <article class="post type-post panel vstack gap-1 lg:gap-2 border-bottom pb-2">
                     <div class="post-media panel overflow-hidden">
@@ -154,7 +154,7 @@
                     <div class="post-header panel vstack">
                        <a href="{% url 'catdetails' catlink=article.post_cat.sub_cat.cat_slug slug=article.post_cat.subcat_slug %}"
                         class="article-tag dark:text-white">
-                        {{ article.post_cat|truncatechars:30 }}
+                        {{ article.post_cat|truncatechars:80 }}
                       </a>
                       <h3 class="post-title h6 xl:h65 text-truncate-2  dark:text-white my-1">
                         <a class="text-none hover:text-primary duration-150 dark:text-white" href="/{{ article.slug }}">
@@ -172,7 +172,7 @@
                   {% endfor %}
 
                 </div>
-                <div class="block-content panel vstack gap- mt-4">
+                <div class="block-content panel vstack  mt-4 text-left">
                   {% for article in Articale|slice:"2:3 " %}
                   <article class="post type-post panel row g-3 align-items-stretch border-bottom pb-2 mb-3">
                      <!-- Left: Content (col-8) -->
@@ -180,11 +180,11 @@
                         <div>
                           <a href="{% url 'catdetails' catlink=article.post_cat.sub_cat.cat_slug slug=article.post_cat.subcat_slug %}"
                             class="article-tag dark:text-white fw-semibold fs-7">
-                            {{ article.post_cat|truncatechars:30 }}
+                            {{ article.post_cat|truncatechars:28 }}
                           </a>
                           <h6 class="post-title h6 text-truncate-2 dark:text-white my-1">
                             <a class="text-decoration-none hover:text-primary  dark:text-white fs-6" href="/{{ article.slug }}">
-                              {{ article.post_title|truncatechars:70 }}
+                              {{ article.post_title|truncatechars:170 }}
                             </a>
                           </h6>
                         </div>
