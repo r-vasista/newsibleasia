@@ -18,7 +18,7 @@
   <!-- Open Graph -->
   <meta property="og:title" content="{{ story.title }}">
   <meta property="og:description" content="{{ story.meta_description|default:story.title }}">
-  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ story.poster_portrait.url }}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ requestf.get_host }}{{ story.poster_portrait.url }}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
   
@@ -253,17 +253,16 @@
           
           <h2 class="page-heading"
               animate-in="fly-in-bottom"
-              animate-in-delay="0.7s"
-              animate-in-duration="0.8s"
-              fly-in-distance="30px">
+              animate-in-delay="0.2s"
+              animate-in-duration="0.6s">
             {{ page.heading }}
           </h2>
           
           <p class="page-text"
-             animate-in="fly-in-bottom"
-             animate-in-delay="0.2s"
-             animate-in-duration="0.8s"
-             fly-in-distance="30px">
+            animate-in="fly-in-bottom"
+            animate-in-delay="0.2s"
+            animate-in-duration="0.7s"
+            fly-in-distance="20px">
             {{ page.text }}
           </p>
           

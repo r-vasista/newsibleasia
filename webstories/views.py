@@ -101,11 +101,11 @@ def webstories_latest(request):
 def webstory_bookend_json(request, story_slug):
     """
     AMP Bookend JSON endpoint
-    Provides related stories for the bookend
+    Provides related stories for the bookend (shows after last page)
     """
     story = get_object_or_404(WebStory, slug=story_slug, is_published=True)
     
-    # Get related stories
+    # Get related stories from same category first
     related_stories = WebStory.objects.filter(
         category=story.category, 
         is_published=True
@@ -122,30 +122,59 @@ def webstory_bookend_json(request, story_slug):
         
         related_stories = list(related_stories) + list(other_stories)
     
-    # Build bookend JSON
+    # Build bookend JSON (AMP format)
     bookend_data = {
         "bookendVersion": "v1.0",
         "shareProviders": [
-            "facebook",
-            "twitter",
-            "whatsapp",
-            "email"
+            {
+                "provider": "facebook",
+            },
+            {
+                "provider": "twitter"
+            },
+            {
+                "provider": "whatsapp"
+            },
+            {
+                "provider": "email"
+            },
+            {
+                "provider": "system"
+            }
         ],
         "components": [
             {
                 "type": "heading",
-                "text": "More Stories"
+                "text": "More Stories For You"
+            },
+            {
+                "type": "small",
+                "title": "Explore more trending stories",
+                "url": request.build_absolute_uri('/webstories/'),
+                "image": request.build_absolute_uri('/static/images/logo.png') if hasattr(request, 'build_absolute_uri') else ""
             }
         ]
     }
     
-    # Add related stories
+    # Add related stories as landscape cards
     for related in related_stories:
         bookend_data["components"].append({
-            "type": "small",
+            "type": "landscape",
             "title": related.title,
             "url": request.build_absolute_uri(related.get_absolute_url()),
-            "image": request.build_absolute_uri(related.poster_portrait.url)
+            "image": request.build_absolute_uri(related.poster_portrait.url),
+            "category": related.category.name
         })
+    
+    # Add "View All Stories" button at the end
+    bookend_data["components"].append({
+        "type": "cta-link",
+        "links": [
+            {
+                "text": "View All Stories",
+                "url": request.build_absolute_uri('/webstories/')
+            }
+        ]
+    })
     
     return JsonResponse(bookend_data)
