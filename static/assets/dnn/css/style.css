@@ -1222,7 +1222,7 @@ a.text-white:hover {
 
 .playbut{
   position: absolute;
-  z-index: 999;
+  z-index: 1;
   top: 16%;
   left: 43%;
   color: red;

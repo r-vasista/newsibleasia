@@ -70,7 +70,7 @@
                     </a>
                 </li>
                 <!-- Divider -->
-                <li class="hr opacity-10 my-1"></li>
+                {% comment %} <li class="hr opacity-10 my-1"></li> {% endcomment %}
 
                 <!-- Auth Links -->
                 <!-- <li><a href="#" data-bs-toggle="modal" data-bs-target="#uc-account-modal">Sign in</a></li>
@@ -480,7 +480,7 @@
         data-uc-sticky="sel-target: .uc-navbar-container; cls-active: uc-navbar-sticky; cls-inactive: uc-navbar-transparent; end: !*;">
         <nav class="uc-navbar-container shadow-xs bg-gray-25 dark:bg-gray-800 dark:text-white fs-6 z-1">
             <div class="uc-bottom-navbar panel hstack z-1 p-0 bg-gray-800  d-none d-lg-block">
-                <div class="mx-5">
+                <div class="mx-1">
                     <div class="hstack w-100 justify-between align-items-center">
 
                         <div class="uc-navbar-left flex-grow-1">
@@ -489,7 +489,7 @@
 
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="navbar-nav mr-auto">
-                                        <div class="pe-3">
+                                        <div class="pe-2">
                                               <a class="uc-menu-trigger text-white" href="#uc-menu-panel" data-uc-toggle></a>
                                         </div>
                                         <!-- <li class="nav-item active">
@@ -513,7 +513,7 @@
                                             <a class="dropdown-item" href="#">Something else here</a> -->
                                             </div>
                                         </li>
-                                        <li class="hr opacity-10 my-1"></li>
+                                        {% comment %} <li class="hr opacity-10 my-1"></li> {% endcomment %}
                                         {% endfor %}
                                         <li class="nav-item">
                                             <a class="nav-link text-white" href="/webstories/" target="_blank">
