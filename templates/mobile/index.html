@@ -133,13 +133,13 @@
                                     <div class="featured-image bg-gray-25 dark:bg-gray-800 h-100 d-none md:d-block">
                                       <canvas class="h-100 w-100"></canvas>
                                       <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
-                                          src="../upload/{{ post.post_image }}"
+                                          src="{{ post.thumbnail_url }}"
                                           alt="{{ post.post_title }}"
                                           loading="lazy" />
                                     </div>
                                     <div class="featured-image bg-gray-25 dark:bg-gray-800 ratio ratio-16x9 d-block md:d-none">
                                       <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
-                                          src="../upload/{{ post.post_image }}"
+                                          src="{{ post.thumbnail_url }}"
                                           alt="{{ post.post_title }}"
                                           loading="lazy" />
                                     </div>
@@ -168,7 +168,7 @@
                                       <div class="post-media panel uc-transition-toggle overflow-hidden">
                                         <div class="featured-image bg-gray-25 dark:bg-gray-800 ratio ratio-1x1 sm:ratio-4x3">
                                           <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
-                                              src="../upload/{{ post.post_image }}"
+                                              src="{{ post.thumbnail_url }}"
                                               alt="{{ post.post_title }}"
                                               loading="lazy" />
                                         </div>
@@ -404,7 +404,7 @@
                     <div class="post-media panel uc-transition-toggle overflow-hidden">
                       <div class="featured-image bg-gray-25 dark:bg-gray-800 ratio ratio-16x9">
                         <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
-                             src="{{ post.post_image.url }}"
+                             src="{{ post.thumbnail_url }}"
                              alt="{{ post.post_title }}"
                              loading="lazy">
                       </div>
@@ -467,7 +467,7 @@
                         <div class="post-media panel uc-transition-toggle overflow-hidden max-w-72px min-w-64px lg:min-w-72px">
                           <div class="featured-image bg-gray-25 dark:bg-gray-800 ratio ratio-1x1">
                             <img class="uc-transition-scale-up uc-transition-opaque media-cover image"
-                                 src="{{ post.post_image.url }}"
+                                 src="{{ post.thumbnail_url }}"
                                  alt="{{ post.post_title }}"
                                  loading="lazy">
                           </div>
